@@ -11,7 +11,7 @@ import adobe_cep from '@/assets/adobe-cep'
 export default {
   name: 'AboutView',
   mounted() {
-    adobe_cep.adobe_cep.saySomething()
+    adobe_cep.saySomething()
   }
 }
 </script>
