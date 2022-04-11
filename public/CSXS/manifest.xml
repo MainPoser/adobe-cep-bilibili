@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ExtensionManifest ExtensionBundleId="com.tianyao.extension" ExtensionBundleName="TIANYAO" ExtensionBundleVersion="1.0" Version="5.0">
+  <ExtensionList>
+    <Extension Id="com.tianyao.extension.bilibili" Version="1.0"/>
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <Host Name="PPRO" Version="[22.0,99.9]"/>
+    </HostList>
+    <LocaleList>
+      <Locale Code="All"/>
+    </LocaleList>
+    <RequiredRuntimeList>
+      <RequiredRuntime Name="CSXS" Version="11.0"/>
+    </RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <Extension Id="com.tianyao.extension.bilibili">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./index.html</MainPath>
+          <CEFCommandLine>
+          <!-- CEF的启动参数 -->
+            <Parameter>--high-dpi-support=1</Parameter>
+            <Parameter>--enable-nodejs</Parameter>
+            <Parameter>--mixed-context</Parameter>
+            <Parameter>--disable-accelerated-video-decode</Parameter>
+            <Parameter>--disable-threaded-scrolling</Parameter>
+            <Parameter>--disable-pinch</Parameter>
+          </CEFCommandLine>
+		      <ScriptPath>./jsx/main.jsx</ScriptPath>
+        </Resources>
+		<Lifecycle>
+		  <AutoVisible>true</AutoVisible>
+		</Lifecycle>
+        <UI>
+          <Type>Panel</Type>
+          <Menu>bilibili</Menu>
+          <Geometry>
+            <Size>
+              <Height>680</Height>
+              <Width>850</Width>
+            </Size>
+            <MaxSize>
+              <Height>680</Height>
+              <Width>850</Width>
+            </MaxSize>
+            <MinSize>
+              <Height>680</Height>
+              <Width>850</Width>
+            </MinSize>
+          </Geometry>
+		  <Icons>
+		    <!-- 不同主题下的面板图标 -->
+            <Icon Type="Normal">./images/IconLight.png</Icon>
+            <Icon Type="RollOver">./images/IconLight.png</Icon>
+            <Icon Type="DarkNormal">./images/IconLight.png</Icon>
+            <Icon Type="DarkRollOver">./images/IconLight.png</Icon>
+		  </Icons>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>
