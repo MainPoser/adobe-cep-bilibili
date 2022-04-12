@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'AboutView',
+  name: 'StickerView',
   data() {
     return {
       msg: '贴纸',

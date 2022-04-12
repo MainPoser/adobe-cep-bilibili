@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'AboutView',
+  name: 'MaterialView',
   data() {
     return {
       msg: '素材库',

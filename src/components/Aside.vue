@@ -14,7 +14,7 @@
           v-for="item in labelList"
           class="item"
           :key="item._id"
-          :to="`/articles?tag_id=${item._id}&tag_name=${item.name}`"
+          :to="{name:'articles',query:{tag_name:item.name}}"
       >
         <span :key="item._id">{{ item.name }}</span>
       </router-link>

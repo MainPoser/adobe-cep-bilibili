@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'AboutView',
+  name: 'MemeView',
   data() {
     return {
       msg: 'B站热梗',
