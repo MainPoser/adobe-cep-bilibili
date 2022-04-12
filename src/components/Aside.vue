@@ -2,7 +2,7 @@
   <div style="width: 200px;">
     <div class="card" style="padding-top: 50px;">
       <img
-          src="../assets/logo.png"
+          src="../assets/profile-picture.jpg"
           alt="找不到照片"
           style="width: 80px; border-radius: 50px; border: 1px solid #eee;"
       />
