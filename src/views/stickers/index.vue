@@ -5,7 +5,7 @@
         <Lside @select="select" :menuData="menuData"></Lside>
       </div>
       <div style="flex: 1; text-align: center">
-        <ImageList v-if="lsideSelect==='My'" :image-list="imageList"></ImageList>
+        <ImageList :image-list="imageList"></ImageList>
       </div>
     </el-container>
   </div>
@@ -43,17 +43,6 @@ export default {
         {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
         {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
         {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'}
       ]
     }
   },
@@ -67,8 +56,66 @@ export default {
     }
   },
   watch: {
-    lsideSelect: function (newval, oldval) {
-      console.log(newval, oldval)
+    lsideSelect: function (newval) {
+      if (newval === 'My') {
+        this.imageList = [
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          }
+        ]
+      } else if (newval === 'Hot') {
+        this.imageList = [
+          {
+            _id: '1',
+            description: '案例图片',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          }
+        ]
+      } else {
+        this.imageList = []
+      }
     }
   }
 }
