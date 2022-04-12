@@ -2,9 +2,9 @@
   <div class="demo-image">
     <el-container>
       <el-aside width="80%">
-        <div v-for="fit in fits" :key="fit" class="block">
-          <span class="demonstration">{{ fit }}</span>
-          <el-image style="width: 100px; height: 100px" :src="url" :fit="fit"/>
+        <div v-for="item in imageList" :key="item._id" class="block">
+          <span class="demonstration">{{ item.description }}</span>
+          <el-image style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
         </div>
       </el-aside>
     </el-container>
@@ -15,10 +15,9 @@
 
 export default {
   name: 'ImageListComponent',
-  data() {
-    return {
-      fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
-      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  props: {
+    imageList: {
+      type: Array
     }
   }
 }
