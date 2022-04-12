@@ -1,7 +1,7 @@
 <template>
   <div class="stickers">
     <el-container>
-      <div style="width: 200px;">
+      <div>
         <Lside @select="select" :menuData="menuData"></Lside>
       </div>
       <div style="flex: 1; text-align: center">

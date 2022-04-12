@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 300px;">
+  <div style="width: 200px;">
     <div class="card" style="padding-top: 50px;">
       <img
           src="../assets/logo.png"
