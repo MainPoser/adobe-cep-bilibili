@@ -1,0 +1,56 @@
+<template>
+  <el-container>
+    <div style="width: 200px;">
+      <img src="../assets/logo.png" alt="找不到照片" style="width:50px" />
+    </div>
+    <div style="flex: 1; text-align: center">
+      <el-menu
+          :default-active="activeIndex"
+          class="el-menu-demo"
+          mode="horizontal"
+          @select="handleSelect"
+      >
+        <el-menu-item index="1">
+          <router-link to="/" class="a">首页</router-link>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <router-link to="/materials" class="a">素材库</router-link>
+        </el-menu-item>
+        <el-menu-item index="3">
+          <router-link to="/memes" class="a">B站热Geng</router-link>
+        </el-menu-item>
+        <el-menu-item index="3">
+          <router-link to="/stickers" class="a">贴纸</router-link>
+        </el-menu-item>
+      </el-menu>
+    </div>
+    <div style="width:200px;">
+      <el-button type="primary">登录</el-button>
+      <el-button type="danger">注册</el-button>
+    </div>
+  </el-container>
+</template>
+
+<script>
+
+export default {
+  name: 'HeaderComponents',
+  data(){
+    return{
+      activeIndex: '1'
+    }
+  },
+  methods:{
+    handleSelect: (key,keyPath) =>{
+      console.log(key, keyPath);
+    }
+  }
+}
+</script>
+<style scoped>
+.a {
+  text-decoration: none;
+  display: block;
+  padding: 0;
+}
+</style>
