@@ -22,6 +22,9 @@
         <el-menu-item index="3">
           <router-link to="/stickers" class="a">贴纸</router-link>
         </el-menu-item>
+        <el-menu-item index="4">
+          <router-link to="/articles" class="a">文章</router-link>
+        </el-menu-item>
       </el-menu>
     </div>
     <div style="width:200px;">
