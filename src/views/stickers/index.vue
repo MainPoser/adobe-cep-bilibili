@@ -2,24 +2,38 @@
   <div class="stickers">
     <el-container>
       <div>
-        <Lside @select="select" :menuData="menuData"></Lside>
+        <el-aside width="180px">
+          <el-menu
+              :default-active="activeIndex"
+              class="el-menu-demo"
+              mode="vertical"
+              @select="handleSelectMenu"
+          >
+            <el-menu-item :key="item.index" v-for="(item) in menuData" :index="item.key">{{
+                item.name
+              }}
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
       </div>
-      <div style="flex: 1; text-align: center">
-        <ImageList :image-list="imageList"></ImageList>
+      <div class="demo-image" style="flex: 1; text-align: center">
+        <div v-for="item in imageList" :key="item._id" class="block">
+          <span class="demonstration">{{ item.description }}</span>
+          <el-image style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
+        </div>
       </div>
     </el-container>
   </div>
 </template>
 
 <script>
-import Lside from '@/components/Lside'
-import ImageList from '@/components/ImageList'
 
 export default {
   name: 'StickerView',
   data() {
     return {
       lsideSelect: '',
+      activeIndex: '1',
       menuData: [
         {
           index: '1',
@@ -46,13 +60,9 @@ export default {
       ]
     }
   },
-  components: {
-    Lside,
-    ImageList
-  },
   methods: {
-    select(data) {
-      this.lsideSelect = data
+    handleSelectMenu(key) {
+      this.lsideSelect = key
     }
   },
   watch: {
@@ -120,3 +130,24 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.demo-image .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  display: inline-block;
+  width: 20%;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.demo-image .block:last-child {
+  border-right: none;
+}
+.demo-image .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>
