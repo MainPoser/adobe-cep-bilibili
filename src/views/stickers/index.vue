@@ -4,7 +4,7 @@
       <div>
         <el-aside width="180px">
           <el-menu
-              :default-active="activeIndex"
+              :default-active="defaultActiveIndex"
               class="el-menu-demo"
               mode="vertical"
               @select="handleSelectMenu"
@@ -32,8 +32,7 @@ export default {
   name: 'StickerView',
   data() {
     return {
-      lsideSelect: '',
-      activeIndex: '1',
+      defaultActiveIndex: '1',
       menuData: [
         {
           index: '1',
@@ -43,79 +42,29 @@ export default {
           index: '2',
           key: 'Hot',
           name: '热门'
-        }, {
-          index: '3',
-          key: 'Funny',
-          name: '搞笑'
-        }, {
-          index: '4',
-          key: 'Life',
-          name: '生活'
         }
       ],
-      imageList: [
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-        {_id: '1', description: '案例图片', url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'},
-      ]
+      imageList: []
     }
   },
   methods: {
     handleSelectMenu(key) {
-      this.lsideSelect = key
-    }
-  },
-  watch: {
-    lsideSelect: function (newval) {
-      if (newval === 'My') {
+      this.imageList = []
+      if (key === 'My') {
         this.imageList = [
           {
             _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+            description: '老鹰',
+            url: 'https://www.2008php.com/09_Website_appreciate/10-07-11/1278862200_222.jpg'
           },
           {
             _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          },
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          },
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          },
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          },
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          },
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          },
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          },
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+            description: '山水',
+            url: 'https://pic.ntimg.cn/file/20161008/3395888_173302467034_2.jpg'
           }
         ]
-      } else if (newval === 'Hot') {
+      }
+      if (key === 'Hot') {
         this.imageList = [
           {
             _id: '1',
@@ -123,8 +72,6 @@ export default {
             url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
           }
         ]
-      } else {
-        this.imageList = []
       }
     }
   }

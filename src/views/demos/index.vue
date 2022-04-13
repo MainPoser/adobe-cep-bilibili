@@ -4,7 +4,7 @@
       <div>
         <el-aside width="180px">
           <el-menu
-              :default-active="activeIndex"
+              :default-active="defaultActiveIndex"
               class="el-menu-demo"
               mode="vertical"
               @select="handleSelectMenu"
@@ -33,8 +33,7 @@ export default {
   name: 'DemoView',
   data() {
     return {
-      lsideSelect: '',
-      activeIndex: '1',
+      defaultActiveIndex: '1',
       menuData: [
         {
           index: '1',
@@ -48,7 +47,19 @@ export default {
   methods: {
     // 选中菜单的处理函数
     handleSelectMenu(key) {
-      this.lsideSelect = key
+      // 根据选中的菜单不同，设置中心区域展示的数据不同
+      this.demoList = []
+      if (key === 'cs.evalScript') {
+        this.demoList = [
+          {
+            _id: '1',
+            description: '点击图片展示cs.evalScript同步处理demo',
+            parentKey: 'cs.evalScript',
+            key: 'cs.evalScript.sync',
+            url: 'https://pic.ntimg.cn/file/20181222/27185307_092020902000_2.jpg'
+          }
+        ]
+      }
     },
     //执行demo案例
     execDemo(demo) {
@@ -58,32 +69,6 @@ export default {
           // 是evalScript函数的异步结果同步处理案例
           adobe_cep.sysncCSIEvalScriptFunDemo()
         }
-      }
-    }
-  },
-  watch: {
-    // 监听选中菜单的值，根据值设置demoList的值，用来在主区域展示
-    lsideSelect: function (newval) {
-      if (newval === 'cs.evalScript') {
-        this.demoList = [
-          {
-            _id: '1',
-            description: '点击图片展示cs.evalScript同步处理demo',
-            parentKey: 'cs.evalScript',
-            key: 'cs.evalScript.sync',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          }
-        ]
-      } else if (newval === 'Hot') {
-        this.demoList = [
-          {
-            _id: '1',
-            description: '点击图片展示cs.event处理结果demo',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          }
-        ]
-      } else {
-        this.demoList = []
       }
     }
   }
