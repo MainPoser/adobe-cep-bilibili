@@ -141,9 +141,11 @@ export default {
   box-sizing: border-box;
   vertical-align: top;
 }
+
 .demo-image .block:last-child {
   border-right: none;
 }
+
 .demo-image .demonstration {
   display: block;
   color: var(--el-text-color-secondary);

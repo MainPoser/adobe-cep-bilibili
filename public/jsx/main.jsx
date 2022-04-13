@@ -1,4 +1,5 @@
 /* eslint-disable*/
-function saySomething() {
-    alert("msg");
+
+function alertInfo(info) {
+    alert(info);
 }

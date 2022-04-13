@@ -25,6 +25,9 @@
         <el-menu-item index="4">
           <router-link to="/articles" class="a">文章</router-link>
         </el-menu-item>
+        <el-menu-item index="5">
+          <router-link to="/demos" class="a">功能示例</router-link>
+        </el-menu-item>
       </el-menu>
     </div>
     <div style="width:200px;">
