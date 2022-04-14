@@ -162,18 +162,17 @@ export default {
     getLeftMenuList() {
       this.$axios.get("/api/x/material/bcut/v2/cats?access_key=&apply_for=0&build=&device=&mobi_app=&tp=" + this.topMenuType)
           .then(res => {
-            debugger
             this.leftMenuList = res.data.categories
             this.defaultActiveIndex = res.data.categories[0].id + ''
             console.log(res)
           })
           .catch(err => {
-            debugger
             console.log(err)
           })
     },
     handleSelectMenu(key) {
       this.materialList = []
+      console.log("出发了点击事件：" + key)
       if (key === '999919') {
         this.materialList = [
           {
