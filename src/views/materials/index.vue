@@ -16,10 +16,10 @@
           </el-menu>
         </el-aside>
       </div>
-      <div class="demo-image" style="flex: 1; text-align: center">
-        <div v-for="item in materialList" :key="item._id" class="block">
-          <span class="demonstration">{{ item.description }}</span>
-          <el-image style="width: 100px; height: 100px" :src="item.url" fit="fill"/>
+      <div class="material-image" style="flex: 1; text-align: center">
+        <div v-for="item in materials" :key="item.id" class="block">
+          <span class="demonstration">{{ item.name }}</span>
+          <el-image style="width: 100px; height: 100px" :src="item.static_cover" fit="fill"/>
         </div>
       </div>
     </el-container>
@@ -151,7 +151,7 @@ export default {
         }],
         "res_cnt": 0
       }],
-      materialList: []
+      materials: []
     }
   },
   mounted() {
@@ -180,33 +180,66 @@ export default {
       })
     },
     handleSelectMenu(key) {
-      this.materialList = []
+      this.materials = []
       console.log("出发了点击事件：" + key)
-      if (key === '999919') {
-        this.materialList = [
-          {
-            _id: '1',
-            description: '热门',
-            url: 'https://www.2008php.com/09_Website_appreciate/10-07-11/1278862200_222.jpg'
-          },
-          {
-            _id: '1',
-            description: '热门',
-            url: 'https://pic.ntimg.cn/file/20161008/3395888_173302467034_2.jpg'
-          }
-        ]
-      }
-      if (key === '120155') {
-        this.materialList = [
-          {
-            _id: '1',
-            description: 'UP必备',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          }
-        ]
-      }
+      this.$axios({
+        url: 'http://member.bilibili.com/x/material/bcut/v2/list',
+        method: 'get',
+        params: {
+          apply_for: '',
+          cat_id: key,
+          max_rank: 0,
+          mobi_app: '',
+          tp: this.topMenuType,
+          version: 0
+        }
+      }).then(res => {
+        console.log(res)
+        this.materials = res.data.materials
+        this.defaultActiveIndex = res.data.categories[0].id + ''
+      }).catch(err => {
+        console.log(err)
+      })
+      // if (key === '999919') {
+      //   this.materialList = [
+      //     {
+      //       _id: '1',
+      //       description: '热门',
+      //       url: 'https://www.2008php.com/09_Website_appreciate/10-07-11/1278862200_222.jpg'
+      //     },
+      //     {
+      //       _id: '1',
+      //       description: '热门',
+      //       url: 'https://pic.ntimg.cn/file/20161008/3395888_173302467034_2.jpg'
+      //     }
+      //   ]
+      // }
+
       return true
     }
   }
 }
 </script>
+
+<style scoped>
+.demo-image .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  display: inline-block;
+  width: 20%;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+.demo-image .block:last-child {
+  border-right: none;
+}
+
+.demo-image .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>
