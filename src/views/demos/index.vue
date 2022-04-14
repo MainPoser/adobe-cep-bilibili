@@ -60,6 +60,7 @@ export default {
           }
         ]
       }
+      return true
     },
     //执行demo案例
     execDemo(demo) {
