@@ -31,6 +31,13 @@ function sysncCSIEvalScriptFunDemo() {
     )
 }
 
+// alertMsg 弹窗信息
+function alertMsg(msg){
+    let cs = new CSInterface();
+    cs.evalScript("alertInfo('" + msg + "')");
+}
+
 export default {
-    sysncCSIEvalScriptFunDemo
+    sysncCSIEvalScriptFunDemo,
+    alertMsg
 }

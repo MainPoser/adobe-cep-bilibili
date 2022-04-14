@@ -161,7 +161,7 @@ export default {
   methods: {
     getLeftMenuList() {
       this.$axios({
-        url: '/api/x/material/bcut/v2/cats',
+        url: 'http://member.bilibili.com/x/material/bcut/v2/cats',
         method: 'get',
         params: {
           access_key: '',
@@ -172,9 +172,9 @@ export default {
           tp: this.topMenuType,
         }
       }).then(res => {
+        console.log(res)
         this.leftMenuList = res.data.categories
         this.defaultActiveIndex = res.data.categories[0].id + ''
-        console.log(res)
       }).catch(err => {
         console.log(err)
       })
