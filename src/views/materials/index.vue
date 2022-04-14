@@ -28,6 +28,7 @@
 
 <script>
 import SubMenu from "@/components/SubMenu";
+import adobe_cep from '@/assets/adobe-cep'
 
 export default {
   name: 'MaterialView',
@@ -159,6 +160,11 @@ export default {
     this.getLeftMenuList()
   },
   methods: {
+    downloadResource(material){
+      // 下载某资源，暂时把资源输出到console
+      adobe_cep.alertMsg(material)
+      console.log(material)
+    },
     getLeftMenuList() {
       this.$axios({
         url: 'http://member.bilibili.com/x/material/bcut/v2/cats',
@@ -200,21 +206,6 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-      // if (key === '999919') {
-      //   this.materialList = [
-      //     {
-      //       _id: '1',
-      //       description: '热门',
-      //       url: 'https://www.2008php.com/09_Website_appreciate/10-07-11/1278862200_222.jpg'
-      //     },
-      //     {
-      //       _id: '1',
-      //       description: '热门',
-      //       url: 'https://pic.ntimg.cn/file/20161008/3395888_173302467034_2.jpg'
-      //     }
-      //   ]
-      // }
-
       return true
     }
   }
@@ -222,7 +213,7 @@ export default {
 </script>
 
 <style scoped>
-.demo-image .block {
+.material-image .block {
   padding: 30px 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
@@ -232,11 +223,11 @@ export default {
   vertical-align: top;
 }
 
-.demo-image .block:last-child {
+.material-image .block:last-child {
   border-right: none;
 }
 
-.demo-image .demonstration {
+.material-image .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
