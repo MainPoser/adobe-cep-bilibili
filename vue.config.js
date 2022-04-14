@@ -7,7 +7,7 @@ module.exports = defineConfig({
     devServer: {
         proxy: {
             '/api': {
-                target: 'http://member.bilibili.com', //API服务器的地址
+                target: 'http://member.bilibili.com/', //API服务器的地址
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {

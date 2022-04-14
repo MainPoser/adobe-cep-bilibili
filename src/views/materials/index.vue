@@ -160,15 +160,24 @@ export default {
   },
   methods: {
     getLeftMenuList() {
-      this.$axios.get("/api/x/material/bcut/v2/cats?access_key=&apply_for=0&build=&device=&mobi_app=&tp=" + this.topMenuType)
-          .then(res => {
-            this.leftMenuList = res.data.categories
-            this.defaultActiveIndex = res.data.categories[0].id + ''
-            console.log(res)
-          })
-          .catch(err => {
-            console.log(err)
-          })
+      this.$axios({
+        url: '/api/x/material/bcut/v2/cats',
+        method: 'get',
+        params: {
+          access_key: '',
+          apply_for: '',
+          build: '',
+          device: '',
+          mobi_app: '',
+          tp: this.topMenuType,
+        }
+      }).then(res => {
+        this.leftMenuList = res.data.categories
+        this.defaultActiveIndex = res.data.categories[0].id + ''
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     },
     handleSelectMenu(key) {
       this.materialList = []
