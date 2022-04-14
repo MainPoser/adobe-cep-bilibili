@@ -4,7 +4,6 @@
       <div>
         <el-aside width="180px">
           <el-menu
-              :default-active="defaultActiveIndex"
               class="el-menu-vertical-demo"
               mode="vertical"
               @select="handleSelectMenu"
@@ -19,7 +18,7 @@
       <div class="material-image" style="flex: 1; text-align: center">
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
-          <el-image style="width: 100px; height: 100px" :src="item.static_cover" fit="fill"/>
+          <el-image @click="downloadResource" style="width: 100px; height: 100px" :src="item.static_cover" fit="fill"/>
         </div>
       </div>
     </el-container>
@@ -37,7 +36,6 @@ export default {
   },
   data() {
     return {
-      defaultActiveIndex: '1',
       topMenuType: '19',
       leftMenuList: [{
         "pid": 0,
@@ -180,7 +178,6 @@ export default {
       }).then(res => {
         console.log(res)
         this.leftMenuList = res.data.categories
-        this.defaultActiveIndex = res.data.categories[0].id + ''
       }).catch(err => {
         console.log(err)
       })
@@ -202,7 +199,6 @@ export default {
       }).then(res => {
         console.log(res)
         this.materials = res.data.materials
-        this.defaultActiveIndex = res.data.categories[0].id + ''
       }).catch(err => {
         console.log(err)
       })
