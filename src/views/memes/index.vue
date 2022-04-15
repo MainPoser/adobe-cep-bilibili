@@ -162,6 +162,10 @@ export default {
   watch: {
     '$route'() {
       this.getParams();
+    },
+    'activeMenu'(val) {
+      console.log("监听到默认菜单变化为：" + val)
+      this.handleSelectMenu(val)
     }
   }
 }

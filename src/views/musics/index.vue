@@ -130,7 +130,7 @@ export default {
       }).then(res => {
         console.log(res)
         this.leftMenuList = res.data.categories
-        if ((this.leftMenuList) && this.leftMenuList.length > 0){
+        if ((this.leftMenuList) && this.leftMenuList.length > 0) {
           this.activeMenu = http_util.getChildrenId(this.leftMenuList[0])
         }
       }).catch(err => {
@@ -164,6 +164,10 @@ export default {
   watch: {
     '$route'() {
       this.getParams();
+    },
+    'activeMenu'(val) {
+      console.log("监听到默认菜单变化为：" + val)
+      this.handleSelectMenu(val)
     }
   }
 }
