@@ -1,3 +1,10 @@
+function getChildrenId(item) {
+    if (!(item.children) || item.length <= 0) {
+        return item.id
+    }
+    getChildrenId(item[0])
+}
+
 function getFileNameByUrl(url) {
     let split = url.split('/');
     return split[split.length - 1];
@@ -15,6 +22,7 @@ function arrayBufferToBase64(buffer) {
 }
 
 export default {
+    getChildrenId,
     getFileNameByUrl,
     arrayBufferToBase64
 }

@@ -4,6 +4,7 @@
       <div>
         <el-aside width="180px">
           <el-menu
+              :default-active="activeMenu"
               class="el-menu-vertical-demo"
               mode="vertical"
               @select="handleSelectMenu"
@@ -40,6 +41,7 @@ export default {
   data() {
     return {
       topMenuType: '19',
+      activeMenu: '',
       leftMenuList: [],
       materials: []
     }
@@ -84,7 +86,7 @@ export default {
       // 用户打开保存文件目录选择框
       let fileName = http_util.getFileNameByUrl(material.download_url);
       let suffix = fileName.split('.')[1];
-      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID,material.name), [suffix], fileName, "*." + suffix)
+      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, material.name), [suffix], fileName, "*." + suffix)
       let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
       if (0 === showSaveDialogResult.err) {
         if (showSaveDialogResult.data.length === 0) {
@@ -125,6 +127,9 @@ export default {
       }).then(res => {
         console.log(res)
         this.leftMenuList = res.data.categories
+        if ((this.leftMenuList) && this.leftMenuList.length > 0){
+          this.activeMenu = http_util.getChildrenId(this.leftMenuList[0])
+        }
       }).catch(err => {
         console.log(err)
       })
@@ -154,7 +159,7 @@ export default {
   },
   // 如果不用watch进行监听，则会出现参数只获取一次的情况
   watch: {
-    '$route'(){
+    '$route'() {
       this.getParams();
     }
   }

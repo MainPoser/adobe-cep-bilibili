@@ -4,6 +4,7 @@
       <div>
         <el-aside width="180px">
           <el-menu
+              :default-active="activeMenu"
               class="el-menu-vertical-demo"
               mode="vertical"
               @select="handleSelectMenu"
@@ -40,6 +41,7 @@ export default {
   data() {
     return {
       topMenuType: '40',
+      activeMenu: '',
       leftMenuList: [],
       materials: []
     }
@@ -126,6 +128,9 @@ export default {
       }).then(res => {
         console.log(res)
         this.leftMenuList = res.data.categories
+        if ((this.leftMenuList) && this.leftMenuList.length > 0){
+          this.activeMenu = http_util.getChildrenId(this.leftMenuList[0])
+        }
       }).catch(err => {
         console.log(err)
       })
