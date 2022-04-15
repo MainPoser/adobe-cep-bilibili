@@ -3,18 +3,35 @@
 // 封装NodeJsInterface
 /**
  * 读取文件
- * @param cb 回调函数，接受一个result对象，result.err为错误码，0为读取正常。result.data为读取到的数据
  * @param encode 默认为UTF-8，只能读取文本，二进制需要用Base64
  * @param paths 读取的文件路径数组，自动拼接
+ *
+ * @return 读取结果，result.err为状态码，0是成功。result.data是数据
  */
-function readFile(cb,encode, ...paths) {
-    if(!(encode)){
+function readFile(encode, ...paths) {
+    if (!(encode) || encode === '') {
         encode = 'UTF-8'
     }
     let nj = new NodeJsInterface();
     let path = nj.path.join(...paths);
-    let result = window.cep.fs.readFile(path,encode);
-    cb(result)
+    return window.cep.fs.readFile(path, encode)
+}
+
+/**
+ * 写入文件
+ * @param data 要存储的数据，只能传入字符串数据，如果是二进制数据需要转成base64的字符串，然后传入encode为UTF-8
+ * @param encode 默认为UTF-8，只能写入文本，二进制需要用Base64
+ * @param paths 写入的文件路径数组，自动拼接
+ *
+ * @return 读取结果，result.err为状态码，0是成功
+ */
+function writeFile(data, encode, ...paths) {
+    if (!(encode) || encode === '') {
+        encode = 'UTF-8'
+    }
+    let nj = new NodeJsInterface();
+    let path = nj.path.join(...paths);
+    return window.cep.fs.writeFile(path, data, encode);
 }
 
 
@@ -56,6 +73,7 @@ function alertMsg(msg) {
 }
 
 export default {
+    writeFile,
     readFile,
     sysncCSIEvalScriptFunDemo,
     alertMsg

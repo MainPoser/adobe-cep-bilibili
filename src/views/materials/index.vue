@@ -18,7 +18,8 @@
       <div class="material-image" style="flex: 1; text-align: center">
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
-          <el-image @click="downloadResource" style="width: 100px; height: 100px" :src="item.static_cover" fit="fill"/>
+          <el-image @click="downloadResource(item)" style="width: 100px; height: 100px" :src="item.static_cover"
+                    fit="fill"/>
         </div>
       </div>
     </el-container>
@@ -89,18 +90,10 @@ export default {
   },
   methods: {
     downloadResource(material) {
-      adobe_cep.readFile(function (result) {
-        if (0 === result.err) {
-          // err 为 0 读取成功
-          console.log(result.data);
-        } else {
-          // 失败
-          console.log("读取错误：" + result.err);
-        }
-      }, 'D:','ty.txt')
-      // 下载某资源，暂时把资源输出到console
-      adobe_cep.alertMsg(JSON.stringify(material))
-      console.log(JSON.stringify(material))
+      let readresult = adobe_cep.readFile('', 'D:', 'ty.txt')
+      console.log(readresult)
+      let writeResult = adobe_cep.writeFile(JSON.stringify(material), null, 'D:', 'write.txt')
+      console.log(writeResult)
     },
     getLeftMenuList() {
       this.$axios({
@@ -123,7 +116,7 @@ export default {
     },
     handleSelectMenu(key) {
       this.materials = []
-      console.log("出发了点击事件：" + key)
+      console.log("点击了菜单" + key)
       this.$axios({
         url: 'http://member.bilibili.com/x/material/bcut/v2/list',
         method: 'get',
