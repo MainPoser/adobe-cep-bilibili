@@ -113,38 +113,39 @@ function alertMsg(msg) {
 }
 
 
-// 环境信息检查 start
-// 要放在函数的最后，否则无法加载其中的函数
-function checkEnv() {
+/**
+ * 环境检查
+ */
+function checkDirAndTryRepair(dir) {
+    let checkResult = {
+        err: 0,
+        msg: 'success'
+    }
     // 检查对应的目录是否存在
-    let resourceDir = pathJoin(USER_DIR, EXTENDTION_ID);
-    let statFile = statFile(resourceDir);
-    if (0 === statFile.err) {
-        if (statFile.data.isFile() === true) {
-            let msg = "resourceDir " + resourceDir + " is a file need empty or dir, please repaire and restart plugin"
-            alertMsg(msg)
-        }
-        if (statFile.data.isDirectory() === true) {
-            console.log("resourceDir " + resourceDir + " is ok")
+    let statFileResult = statFile(dir);
+    if (0 === statFileResult.err) {
+        if (statFileResult.data.isFile() === true) {
+            checkResult.err = 3
+            checkResult.msg = "resourceDir " + dir + " is a file need empty or dir, please repaire and restart plugin"
         }
     } else {
         // 报错创建目录
-        let result = mkDir(resourceDir)
-        if (0 === result.err) {
-            console.log("resourceDir " + resourceDir + " create success")
+        let mkDirResult = mkDir(dir)
+        if (0 === mkDirResult.err) {
+            checkResult.msg = "resourceDir " + dir + " create success"
         } else {
-            let msg = "resourceDir " + resourceDir + " create failed, please repaire and restart plugin" + result.err
-            alertMsg(msg)
+            checkResult.err = 5
+            checkResult.msg = "resourceDir " + dir + " create failed, please repaire and restart plugin" + mkDirResult.err
         }
     }
+    return checkResult
 }
 
-checkEnv()
-// 环境信息检查 stop
 
 export default {
     USER_DIR,
     EXTENDTION_ID,
+    checkEnv: checkDirAndTryRepair,
     writeFile,
     readFile,
     statFile,
