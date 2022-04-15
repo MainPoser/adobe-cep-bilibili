@@ -88,10 +88,19 @@ export default {
     this.getLeftMenuList()
   },
   methods: {
-    downloadResource(material){
+    downloadResource(material) {
+      adobe_cep.readFile(function (result) {
+        if (0 === result.err) {
+          // err 为 0 读取成功
+          console.log(result.data);
+        } else {
+          // 失败
+          console.log("读取错误：" + result.err);
+        }
+      }, 'D:','ty.txt')
       // 下载某资源，暂时把资源输出到console
-      adobe_cep.alertMsg(material)
-      console.log(material)
+      adobe_cep.alertMsg(JSON.stringify(material))
+      console.log(JSON.stringify(material))
     },
     getLeftMenuList() {
       this.$axios({

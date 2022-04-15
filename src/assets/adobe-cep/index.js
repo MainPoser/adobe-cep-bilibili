@@ -1,5 +1,23 @@
 /* eslint-disable*/
 
+// 封装NodeJsInterface
+/**
+ * 读取文件
+ * @param cb 回调函数，接受一个result对象，result.err为错误码，0为读取正常。result.data为读取到的数据
+ * @param encode 默认为UTF-8，只能读取文本，二进制需要用Base64
+ * @param paths 读取的文件路径数组，自动拼接
+ */
+function readFile(cb,encode, ...paths) {
+    if(!(encode)){
+        encode = 'UTF-8'
+    }
+    let nj = new NodeJsInterface();
+    let path = nj.path.join(...paths);
+    let result = window.cep.fs.readFile(path,encode);
+    cb(result)
+}
+
+
 // 封装CSInterface调用自定义jsx功能并暴露
 
 // loadJSX 动态加载CEP平台的JSX脚本
@@ -32,12 +50,13 @@ function sysncCSIEvalScriptFunDemo() {
 }
 
 // alertMsg 弹窗信息
-function alertMsg(msg){
+function alertMsg(msg) {
     let cs = new CSInterface();
     cs.evalScript("alertInfo('" + msg + "')");
 }
 
 export default {
+    readFile,
     sysncCSIEvalScriptFunDemo,
     alertMsg
 }
