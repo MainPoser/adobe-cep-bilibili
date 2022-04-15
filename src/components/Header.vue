@@ -19,6 +19,9 @@
         <el-menu-item index="40">
           <router-link :to="{path:'memes',query:{menuType:'40'}}" class="a">B站热Geng</router-link>
         </el-menu-item>
+        <el-menu-item index="20">
+          <router-link :to="{path:'musics',query:{menuType:'20'}}" class="a">音频</router-link>
+        </el-menu-item>
         <el-menu-item index="3">
           <router-link to="/stickers" class="a">贴纸</router-link>
         </el-menu-item>

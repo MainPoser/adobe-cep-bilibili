@@ -19,7 +19,9 @@
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
           <el-button @click="downloadResource(item)" class="demonstration">点击下载</el-button>
-          <el-image fit="fill" style="width: 100px; height: 100px" :src="item.static_cover"/>
+          <audio controls="controls" style="width: 100px; height: 100px" :src="item.download_url">
+            Your browser does not support the audio element.
+          </audio>
         </div>
       </div>
     </el-container>
@@ -33,13 +35,13 @@ import constant from '@/assets/constant'
 import http_util from '@/assets/util/http'
 
 export default {
-  name: 'MaterialView',
+  name: 'MemeView',
   components: {
     SubMenu
   },
   data() {
     return {
-      topMenuType: '19',
+      topMenuType: '40',
       leftMenuList: [],
       materials: []
     }
@@ -84,7 +86,7 @@ export default {
       // 用户打开保存文件目录选择框
       let fileName = http_util.getFileNameByUrl(material.download_url);
       let suffix = fileName.split('.')[1];
-      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID,material.name), [suffix], fileName, "*." + suffix)
+      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, material.name), [suffix], fileName, "*." + suffix)
       let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
       if (0 === showSaveDialogResult.err) {
         if (showSaveDialogResult.data.length === 0) {
@@ -112,14 +114,15 @@ export default {
     },
     getLeftMenuList() {
       this.$axios({
-        url: constant.API.BILIBILI.GET_CATS,
+        url: constant.API.BILIBILI.GET_B_MEME_CATS,
         method: constant.AXIOS.HTTP.METHOD.GET,
         params: {
           access_key: '',
-          apply_for: '',
+          apply_for: 0,
           build: '',
-          device: '',
+          material_id: 0,
           mobi_app: '',
+          need_category: 1,
           tp: this.topMenuType,
         }
       }).then(res => {
@@ -154,7 +157,7 @@ export default {
   },
   // 如果不用watch进行监听，则会出现参数只获取一次的情况
   watch: {
-    '$route'(){
+    '$route'() {
       this.getParams();
     }
   }

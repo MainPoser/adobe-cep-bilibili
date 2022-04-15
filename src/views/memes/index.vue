@@ -18,7 +18,7 @@
       <div class="material-image" style="flex: 1; text-align: center">
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
-          <span @click="downloadResource(item)" class="demonstration">点击下载</span>
+          <el-button @click="downloadResource(item)" class="demonstration">点击下载</el-button>
           <el-image fit="fill" style="width: 100px; height: 100px" :src="item.static_cover"/>
         </div>
       </div>
