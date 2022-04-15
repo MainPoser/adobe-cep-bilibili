@@ -15,34 +15,6 @@ function loadEnvParam() {
 loadEnvParam()
 // 加载必要的环境变量 end
 
-// 环境信息检查 start
-function checkEnv() {
-    // 检查对应的目录是否存在
-    let resourceDir = pathJoin(USER_DIR, EXTENDTION_ID);
-    let statFile = statFile(resourceDir);
-    if (0 === statFile.err) {
-        if (statFile.data.isFile() === true) {
-            let msg = "resourceDir " + resourceDir + " is a file need empty or dir, please repaire and restart plugin"
-            alertMsg(msg)
-        }
-        if (statFile.data.isDirectory() === true) {
-            console.log("resourceDir " + resourceDir + " is ok")
-        }
-    } else {
-        // 报错创建目录
-        let result = window.cep.fs.makedir(path)
-        if (0 === result.err) {
-            console.log("resourceDir " + resourceDir + " create success")
-        } else {
-            let msg = "resourceDir " + resourceDir + " create failed, please repaire and restart plugin" + result.err
-            alertMsg(msg)
-        }
-    }
-}
-
-checkEnv()
-// 环境信息检查 stop
-
 // 封装NodeJsInterface start
 
 /**
@@ -130,6 +102,37 @@ function alertMsg(msg) {
     let cs = new CSInterface();
     cs.evalScript("alertInfo('" + msg + "')");
 }
+
+
+
+// 环境信息检查 start
+// 要放在函数的最后，否则无法加载其中的函数
+function checkEnv() {
+    // 检查对应的目录是否存在
+    let resourceDir = pathJoin(USER_DIR, EXTENDTION_ID);
+    let statFile = statFile(resourceDir);
+    if (0 === statFile.err) {
+        if (statFile.data.isFile() === true) {
+            let msg = "resourceDir " + resourceDir + " is a file need empty or dir, please repaire and restart plugin"
+            alertMsg(msg)
+        }
+        if (statFile.data.isDirectory() === true) {
+            console.log("resourceDir " + resourceDir + " is ok")
+        }
+    } else {
+        // 报错创建目录
+        let result = window.cep.fs.makedir(path)
+        if (0 === result.err) {
+            console.log("resourceDir " + resourceDir + " create success")
+        } else {
+            let msg = "resourceDir " + resourceDir + " create failed, please repaire and restart plugin" + result.err
+            alertMsg(msg)
+        }
+    }
+}
+
+checkEnv()
+// 环境信息检查 stop
 
 export default {
     USER_DIR,
