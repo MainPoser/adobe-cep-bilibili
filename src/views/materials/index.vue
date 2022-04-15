@@ -45,6 +45,8 @@ export default {
     }
   },
   mounted() {
+    // 页面加载获取路由携带的父菜单的id
+    this.getParams()
     // 页面加载获取一次左侧列表数据
     this.getLeftMenuList()
     // 检查一次资源目录
@@ -56,6 +58,10 @@ export default {
     }
   },
   methods: {
+    // 接收参数的方法
+    getParams() {
+      this.topMenuType = this.$route.query.menuType;
+    },
     downloaded(material) {
       // 判断当前资源是否已经下载了
       let fileName = http_util.getFileNameByUrl(material.download_url);
@@ -144,6 +150,12 @@ export default {
         console.log(err)
       })
       return true
+    }
+  },
+  // 如果不用watch进行监听，则会出现参数只获取一次的情况
+  watch: {
+    '$route'(){
+      this.getParams();
     }
   }
 }

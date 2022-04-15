@@ -14,7 +14,7 @@
           <router-link to="/" class="a">首页</router-link>
         </el-menu-item>
         <el-menu-item index="2">
-          <router-link to="/materials" class="a">素材库</router-link>
+          <router-link :to="{path:'materials',query:{menuType:'19'}}" class="a">素材库</router-link>
         </el-menu-item>
         <el-menu-item index="3">
           <router-link to="/memes" class="a">B站热Geng</router-link>
