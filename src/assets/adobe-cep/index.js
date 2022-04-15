@@ -16,19 +16,37 @@ loadEnvParam()
 // 加载必要的环境变量 end
 
 // 封装NodeJsInterface start
+
+/**
+ * 根据传入的数组生成路径，解决不同平台的路径分割符问题
+ * @param paths
+ * @return {string}
+ */
+function pathJoin(...paths) {
+    let nj = new NodeJsInterface();
+    return nj.path.join(...paths);
+}
+
+/**
+ * 获取指定路径的文件状态，
+ * @return {*} result.err为错误码，0为成功。result.data.isFile()是否为文件，result.data.isDirectory()是否文件夹
+ * @param path
+ */
+function statFile(path) {
+    return window.cep.fs.stat(path);
+}
+
 /**
  * 读取文件
  * @param encode 默认为UTF-8，只能读取文本，二进制需要用Base64
- * @param paths 读取的文件路径数组，自动拼接
+ * @param path
  *
  * @return 读取结果，result.err为状态码，0是成功。result.data是数据
  */
-function readFile(encode, ...paths) {
+function readFile(encode, path) {
     if (!(encode) || encode === '') {
         encode = 'UTF-8'
     }
-    let nj = new NodeJsInterface();
-    let path = nj.path.join(...paths);
     return window.cep.fs.readFile(path, encode)
 }
 
@@ -36,16 +54,14 @@ function readFile(encode, ...paths) {
  * 写入文件
  * @param data 要存储的数据，只能传入字符串数据，如果是二进制数据需要转成base64的字符串，然后传入encode为UTF-8
  * @param encode 默认为UTF-8，只能写入文本，二进制需要用Base64
- * @param paths 写入的文件路径数组，自动拼接
+ * @param path
  *
  * @return 读取结果，result.err为状态码，0是成功
  */
-function writeFile(data, encode, ...paths) {
+function writeFile(data, encode, path) {
     if (!(encode) || encode === '') {
         encode = 'UTF-8'
     }
-    let nj = new NodeJsInterface();
-    let path = nj.path.join(...paths);
     return window.cep.fs.writeFile(path, data, encode);
 }
 
@@ -92,6 +108,8 @@ export default {
     EXTENDTION_ID,
     writeFile,
     readFile,
+    statFile,
+    pathJoin,
     sysncCSIEvalScriptFunDemo,
     alertMsg
 }

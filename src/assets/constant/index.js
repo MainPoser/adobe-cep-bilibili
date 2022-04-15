@@ -24,8 +24,16 @@ let AXIOS = {
     }
 }
 
+let API = {
+    BILIBILI: {
+        GET_CATS: 'http://member.bilibili.com/x/material/bcut/v2/cats',
+        MATERIAL_LIST: 'http://member.bilibili.com/x/material/bcut/v2/list'
+    }
+
+}
 
 export default {
     IO,
-    AXIOS
+    AXIOS,
+    API
 }

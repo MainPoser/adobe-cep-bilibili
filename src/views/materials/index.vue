@@ -18,6 +18,8 @@
       <div class="material-image" style="flex: 1; text-align: center">
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
+          <span v-if="downloaded(item)" class="demonstration">已下载</span>
+          <span v-else class="demonstration">未下载</span>
           <el-image @click="downloadResource(item)" style="width: 100px; height: 100px" :src="item.static_cover"
                     fit="fill"/>
         </div>
@@ -49,6 +51,24 @@ export default {
     this.getLeftMenuList()
   },
   methods: {
+    downloaded(material) {
+      // 判断当前资源是否已经下载了
+      let fileName = http_util.getFileNameByUrl(material.download_url);
+      let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
+      let result = adobe_cep.statFile(filePath);
+      if (0 === result.err) {
+        if (result.data.isFile() === true) {
+          console.log("文件已经下载");
+          console.log("url:" + material.download_url);
+          console.log("filePath: " + filePath);
+          return true
+        }
+      } else {
+        console.log("获取文件状态失败：" + result.err)
+        return false
+      }
+      return false
+    },
     downloadResource(material) {
       this.$axios({
         url: material.download_url,
@@ -57,11 +77,8 @@ export default {
       }).then(res => {
         let base64Data = http_util.arrayBufferToBase64(res)
         let fileName = http_util.getFileNameByUrl(material.download_url);
-        let writeResult = adobe_cep.writeFile(base64Data,
-            constant.IO.FILE_ENCODE.BASE64,
-            adobe_cep.USER_DIR,
-            adobe_cep.EXTENDTION_ID,
-            fileName);
+        let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
+        let writeResult = adobe_cep.writeFile(base64Data, constant.IO.FILE_ENCODE.BASE64, filePath);
         console.log(writeResult)
       }).catch(err => {
         console.log(err)
@@ -69,8 +86,8 @@ export default {
     },
     getLeftMenuList() {
       this.$axios({
-        url: 'http://member.bilibili.com/x/material/bcut/v2/cats',
-        method: 'get',
+        url: constant.API.BILIBILI.GET_CATS,
+        method: constant.AXIOS.HTTP.METHOD.GET,
         params: {
           access_key: '',
           apply_for: '',
@@ -90,8 +107,8 @@ export default {
       this.materials = []
       console.log("点击了菜单" + key)
       this.$axios({
-        url: 'http://member.bilibili.com/x/material/bcut/v2/list',
-        method: 'get',
+        url: constant.API.BILIBILI.MATERIAL_LIST,
+        method: constant.AXIOS.HTTP.METHOD.GET,
         params: {
           apply_for: '',
           cat_id: key,
