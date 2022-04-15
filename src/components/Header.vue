@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <div style="width: 200px;">
-      <img src="../assets/logo.png" alt="找不到照片" style="width:50px" />
+      <img src="../assets/logo.png" alt="找不到照片" style="width:50px"/>
     </div>
     <div style="flex: 1; text-align: center">
       <el-menu
@@ -13,11 +13,11 @@
         <el-menu-item index="1">
           <router-link to="/" class="a">首页</router-link>
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="19">
           <router-link :to="{path:'materials',query:{menuType:'19'}}" class="a">素材库</router-link>
         </el-menu-item>
-        <el-menu-item index="3">
-          <router-link to="/memes" class="a">B站热Geng</router-link>
+        <el-menu-item index="40">
+          <router-link :to="{path:'memes',query:{menuType:'40'}}" class="a">B站热Geng</router-link>
         </el-menu-item>
         <el-menu-item index="3">
           <router-link to="/stickers" class="a">贴纸</router-link>
@@ -41,13 +41,13 @@
 
 export default {
   name: 'HeaderComponents',
-  data(){
-    return{
+  data() {
+    return {
       activeIndex: '1'
     }
   },
-  methods:{
-    handleSelect: (key,keyPath) =>{
+  methods: {
+    handleSelect: (key, keyPath) => {
       console.log(key, keyPath);
     }
   }
