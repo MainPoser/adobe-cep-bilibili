@@ -28,6 +28,15 @@ function pathJoin(...paths) {
 }
 
 /**
+ *
+ * @param dir
+ * @return {*}
+ */
+function mkDir(dir) {
+    return window.cep.fs.makedir(dir)
+}
+
+/**
  * 获取指定路径的文件状态，
  * @return {*} result.err为错误码，0为成功。result.data.isFile()是否为文件，result.data.isDirectory()是否文件夹
  * @param path
@@ -104,7 +113,6 @@ function alertMsg(msg) {
 }
 
 
-
 // 环境信息检查 start
 // 要放在函数的最后，否则无法加载其中的函数
 function checkEnv() {
@@ -121,7 +129,7 @@ function checkEnv() {
         }
     } else {
         // 报错创建目录
-        let result = window.cep.fs.makedir(path)
+        let result = mkDir(resourceDir)
         if (0 === result.err) {
             console.log("resourceDir " + resourceDir + " create success")
         } else {
