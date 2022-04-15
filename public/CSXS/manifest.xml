@@ -38,12 +38,12 @@
           <Menu>bilibili</Menu>
           <Geometry>
             <Size>
-              <Height>680</Height>
-              <Width>850</Width>
+              <Height>768</Height>
+              <Width>1366</Width>
             </Size>
             <MaxSize>
-              <Height>680</Height>
-              <Width>850</Width>
+              <Height>1080</Height>
+              <Width>1920</Width>
             </MaxSize>
             <MinSize>
               <Height>680</Height>
