@@ -1,6 +1,19 @@
 /* eslint-disable*/
 
-// 封装NodeJsInterface
+
+// 加载必要的环境变量 start
+// 用户数据目录
+let USER_DIR = ''
+
+function loadEnvParam() {
+    let cs = new CSInterface();
+    USER_DIR = cs.getSystemPath(SystemPath.USER_DATA)
+}
+
+loadEnvParam()
+// 加载必要的环境变量 end
+
+// 封装NodeJsInterface start
 /**
  * 读取文件
  * @param encode 默认为UTF-8，只能读取文本，二进制需要用Base64
@@ -73,6 +86,7 @@ function alertMsg(msg) {
 }
 
 export default {
+    USER_DIR,
     writeFile,
     readFile,
     sysncCSIEvalScriptFunDemo,

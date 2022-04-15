@@ -90,10 +90,29 @@ export default {
   },
   methods: {
     downloadResource(material) {
-      let readresult = adobe_cep.readFile('', 'D:', 'ty.txt')
-      console.log(readresult)
-      let writeResult = adobe_cep.writeFile(JSON.stringify(material), null, 'D:', 'write.txt')
-      console.log(writeResult)
+      this.$axios({
+        url: material.download_url,
+        method: 'get',
+        responseType: 'arraybuffer' //必须这么写，标注响应的是二进制流
+      }).then(res => {
+        // 第一步，将ArrayBuffer转为二进制字符串
+        let binary = '';
+        let bytes = new Uint8Array(res);
+        for (let len = bytes.byteLength, i = 0; i < len; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        //将二进制字符串转为base64字符串
+        let base64Data = window.btoa(binary);
+        let split = material.download_url.split('/');
+        let fileName = split[split.length - 1];
+        console.log("下载地址：" + material.download_url)
+        console.log("base64：" + base64Data)
+        console.log("到：" + adobe_cep.USER_DIR+"/"+fileName)
+        let writeResult = adobe_cep.writeFile(base64Data, 'Base64', adobe_cep.USER_DIR, fileName);
+        console.log(writeResult)
+      }).catch(err => {
+        console.log(err)
+      })
     },
     getLeftMenuList() {
       this.$axios({
