@@ -4,10 +4,12 @@
 // 加载必要的环境变量 start
 // 用户数据目录
 let USER_DIR = ''
+let EXTENDTION_ID = ''
 
 function loadEnvParam() {
     let cs = new CSInterface();
     USER_DIR = cs.getSystemPath(SystemPath.USER_DATA)
+    EXTENDTION_ID = cs.getExtensionID()
 }
 
 loadEnvParam()
@@ -87,6 +89,7 @@ function alertMsg(msg) {
 
 export default {
     USER_DIR,
+    EXTENDTION_ID,
     writeFile,
     readFile,
     sysncCSIEvalScriptFunDemo,

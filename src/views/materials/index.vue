@@ -29,6 +29,8 @@
 <script>
 import SubMenu from "@/components/SubMenu";
 import adobe_cep from '@/assets/adobe-cep'
+import constant from '@/assets/constant'
+import http_util from '@/assets/util/http'
 
 export default {
   name: 'MaterialView',
@@ -38,49 +40,7 @@ export default {
   data() {
     return {
       topMenuType: '19',
-      leftMenuList: [{
-        "pid": 0,
-        "id": 999919,
-        "name": "热门",
-        "rank": 0,
-        "global_rank": 0,
-        "cover": "",
-        "type": 19,
-        "cat_tp": 0,
-        "apply_biz": 0,
-        "ctime": 0,
-        "mtime": 0,
-        "children": null,
-        "res_cnt": 0
-      }, {
-        "pid": 0,
-        "id": 120155,
-        "name": "UP必备",
-        "rank": 167,
-        "global_rank": 1,
-        "cover": "http://i0.hdslb.com/bfs/creative/0060095c06674feec639ef5fa8b6c7e0a15cf45a.png",
-        "type": 19,
-        "cat_tp": 0,
-        "apply_biz": 1,
-        "ctime": 1620722913,
-        "mtime": 1649779181,
-        "res_cnt": 0,
-        "children": [{
-          "pid": 120155,
-          "id": 73,
-          "name": "经典素材",
-          "rank": 209,
-          "global_rank": 1,
-          "cover": "",
-          "type": 19,
-          "cat_tp": 0,
-          "apply_biz": 1,
-          "ctime": 1594650704,
-          "mtime": 1649779181,
-          "children": null,
-          "res_cnt": 0
-        }]
-      }],
+      leftMenuList: [],
       materials: []
     }
   },
@@ -92,23 +52,16 @@ export default {
     downloadResource(material) {
       this.$axios({
         url: material.download_url,
-        method: 'get',
-        responseType: 'arraybuffer' //必须这么写，标注响应的是二进制流
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        responseType: constant.AXIOS.HTTP.RESPONSE_TYPE.ARRAY_BUFFER //必须这么写，标注响应的是二进制流
       }).then(res => {
-        // 第一步，将ArrayBuffer转为二进制字符串
-        let binary = '';
-        let bytes = new Uint8Array(res);
-        for (let len = bytes.byteLength, i = 0; i < len; i++) {
-          binary += String.fromCharCode(bytes[i]);
-        }
-        //将二进制字符串转为base64字符串
-        let base64Data = window.btoa(binary);
-        let split = material.download_url.split('/');
-        let fileName = split[split.length - 1];
-        console.log("下载地址：" + material.download_url)
-        console.log("base64：" + base64Data)
-        console.log("到：" + adobe_cep.USER_DIR+"/"+fileName)
-        let writeResult = adobe_cep.writeFile(base64Data, 'Base64', adobe_cep.USER_DIR, fileName);
+        let base64Data = http_util.arrayBufferToBase64(res)
+        let fileName = http_util.getFileNameByUrl(material.download_url);
+        let writeResult = adobe_cep.writeFile(base64Data,
+            constant.IO.FILE_ENCODE.BASE64,
+            adobe_cep.USER_DIR,
+            adobe_cep.EXTENDTION_ID,
+            fileName);
         console.log(writeResult)
       }).catch(err => {
         console.log(err)
