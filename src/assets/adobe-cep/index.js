@@ -28,6 +28,19 @@ function pathJoin(...paths) {
 }
 
 /**
+ * 打开文件保存框
+ * @param title 标题，字符串
+ * @param initialPath 初始路径，路径字符串
+ * @param fileTypes 文件类型，字符串数组
+ * @param defaultName 默认名称，字符串
+ * @param friendlyFilePrefix 文件类型说明，*.txt
+ */
+function showSaveDialogEx(title, initialPath, fileTypes, defaultName, friendlyFilePrefix,) {
+    return window.cep.fs.showSaveDialogEx(title, initialPath, fileTypes, defaultName, friendlyFilePrefix);
+
+}
+
+/**
  *
  * @param dir
  * @return {*}
@@ -145,6 +158,7 @@ function checkDirAndTryRepair(dir) {
 export default {
     USER_DIR,
     EXTENDTION_ID,
+    showSaveDialogEx,
     checkEnv: checkDirAndTryRepair,
     writeFile,
     readFile,

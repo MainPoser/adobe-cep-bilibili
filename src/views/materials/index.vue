@@ -18,10 +18,8 @@
       <div class="material-image" style="flex: 1; text-align: center">
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
-          <span v-if="downloaded(item)" class="demonstration">已下载</span>
-          <span v-else class="demonstration">未下载</span>
-          <el-image @click="downloadResource(item)" style="width: 100px; height: 100px" :src="item.static_cover"
-                    fit="fill"/>
+          <span @click="downloadResource(item)" class="demonstration">点击下载</span>
+          <el-image fit="fill" style="width: 100px; height: 100px" :src="item.static_cover"/>
         </div>
       </div>
     </el-container>
@@ -77,14 +75,29 @@ export default {
       return false
     },
     downloadResource(material) {
+      // 用户打开保存文件目录选择框
+      let fileName = http_util.getFileNameByUrl(material.download_url);
+      let suffix = fileName.split('.')[1];
+      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID), [suffix], fileName, "*." + suffix)
+      let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
+      if (0 === showSaveDialogResult.err) {
+        if (showSaveDialogResult.data.length === 0) {
+          console.log("用户放弃了保存");
+          return
+        } else {
+          console.log("获取的保存框的值" + showSaveDialogResult.data);
+          filePath = showSaveDialogResult.data
+        }
+      } else {
+        console.log("打开保存位置错误：" + showSaveDialogResult.err)
+        return
+      }
       this.$axios({
         url: material.download_url,
         method: constant.AXIOS.HTTP.METHOD.GET,
         responseType: constant.AXIOS.HTTP.RESPONSE_TYPE.ARRAY_BUFFER //必须这么写，标注响应的是二进制流
       }).then(res => {
         let base64Data = http_util.arrayBufferToBase64(res)
-        let fileName = http_util.getFileNameByUrl(material.download_url);
-        let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
         let writeResult = adobe_cep.writeFile(base64Data, constant.IO.FILE_ENCODE.BASE64, filePath);
         console.log(writeResult)
       }).catch(err => {
