@@ -63,6 +63,7 @@ export default {
         "apply_biz": 1,
         "ctime": 1620722913,
         "mtime": 1649779181,
+        "res_cnt": 0,
         "children": [{
           "pid": 120155,
           "id": 73,
@@ -77,78 +78,7 @@ export default {
           "mtime": 1649779181,
           "children": null,
           "res_cnt": 0
-        }, {
-          "pid": 120155,
-          "id": 150100,
-          "name": "一键三连",
-          "rank": 212,
-          "global_rank": 1,
-          "cover": "",
-          "type": 19,
-          "cat_tp": 0,
-          "apply_biz": 1,
-          "ctime": 1608719466,
-          "mtime": 1649779181,
-          "children": null,
-          "res_cnt": 0
-        }, {
-          "pid": 120155,
-          "id": 76,
-          "name": "转场",
-          "rank": 213,
-          "global_rank": 1,
-          "cover": "",
-          "type": 19,
-          "cat_tp": 0,
-          "apply_biz": 1,
-          "ctime": 1594650750,
-          "mtime": 1649779181,
-          "children": null,
-          "res_cnt": 0
-        }, {
-          "pid": 120155,
-          "id": 180118,
-          "name": "片头",
-          "rank": 214,
-          "global_rank": 1,
-          "cover": "",
-          "type": 19,
-          "cat_tp": 0,
-          "apply_biz": 1,
-          "ctime": 1625716214,
-          "mtime": 1649779181,
-          "children": null,
-          "res_cnt": 0
-        }, {
-          "pid": 120155,
-          "id": 120213,
-          "name": "片尾",
-          "rank": 215,
-          "global_rank": 1,
-          "cover": "",
-          "type": 19,
-          "cat_tp": 0,
-          "apply_biz": 1,
-          "ctime": 1626092223,
-          "mtime": 1649779181,
-          "children": null,
-          "res_cnt": 0
-        }, {
-          "pid": 120155,
-          "id": 120204,
-          "name": "计时器",
-          "rank": 216,
-          "global_rank": 1,
-          "cover": "",
-          "type": 19,
-          "cat_tp": 0,
-          "apply_biz": 1,
-          "ctime": 1625725068,
-          "mtime": 1649779181,
-          "children": null,
-          "res_cnt": 0
-        }],
-        "res_cnt": 0
+        }]
       }],
       materials: []
     }
