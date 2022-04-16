@@ -17,8 +17,8 @@
         </el-aside>
       </div>
       <div class="demo-image" style="flex: 1; text-align: center">
-        <div v-for="item in imageList" :key="item._id" class="block">
-          <span class="demonstration">{{ item.description }}</span>
+        <div v-for="item in imageList" :key="item._id" class="box">
+          <span class="name">{{ item.description }}</span>
           <el-image style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
         </div>
       </div>
@@ -79,7 +79,7 @@ export default {
 </script>
 
 <style scoped>
-.demo-image .block {
+.demo-image .box {
   padding: 30px 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
@@ -89,11 +89,11 @@ export default {
   vertical-align: top;
 }
 
-.demo-image .block:last-child {
+.demo-image .box:last-child {
   border-right: none;
 }
 
-.demo-image .demonstration {
+.demo-image .name {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
