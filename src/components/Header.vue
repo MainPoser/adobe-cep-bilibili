@@ -22,6 +22,9 @@
         <el-menu-item index="20">
           <router-link :to="{path:'musics',query:{menuType:'20'}}" class="a">音频</router-link>
         </el-menu-item>
+        <el-menu-item index="0">
+          <router-link :to="{path:'texts',query:{menuType:'0'}}" class="a">文本</router-link>
+        </el-menu-item>
         <el-menu-item index="3">
           <router-link to="/stickers" class="a">贴纸</router-link>
         </el-menu-item>

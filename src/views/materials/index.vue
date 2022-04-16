@@ -114,7 +114,7 @@ export default {
     },
     getLeftMenuList() {
       this.$axios({
-        url: constant.API.BILIBILI.GET_CATS,
+        url: constant.API.BILIBILI.MATERIAL_CATS,
         method: constant.AXIOS.HTTP.METHOD.GET,
         params: {
           access_key: '',

@@ -20,9 +20,7 @@
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
           <el-button @click="downloadResource(item)" class="demonstration">点击下载</el-button>
-          <audio controls="controls" style="width: 100px; height: 100px" :src="item.download_url">
-            Your browser does not support the audio element.
-          </audio>
+          <el-image fit="fill" style="width: 100px; height: 100px" :src="item.static_cover"/>
         </div>
       </div>
     </el-container>
@@ -36,13 +34,13 @@ import constant from '@/assets/constant'
 import http_util from '@/assets/util/http'
 
 export default {
-  name: 'MemeView',
+  name: 'TextView',
   components: {
     SubMenu
   },
   data() {
     return {
-      topMenuType: '40',
+      topMenuType: '19',
       activeMenu: '',
       leftMenuList: [],
       materials: []
@@ -122,7 +120,7 @@ export default {
           access_key: '',
           apply_for: 0,
           build: '',
-          material_id: 0,
+          material_id: '',
           mobi_app: '',
           need_category: 1,
           tp: this.topMenuType,

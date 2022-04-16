@@ -26,8 +26,8 @@ let AXIOS = {
 
 let API = {
     BILIBILI: {
-        GET_CATS: 'http://member.bilibili.com/x/material/bcut/v2/cats',
-        GET_B_MEME_CATS: 'http://member.bilibili.com/x/material/bcut/v2/pre',
+        MATERIAL_CATS: 'http://member.bilibili.com/x/material/bcut/v2/cats',
+        MATERIAL_PRE: 'http://member.bilibili.com/x/material/bcut/v2/pre',
         MATERIAL_LIST: 'http://member.bilibili.com/x/material/bcut/v2/list'
     }
 }
