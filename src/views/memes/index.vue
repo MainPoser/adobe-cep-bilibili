@@ -19,7 +19,8 @@
       <div class="material-image" style="flex: 1; text-align: center">
         <div v-for="item in materials" :key="item.id" class="block">
           <span class="demonstration">{{ item.name }}</span>
-          <el-button @click="downloadResource(item)" class="demonstration">点击下载</el-button>
+          <el-button :disabled="item.isDisabled" @click="downloadResource(item)" class="demonstration">点击下载</el-button>
+          <el-progress v-if="item.show" :percentage="item.percentage"></el-progress>
           <el-image fit="fill" style="width: 100px; height: 100px" :src="item.static_cover"/>
         </div>
       </div>
@@ -64,24 +65,6 @@ export default {
     getParams() {
       this.topMenuType = this.$route.query.menuType;
     },
-    downloaded(material) {
-      // 判断当前资源是否已经下载了
-      let fileName = http_util.getFileNameByUrl(material.download_url);
-      let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
-      let result = adobe_cep.statFile(filePath);
-      if (0 === result.err) {
-        if (result.data.isFile() === true) {
-          console.log("文件已经下载");
-          console.log("url:" + material.download_url);
-          console.log("filePath: " + filePath);
-          return true
-        }
-      } else {
-        console.log("获取文件状态失败：" + result.err)
-        return false
-      }
-      return false
-    },
     downloadResource(material) {
       // 用户打开保存文件目录选择框
       let fileName = http_util.getFileNameByUrl(material.download_url);
@@ -100,14 +83,39 @@ export default {
         console.log("打开保存位置错误：" + showSaveDialogResult.err)
         return
       }
+      //进度条恢复为 0
+      this.materials[this.materials.findIndex(item => item.id === material.id)].percentage = 0
+      //按钮置灰 不可点击
+      this.materials[this.materials.findIndex(item => item.id === material.id)].isDisabled = true
+      //展示下载框
+      this.materials[this.materials.findIndex(item => item.id === material.id)].show = true
       this.$axios({
         url: material.download_url,
         method: constant.AXIOS.HTTP.METHOD.GET,
-        responseType: constant.AXIOS.HTTP.RESPONSE_TYPE.ARRAY_BUFFER //必须这么写，标注响应的是二进制流
+        responseType: constant.AXIOS.HTTP.RESPONSE_TYPE.ARRAY_BUFFER, //必须这么写，标注响应的是二进制流
+        onDownloadProgress: (progressEvent) => {
+          //progressEvent.loaded 下载文件的当前大小
+          //progressEvent.total  下载文件的总大小 如果后端没有返回 请让他加上！
+          let progressBar = Math.round(progressEvent.loaded / progressEvent.total * 100);
+          //接收进度为99%的时候需要留一点前端编译的时间
+          if (progressBar >= 99) {
+            this.materials[this.materials.findIndex(item => item.id === material.id)].percentage = 99;
+            console.log('下载完成，文件正在编译。');
+          } else {
+            this.materials[this.materials.findIndex(item => item.id === material.id)].percentage = progressBar
+            console.log('正在下载，请稍等。');
+          }
+        }
       }).then(res => {
         let base64Data = http_util.arrayBufferToBase64(res)
         let writeResult = adobe_cep.writeFile(base64Data, constant.IO.FILE_ENCODE.BASE64, filePath);
         console.log(writeResult)
+        //编译文件完成后，进度条展示为100%100
+        this.materials[this.materials.findIndex(item => item.id === material.id)].percentage = 100
+        //下载完成 可以重新点击按钮下载
+        this.materials[this.materials.findIndex(item => item.id === material.id)].isDisabled = false
+        //进度条隐藏展示
+        this.materials[this.materials.findIndex(item => item.id === material.id)].show = false
       }).catch(err => {
         console.log(err)
       })
@@ -128,7 +136,7 @@ export default {
       }).then(res => {
         console.log(res)
         this.leftMenuList = res.data.categories
-        if ((this.leftMenuList) && this.leftMenuList.length > 0){
+        if ((this.leftMenuList) && this.leftMenuList.length > 0) {
           this.activeMenu = http_util.getChildrenId(this.leftMenuList[0])
         }
       }).catch(err => {
