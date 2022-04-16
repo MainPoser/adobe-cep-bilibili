@@ -9,10 +9,15 @@
               mode="vertical"
               @select="handleSelectMenu"
           >
-            <template v-for="(menu) in leftMenuList">
-              <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-              <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-            </template>
+            <el-sub-menu index="template">
+              <template v-slot:title>模板</template>
+              <template v-for="(menu) in leftMenuList">
+                <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+                <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+              </template>
+            </el-sub-menu>
+            <el-menu-item :index="104 + ''">花字</el-menu-item>
+            <el-menu-item index="identificationCaption">识别字幕</el-menu-item>
           </el-menu>
         </el-aside>
       </div>
@@ -90,15 +95,20 @@ export default {
     handleSelectMenu(key) {
       this.materials = []
       console.log("点击了菜单" + key)
+      if (key === 'identificationCaption') {
+        console.log("点击了识别字幕，目前暂未支持")
+        return
+      }
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_LIST,
         method: constant.AXIOS.HTTP.METHOD.GET,
+        // 如果是花字菜单项，那就设置tp参数为21，其余情况设置为0(路由传递过来的)
         params: {
           apply_for: '',
           cat_id: key,
           max_rank: 0,
           mobi_app: '',
-          tp: this.topMenuType,
+          tp: key === '104' ? '21' : this.topMenuType,
           version: 0
         }
       }).then(res => {
