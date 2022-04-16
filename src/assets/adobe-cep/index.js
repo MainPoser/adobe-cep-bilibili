@@ -35,7 +35,7 @@ function pathJoin(...paths) {
  * @param defaultName 默认名称，字符串
  * @param friendlyFilePrefix 文件类型说明，*.txt
  */
-function showSaveDialogEx(title, initialPath, fileTypes, defaultName, friendlyFilePrefix,) {
+function showSaveDialogEx(title, initialPath, fileTypes, defaultName, friendlyFilePrefix) {
     return window.cep.fs.showSaveDialogEx(title, initialPath, fileTypes, defaultName, friendlyFilePrefix);
 
 }
