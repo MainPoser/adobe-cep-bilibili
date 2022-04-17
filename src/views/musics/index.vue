@@ -7,7 +7,7 @@
               :default-active="activeMenu"
               class="el-menu-vertical-demo"
               mode="vertical"
-              @select="handleSelectMenu"
+              @select="soundEffectsSelectMenu"
           >
             <el-sub-menu index="soundEffects">
               <template v-slot:title>音效</template>
@@ -18,10 +18,9 @@
             </el-sub-menu>
           </el-menu>
           <el-menu
-              :default-active="activeMenu"
               class="el-menu-vertical-demo"
               mode="vertical"
-              @select="handleSelectMenu"
+              @select="musicLibrarySelectMenu"
           >
             <el-sub-menu index="musicLibrary">
               <template v-slot:title>音乐库</template>
@@ -33,8 +32,13 @@
           </el-menu>
         </el-aside>
       </div>
-      <div style="flex: 1; text-align: center">
-        <template v-for="item in materials" :key="item.id">
+      <div v-if="musicLibraryOpen" style="flex: 1; text-align: center">
+        <template v-for="item in musicLibraryMenuList" :key="item.id">
+          <BGMBox :bgm="item"></BGMBox>
+        </template>
+      </div>
+      <div v-else style="flex: 1; text-align: center">
+        <template v-for="item in soundEffectsMaterials" :key="item.id">
           <MateriaBox :material="item"></MateriaBox>
         </template>
 
@@ -46,6 +50,7 @@
 <script>
 import SubMenu from "@/components/SubMenu";
 import MateriaBox from "@/components/MaterialBox";
+import BGMBox from "@/components/BGMBox";
 import adobe_cep from '@/assets/adobe-cep'
 import constant from '@/assets/constant'
 import http_util from '@/assets/util/http'
@@ -54,22 +59,27 @@ export default {
   name: 'MemeView',
   components: {
     SubMenu,
-    MateriaBox
+    MateriaBox,
+    BGMBox
   },
   data() {
     return {
       topMenuType: '40',
       activeMenu: '',
+      musicLibraryOpen: false,
       musicLibraryMenuList: [],
+      musicLibraryMaterials: [],
       soundEffectsMenuList: [],
-      materials: []
+      soundEffectsMaterials: []
     }
   },
   mounted() {
     // 页面加载获取路由携带的父菜单的id
     this.getParams()
-    // 页面加载获取一次左侧列表数据
-    this.getLeftMenuList()
+    // 页面加载获取一次音效列表数据
+    this.getSoundEffectsMenuList()
+    // 页面加载获取一次音乐库列表数据
+    this.getMusicLibraryMenuList()
     // 检查一次资源目录
     let checkEnv = adobe_cep.checkEnv(adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID));
     if (checkEnv.err === 0) {
@@ -83,7 +93,43 @@ export default {
     getParams() {
       this.topMenuType = this.$route.query.menuType;
     },
-    getLeftMenuList() {
+    getMusicLibraryMenuList() {
+      this.$axios({
+        url: constant.API.BILIBILI.MATERIAL_BGM_PRE,
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        params: {
+          pn: 0,
+          ps: 0,
+          tid: 0
+        }
+      }).then(res => {
+        console.log(res)
+        this.musicLibraryMenuList = res.data.typelist
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    musicLibrarySelectMenu(key) {
+      this.musicLibraryOpen = true
+      this.soundEffectsMaterials = []
+      console.log("点击了音乐库菜单" + key)
+      this.$axios({
+        url: constant.API.BILIBILI.MATERIAL_BGM_LIST,
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        params: {
+          pn: 1,//第几页
+          ps: 30,//每页多少个
+          tid: key
+        }
+      }).then(res => {
+        console.log(res)
+        this.musicLibraryMaterials = res.data.materials
+      }).catch(err => {
+        console.log(err)
+      })
+      return true
+    },
+    getSoundEffectsMenuList() {
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_PRE,
         method: constant.AXIOS.HTTP.METHOD.GET,
@@ -106,8 +152,9 @@ export default {
         console.log(err)
       })
     },
-    handleSelectMenu(key) {
-      this.materials = []
+    soundEffectsSelectMenu(key) {
+      this.musicLibraryOpen = false
+      this.soundEffectsMaterials = []
       console.log("点击了菜单" + key)
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_LIST,
@@ -122,7 +169,7 @@ export default {
         }
       }).then(res => {
         console.log(res)
-        this.materials = res.data.materials
+        this.soundEffectsMaterials = res.data.materials
       }).catch(err => {
         console.log(err)
       })
@@ -136,7 +183,7 @@ export default {
     },
     'activeMenu'(val) {
       console.log("监听到默认菜单变化为：" + val)
-      this.handleSelectMenu(val)
+      this.soundEffectsSelectMenu(val)
     }
   }
 }
