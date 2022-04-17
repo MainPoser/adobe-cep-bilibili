@@ -9,10 +9,27 @@
               mode="vertical"
               @select="handleSelectMenu"
           >
-            <template v-for="(menu) in leftMenuList">
-              <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-              <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-            </template>
+            <el-sub-menu index="soundEffects">
+              <template v-slot:title>音效</template>
+              <template v-for="(menu) in soundEffectsMenuList">
+                <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+                <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+              </template>
+            </el-sub-menu>
+          </el-menu>
+          <el-menu
+              :default-active="activeMenu"
+              class="el-menu-vertical-demo"
+              mode="vertical"
+              @select="handleSelectMenu"
+          >
+            <el-sub-menu index="musicLibrary">
+              <template v-slot:title>音乐库</template>
+              <template v-for="(menu) in musicLibraryMenuList">
+                <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+                <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+              </template>
+            </el-sub-menu>
           </el-menu>
         </el-aside>
       </div>
@@ -43,7 +60,8 @@ export default {
     return {
       topMenuType: '40',
       activeMenu: '',
-      leftMenuList: [],
+      musicLibraryMenuList: [],
+      soundEffectsMenuList: [],
       materials: []
     }
   },
@@ -80,9 +98,9 @@ export default {
         }
       }).then(res => {
         console.log(res)
-        this.leftMenuList = res.data.categories
-        if ((this.leftMenuList) && this.leftMenuList.length > 0) {
-          this.activeMenu = http_util.getChildrenId(this.leftMenuList[0])
+        this.soundEffectsMenuList = res.data.categories
+        if ((this.soundEffectsMenuList) && this.soundEffectsMenuList.length > 0) {
+          this.activeMenu = http_util.getChildrenId(this.soundEffectsMenuList[0])
         }
       }).catch(err => {
         console.log(err)
