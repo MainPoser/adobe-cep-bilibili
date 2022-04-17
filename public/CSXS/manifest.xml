@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ExtensionManifest ExtensionBundleId="com.tianyao.extension" ExtensionBundleName="TIANYAO" ExtensionBundleVersion="1.0" Version="5.0">
+<ExtensionManifest ExtensionBundleId="com.fba.extension" ExtensionBundleName="FBA" ExtensionBundleVersion="1.0" Version="5.0">
   <ExtensionList>
-    <Extension Id="com.tianyao.extension.bilibili" Version="1.0"/>
+    <Extension Id="com.fba.extension.bilibili" Version="1.0"/>
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>
@@ -15,7 +15,7 @@
     </RequiredRuntimeList>
   </ExecutionEnvironment>
   <DispatchInfoList>
-    <Extension Id="com.tianyao.extension.bilibili">
+    <Extension Id="com.fba.extension.bilibili">
       <DispatchInfo>
         <Resources>
           <MainPath>./index.html</MainPath>
