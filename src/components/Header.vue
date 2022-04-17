@@ -26,7 +26,7 @@
           <router-link :to="{path:'texts',query:{menuType:'0'}}" class="a">文本</router-link>
         </el-menu-item>
         <el-menu-item index="3">
-          <router-link to="/stickers" class="a">贴纸</router-link>
+          <router-link :to="{path:'stickers',query:{menuType:'7'}}" class="a">贴纸</router-link>
         </el-menu-item>
         <el-menu-item index="4">
           <router-link to="/articles" class="a">文章</router-link>

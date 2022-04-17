@@ -1,102 +1,125 @@
 <template>
-  <div class="stickers">
+  <div class="materials">
     <el-container>
       <div>
         <el-aside width="180px">
           <el-menu
-              :default-active="defaultActiveIndex"
-              class="el-menu-demo"
+              :default-active="activeMenu"
+              class="el-menu-vertical-demo"
               mode="vertical"
               @select="handleSelectMenu"
           >
-            <el-menu-item :key="item.index" v-for="(item) in menuData" :index="item.key">{{
-                item.name
-              }}
-            </el-menu-item>
+            <template v-for="(menu) in leftMenuList">
+              <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+              <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+            </template>
           </el-menu>
         </el-aside>
       </div>
-      <div class="demo-image" style="flex: 1; text-align: center">
-        <div v-for="item in imageList" :key="item._id" class="box">
-          <span class="name">{{ item.description }}</span>
-          <el-image style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
-        </div>
+      <div style="flex: 1; text-align: center">
+        <template v-for="item in materials" :key="item.id">
+          <MateriaBox :material="item"></MateriaBox>
+        </template>
+
       </div>
     </el-container>
   </div>
 </template>
 
 <script>
+import SubMenu from "@/components/SubMenu";
+import MateriaBox from "@/components/MaterialBox";
+import adobe_cep from '@/assets/adobe-cep'
+import constant from '@/assets/constant'
+import http_util from '@/assets/util/http'
 
 export default {
   name: 'StickerView',
+  components: {
+    SubMenu,
+    MateriaBox
+  },
   data() {
     return {
-      defaultActiveIndex: '1',
-      menuData: [
-        {
-          index: '1',
-          key: 'My',
-          name: '我的收藏'
-        }, {
-          index: '2',
-          key: 'Hot',
-          name: '热门'
-        }
-      ],
-      imageList: []
+      topMenuType: '7',
+      activeMenu: '',
+      leftMenuList: [],
+      materials: []
+    }
+  },
+  mounted() {
+    // 页面加载获取路由携带的父菜单的id
+    this.getParams()
+    // 页面加载获取一次左侧列表数据
+    this.getLeftMenuList()
+    // 检查一次资源目录
+    let checkEnv = adobe_cep.checkEnv(adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID));
+    if (checkEnv.err === 0) {
+      console.log("cehck dir " + adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID) + " success")
+    } else {
+      adobe_cep.alertMsg(checkEnv.err + ": " + checkEnv.msg)
     }
   },
   methods: {
+    // 接收参数的方法
+    getParams() {
+      this.topMenuType = this.$route.query.menuType;
+    },
+    getLeftMenuList() {
+      this.$axios({
+        url: constant.API.BILIBILI.MATERIAL_PRE,
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        params: {
+          access_key: '',
+          apply_for: 0,
+          build: '',
+          material_id: 0,
+          mobi_app: '',
+          need_category: 1,
+          tp: this.topMenuType,
+        }
+      }).then(res => {
+        this.leftMenuList = res.data.categories
+        if ((this.leftMenuList) && this.leftMenuList.length > 0) {
+          this.activeMenu = http_util.getChildrenId(this.leftMenuList[0])
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     handleSelectMenu(key) {
-      this.imageList = []
-      if (key === 'My') {
-        this.imageList = [
-          {
-            _id: '1',
-            description: '老鹰',
-            url: 'https://www.2008php.com/09_Website_appreciate/10-07-11/1278862200_222.jpg'
-          },
-          {
-            _id: '1',
-            description: '山水',
-            url: 'https://pic.ntimg.cn/file/20161008/3395888_173302467034_2.jpg'
-          }
-        ]
-      }
-      if (key === 'Hot') {
-        this.imageList = [
-          {
-            _id: '1',
-            description: '案例图片',
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-          }
-        ]
-      }
+      this.materials = []
+      this.$axios({
+        url: constant.API.BILIBILI.MATERIAL_LIST,
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        params: {
+          apply_for: '',
+          cat_id: key,
+          max_rank: 0,
+          mobi_app: '',
+          tp: this.topMenuType,
+          version: 0
+        }
+      }).then(res => {
+        this.materials = res.data.materials
+      }).catch(err => {
+        console.log(err)
+      })
+      return true
+    }
+  },
+  // 如果不用watch进行监听，则会出现参数只获取一次的情况
+  watch: {
+    '$route'() {
+      this.getParams();
+    },
+    'activeMenu'(val) {
+      this.handleSelectMenu(val)
     }
   }
 }
 </script>
 
 <style scoped>
-.demo-image .box {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 20%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
 
-.demo-image .box:last-child {
-  border-right: none;
-}
-
-.demo-image .name {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
 </style>
