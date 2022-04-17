@@ -103,7 +103,6 @@ export default {
           tid: 0
         }
       }).then(res => {
-        console.log(res)
         this.musicLibraryMenuList = res.data.typelist
       }).catch(err => {
         console.log(err)
@@ -122,7 +121,6 @@ export default {
           tid: key
         }
       }).then(res => {
-        console.log(res)
         this.musicLibraryMaterials = res.data.list
       }).catch(err => {
         console.log(err)
@@ -143,7 +141,6 @@ export default {
           tp: this.topMenuType,
         }
       }).then(res => {
-        console.log(res)
         this.soundEffectsMenuList = res.data.categories
         if ((this.soundEffectsMenuList) && this.soundEffectsMenuList.length > 0) {
           this.activeMenu = http_util.getChildrenId(this.soundEffectsMenuList[0])
@@ -155,7 +152,7 @@ export default {
     soundEffectsSelectMenu(key) {
       this.musicLibraryOpen = false
       this.soundEffectsMaterials = []
-      console.log("点击了菜单" + key)
+      console.log("点击了音效菜单" + key)
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_LIST,
         method: constant.AXIOS.HTTP.METHOD.GET,
@@ -168,7 +165,6 @@ export default {
           version: 0
         }
       }).then(res => {
-        console.log(res)
         this.soundEffectsMaterials = res.data.materials
       }).catch(err => {
         console.log(err)
@@ -182,7 +178,6 @@ export default {
       this.getParams();
     },
     'activeMenu'(val) {
-      console.log("监听到默认菜单变化为：" + val)
       this.soundEffectsSelectMenu(val)
     }
   }

@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     getPlayUrl() {
-      console.log(this.bgm.sid)
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_BGM_PLAY_URL,
         method: constant.AXIOS.HTTP.METHOD.GET,
@@ -40,7 +39,6 @@ export default {
           sid: this.bgm.sid
         },
       }).then(res => {
-        console.log(res)
         this.playUrl = res.data.play_url
       }).catch(err => {
         console.log(err)
@@ -57,11 +55,11 @@ export default {
           console.log("用户放弃了保存");
           return
         } else {
-          console.log("获取的保存框的值" + showSaveDialogResult.data);
+          console.log("保存文件位置" + showSaveDialogResult.data);
           filePath = showSaveDialogResult.data
         }
       } else {
-        console.log("打开保存位置错误：" + showSaveDialogResult.err)
+        console.log("获取保存位置错误：" + showSaveDialogResult.err)
         return
       }
       //进度条恢复为 0
@@ -70,6 +68,7 @@ export default {
       this.isDisabled = true
       //展示下载框
       this.show = true
+      console.log('正在下载，请稍等。');
       this.$axios({
         url: this.playUrl,
         method: constant.AXIOS.HTTP.METHOD.GET,
@@ -84,7 +83,6 @@ export default {
             console.log('下载完成，文件正在编译。');
           } else {
             this.percentage = progressBar
-            console.log('正在下载，请稍等。');
           }
         }
       }).then(res => {

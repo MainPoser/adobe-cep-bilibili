@@ -79,7 +79,6 @@ export default {
           tp: this.topMenuType,
         }
       }).then(res => {
-        console.log(res)
         this.leftMenuList = res.data.categories
         if ((this.leftMenuList) && this.leftMenuList.length > 0) {
           this.activeMenu = http_util.getChildrenId(this.leftMenuList[0])
@@ -90,7 +89,6 @@ export default {
     },
     handleSelectMenu(key) {
       this.materials = []
-      console.log("点击了菜单" + key)
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_LIST,
         method: constant.AXIOS.HTTP.METHOD.GET,
@@ -103,7 +101,6 @@ export default {
           version: 0
         }
       }).then(res => {
-        console.log(res)
         this.materials = res.data.materials
       }).catch(err => {
         console.log(err)
@@ -117,7 +114,6 @@ export default {
       this.getParams();
     },
     'activeMenu'(val) {
-      console.log("监听到默认菜单变化为：" + val)
       this.handleSelectMenu(val)
     }
   }
