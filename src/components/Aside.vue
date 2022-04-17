@@ -23,7 +23,7 @@
     <div class="card">
       <h3>本插件资源均来自必剪</h3>
       <el-row>
-        <a @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">点此访问</a>
+        <h3 @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">点此访问</h3>
       </el-row>
       <el-row>
         <img src="../assets/bcut.jpg" alt="找不到照片" style="width: 100px;"/>

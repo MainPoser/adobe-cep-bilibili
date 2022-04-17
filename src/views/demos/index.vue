@@ -4,6 +4,8 @@
       <div>
         <el-aside width="180px">
           <el-menu
+              background-color="#000000"
+              text-color="#ffffff"
               :default-active="defaultActiveIndex"
               class="el-menu-demo"
               mode="vertical"

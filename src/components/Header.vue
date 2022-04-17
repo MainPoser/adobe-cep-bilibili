@@ -5,6 +5,8 @@
     </div>
     <div style="flex: 1; text-align: center">
       <el-menu
+          background-color="#000000"
+          text-color="#ffffff"
           :default-active="activeIndex"
           class="el-menu-demo"
           mode="horizontal"
@@ -62,7 +64,7 @@ export default {
 <style scoped>
 .a {
   text-decoration: none;
-  display: block;
+  display: block ;
   padding: 0;
 }
 </style>
