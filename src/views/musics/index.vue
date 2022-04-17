@@ -36,12 +36,28 @@
         <template v-for="item in musicLibraryMaterials" :key="item.id">
           <BGMBox :bgm="item"></BGMBox>
         </template>
+        <el-row>
+          <div class="demo-pagination-block">
+            <div class="demonstration">Total item count</div>
+            <el-pagination
+                v-model:currentPage="musicLibraryCurrentPage"
+                :page-size="musicLibraryPageSize"
+                :page-sizes="[10, 20, 30, 40]"
+                :small="true"
+                :default-page-size="10"
+                :background="true"
+                layout="total,sizes,prev,pager,next"
+                :total="musicLibraryTotal"
+                @size-change="musicLibrarySizeChange"
+                @current-change="musicLibraryCurrentChange"
+            />
+          </div>
+        </el-row>
       </div>
       <div v-else style="flex: 1; text-align: center">
         <template v-for="item in soundEffectsMaterials" :key="item.id">
           <MateriaBox :material="item"></MateriaBox>
         </template>
-
       </div>
     </el-container>
   </div>
@@ -64,7 +80,10 @@ export default {
   },
   data() {
     return {
+      musicLibraryCurrentPage: 1,
+      musicLibraryPageSize: 20,
       topMenuType: '40',
+      musicLibraryTotal: 0,
       activeMenu: '',
       musicLibraryOpen: false,
       musicLibraryMenuList: [],
@@ -89,6 +108,14 @@ export default {
     }
   },
   methods: {
+    // 音乐库每页长度改变
+    musicLibrarySizeChange() {
+      this.musicLibrarySelectMenu()
+    },
+    // 音乐库当前页更新
+    musicLibraryCurrentChange() {
+      this.musicLibrarySelectMenu()
+    },
     // 接收参数的方法
     getParams() {
       this.topMenuType = this.$route.query.menuType;
@@ -110,18 +137,19 @@ export default {
     },
     musicLibrarySelectMenu(key) {
       this.musicLibraryOpen = true
-      this.soundEffectsMaterials = []
+      this.musicLibraryMaterials = []
       console.log("点击了音乐库菜单" + key)
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_BGM_LIST,
         method: constant.AXIOS.HTTP.METHOD.GET,
         params: {
-          pn: 1,//第几页
-          ps: 30,//每页多少个
+          pn: this.musicLibraryCurrentPage,//第几页
+          ps: this.musicLibraryPageSize,//每页多少个
           tid: key
         }
       }).then(res => {
         this.musicLibraryMaterials = res.data.list
+        this.musicLibraryTotal = res.data.pager.total
       }).catch(err => {
         console.log(err)
       })
@@ -185,5 +213,8 @@ export default {
 </script>
 
 <style scoped>
-
+.demo-pagination-block .demonstration {
+  margin-bottom: 16px;
+  margin-top: 10px;
+}
 </style>
