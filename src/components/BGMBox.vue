@@ -3,12 +3,9 @@
     <span class="name">{{ bgm.name }}</span>
     <el-button :disabled="isDisabled" @click="downloadResource(bgm)">点击下载</el-button>
     <el-progress v-if="show" :percentage="percentage"></el-progress>
-    <!--  如果素材的类型是音频type===20-->
-    <audio controls="controls" style="width: 100px; height: 100px"
-           :src="bgm.waves_url">
+    <audio controls="controls" style="width: 100px; height: 100px" :src="this.playUrl">
       Your browser does not support the audio element.
     </audio>
-    <!--  除了音频之外的素材-->
     <el-image fit="fill" style="width: 100px; height: 100px" :src="bgm.cover"/>
   </div>
 </template>
@@ -25,15 +22,34 @@ export default {
     return {
       percentage: 0,
       isDisabled: false,
-      show: false
+      show: false,
+      playUrl: ''
     }
   },
+  mounted() {
+    // 挂载之后就获取一下当前BGM对应的播放地址
+    this.getPlayUrl()
+  },
   methods: {
+    getPlayUrl() {
+      console.log(this.bgm.sid)
+      this.$axios({
+        url: constant.API.BILIBILI.MATERIAL_BGM_PLAY_URL,
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        params: {
+          sid: this.bgm.sid
+        },
+      }).then(res => {
+        console.log(res)
+        this.playUrl = res.data.play_url
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     downloadResource(bgm) {
       // 用户打开保存文件目录选择框
-      let fileName = http_util.getFileNameByUrl(bgm.waves_url);
-      let suffix = fileName.split('.')[1];
       // 默认保存为素材名称+.+文件类型
+      let suffix = 'm4a'
       let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID), [suffix], bgm.name + "." + suffix, "*." + suffix)
       let filePath = ''
       if (0 === showSaveDialogResult.err) {
@@ -55,7 +71,7 @@ export default {
       //展示下载框
       this.show = true
       this.$axios({
-        url: bgm.download_url,
+        url: this.playUrl,
         method: constant.AXIOS.HTTP.METHOD.GET,
         responseType: constant.AXIOS.HTTP.RESPONSE_TYPE.ARRAY_BUFFER, //必须这么写，标注响应的是二进制流
         onDownloadProgress: (progressEvent) => {

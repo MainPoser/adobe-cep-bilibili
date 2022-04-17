@@ -33,7 +33,7 @@
         </el-aside>
       </div>
       <div v-if="musicLibraryOpen" style="flex: 1; text-align: center">
-        <template v-for="item in musicLibraryMenuList" :key="item.id">
+        <template v-for="item in musicLibraryMaterials" :key="item.id">
           <BGMBox :bgm="item"></BGMBox>
         </template>
       </div>
@@ -123,7 +123,7 @@ export default {
         }
       }).then(res => {
         console.log(res)
-        this.musicLibraryMaterials = res.data.materials
+        this.musicLibraryMaterials = res.data.list
       }).catch(err => {
         console.log(err)
       })
