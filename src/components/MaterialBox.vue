@@ -33,8 +33,9 @@ export default {
       // 用户打开保存文件目录选择框
       let fileName = http_util.getFileNameByUrl(material.download_url);
       let suffix = fileName.split('.')[1];
-      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, material.name), [suffix], fileName, "*." + suffix)
-      let filePath = adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID, fileName);
+      // 默认保存为素材名称+.+文件类型
+      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID), [suffix], material.name + "." + suffix, "*." + suffix)
+      let filePath = ''
       if (0 === showSaveDialogResult.err) {
         if (showSaveDialogResult.data.length === 0) {
           console.log("用户放弃了保存");
