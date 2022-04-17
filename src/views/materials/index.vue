@@ -64,7 +64,7 @@ export default {
     // 页面加载获取一次左侧列表数据
     this.getLeftMenuList()
     // 检查一次资源目录
-    let checkEnv = adobe_cep.checkEnv(adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID));
+    let checkEnv = adobe_cep.checkDirAndTryRepair(adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID));
     if (checkEnv.err === 0) {
       console.log("cehck dir " + adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID) + " success")
     } else {

@@ -18,6 +18,14 @@ loadEnvParam()
 // 封装NodeJsInterface start
 
 /**
+ * 用默认浏览器打开url
+ * @param url
+ */
+function openURLInDefaultBrowser(url) {
+    window.cep.util.openURLInDefaultBrowser(url)
+}
+
+/**
  * 根据传入的数组生成路径，解决不同平台的路径分割符问题
  * @param paths
  * @return {string}
@@ -159,7 +167,8 @@ export default {
     USER_DIR,
     EXTENDTION_ID,
     showSaveDialogEx,
-    checkEnv: checkDirAndTryRepair,
+    checkDirAndTryRepair,
+    openURLInDefaultBrowser,
     writeFile,
     readFile,
     statFile,

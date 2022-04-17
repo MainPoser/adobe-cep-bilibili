@@ -6,10 +6,9 @@
           alt="找不到照片"
           style="width: 80px; border-radius: 50px; border: 1px solid #eee;"
       />
-      <h2>TianYao</h2>
     </div>
     <div class="tags">
-      <div class="title">标签云</div>
+      <div class="title">支持平台</div>
       <router-link
           v-for="item in labelList"
           class="item"
@@ -18,30 +17,41 @@
       >
         <span :key="item._id">{{ item.name }}</span>
       </router-link>
-      <el-tag class="item" type="info">Tag 3</el-tag>
-      <el-tag class="item" type="info">Tag 4</el-tag>
+      <el-tag class="item" type="info" @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">必剪</el-tag>
 
     </div>
     <div class="card">
-      <h3>本站公众号</h3>
-      <img src="../assets/logo.png" alt="找不到照片" style="width: 100px;"/>
+      <h3>本插件资源均来自必剪</h3>
+      <el-row>
+        <a @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">点此访问</a>
+      </el-row>
+      <el-row>
+        <img src="../assets/bcut.jpg" alt="找不到照片" style="width: 100px;"/>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script>
+import adobe_cep from '@/assets/adobe-cep'
+
 export default {
   name: 'AsideComponent',
   data() {
     return {
       labelList: [{
         _id: '1',
-        name: '测试1'
+        name: '文章1'
       }, {
         _id: '2',
-        name: '测试2'
+        name: '文章2'
       }
       ]
+    }
+  },
+  methods: {
+    openInDefaultBrowser(url) {
+      adobe_cep.openURLInDefaultBrowser(url)
     }
   }
 }
