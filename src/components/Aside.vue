@@ -6,6 +6,7 @@
           alt="找不到照片"
           style="width: 80px; border-radius: 50px; border: 1px solid #eee;"
       />
+      <h3>Wilson</h3>
     </div>
     <div class="tags">
       <div class="title">支持平台</div>
