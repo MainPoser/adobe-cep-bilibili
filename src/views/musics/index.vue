@@ -38,7 +38,7 @@
         </template>
         <el-row>
           <div class="demo-pagination-block">
-            <div class="demonstration">Total item count</div>
+            <div class="demonstration">分页信息</div>
             <el-pagination
                 v-model:currentPage="musicLibraryCurrentPage"
                 :page-size="musicLibraryPageSize"
