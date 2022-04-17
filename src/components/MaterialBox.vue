@@ -9,7 +9,7 @@
       Your browser does not support the audio element.
     </audio>
     <!--  除了音频之外的素材-->
-    <el-image v-else fit="fill" style="width: 100px; height: 100px" :src="material.static_cover"/>
+    <el-image v-else fit="fill" style="width: 100px; height: 100px" :src="material.cover"/>
   </div>
 </template>
 

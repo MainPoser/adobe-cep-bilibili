@@ -17,6 +17,17 @@
         </el-aside>
       </div>
       <div style="flex: 1; text-align: center">
+        <el-row style="float:left; margin-left: 45vw;width: 100%;">
+          <el-input
+              type="text"
+              prefix-icon="el-icon-search"
+              v-model="kw_content"
+              placeholder="请输入视频或者音频名称，回车检索"
+              style="width: 270px; cursor: pointer"
+              @keyup.enter="searchmaterials"
+          ></el-input>
+          <el-button @click="searchmaterials">搜索</el-button>
+        </el-row>
         <template :key="item.id" v-for="item in materials">
           <MateriaBox :material="item"></MateriaBox>
         </template>
@@ -40,6 +51,7 @@ export default {
   },
   data() {
     return {
+      kw_content: '',
       topMenuType: '19',
       activeMenu: '',
       leftMenuList: [],
@@ -60,6 +72,24 @@ export default {
     }
   },
   methods: {
+    //检索接口
+    searchmaterials() {
+      this.materials = []
+      this.$axios({
+        url: constant.API.BILIBILI.MATERIAL_SEARCH,
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        params: {
+          kw: this.kw_content,
+          pn: 1,
+          ps: 40
+        }
+      }).then(res => {
+        console.log(res)
+        this.materials = res.data.materials
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     // 接收参数的方法
     getParams() {
       this.topMenuType = this.$route.query.menuType;
