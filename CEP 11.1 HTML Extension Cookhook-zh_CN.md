@@ -1684,9 +1684,9 @@ fallback=es_ES
 -  当`messages.properties` and `fallback.properties`都存在时，`fallback.properties`会被优先使用
 - 如果 `fallback.properties` 不可用, 或者指定了一个不存在的fallback, 同一个目录下的 messages.properties 会被使用
 
-#### Localized menu
+#### 本地化的菜单
 
-In manifest, it supports to use locale string as menu. For example, in ShareOnBehance's manifest, it is using `%UI_share_on_Behance`. `UI_share_on_Behance` is defined as `UI_share_on_Behance=xxx` in `messages.properties`.
+在manifest中，它支持使用区域设置字符串作为菜单。 例如，在ShareOnBehance的manifest中， 把`%UI_share_on_Behance`. `UI_share_on_Behance`定义为 `messages.properties`文件中的`UI_share_on_Behance=xxx` 。
 
 ```
 <UI>
@@ -1696,9 +1696,9 @@ In manifest, it supports to use locale string as menu. For example, in ShareOnBe
 </UI>
 ```
 
-#### Examples
+#### 例子
 
-##### Example 1
+##### 示例1
 
 ```
 var cs = new CSInterface();
@@ -1708,13 +1708,13 @@ var resourceBundle = cs.initResourceBundle();
 <script type="text/javascript">document.write(resourceBundle.key1);</script>
 ```
 
-##### Example 2
+##### 示例2
 
-`data-locale` is the custom HTML element attribute and you can add to each HTML element that you want to localize.
+`data-locale` 是自定义HTML元素属性，您可以添加到您想要本地化的每个HTML元素。
 
-In this example, there is `key3.value=value3` in the property file. In the HTML file, the input widget has attribute `data-locale` with `key3`, then its value is set to `value3`.
+在这个案例中,配置文件中有 `key3.value=value3` 。在HTML文件中，input输入框有一个`data-locale` 属性为`key3`，它的值就是`value3`。
 
-In this example, there is `key4.innerHTML=value4` in the property file. In the HTML file, the text area widget has attribute `data-locale` with `key4`, then its `innerHTML` is set to `value4`.
+在这个案例中, 配置文件中有 `key4.innerHTML=value4` 。 在HTML文件中，文本展示区有一个属性 `data-locale` 是 `key4`, 然后 `innerHTML` 被设置为 `value4`.
 
 ```
 <script type="text/javascript">
@@ -1733,7 +1733,7 @@ In this example, there is `key4.innerHTML=value4` in the property file. In the H
 
 ##### Example 3
 
-Use parameters `($1, $2, ...)` in localized strings.
+在本地化字符串中使用参数`($1，$2，…)`。
 
 ```
 var localize = function(key){
@@ -1753,7 +1753,7 @@ var localize = function(key){
 };
 ```
 
-#### Supporting MENA locales
+#### 支持中东和北非地区地区
 
 MENA stands for "Middle East and North Africa". Support needs to be provided for Arabic, Hebrew, and NA French languages.
 
@@ -1794,9 +1794,9 @@ When `CSInterface.initResourceBundle()` is called, CEP uses the app UI locale (n
 
 With MENA feature, point products map `en_AE/en_IL` to `en_US` and `fr_MA` to `fr_FR` for app UI locale. In this case, for `en_AE` and `en_IL` build of point product, `en_US` resources will be used if provided and for `fr_MA` build of point product, `fr_FR` resources will be used if provided. What extension team needs to do in this case is to provide `en_US` version of resources for `en_AE/en_IL` and `fr_FR` version of resources for `fr_MA`.
 
-### Video/Audio Playback
+### 视频/音频播放
 
-CEP 5.0 and higher versions supports playing video and audio encoded in below formats.
+CEP 5.0及更高版本支持播放以下格式编码的视频和音频。
 
 | Format | MIME-Type  | Misc.                                                    |
 | ------ | ---------- | -------------------------------------------------------- |
@@ -1804,7 +1804,7 @@ CEP 5.0 and higher versions supports playing video and audio encoded in below fo
 | Ogg    | video/ogg  | Ogg files with Theora video codec and Vorbis audio codec |
 | mp3    | audio/mpeg |                                                          |
 
-Here is an example of playing video in your extension:
+这是一个在你的扩展播放视频的例子:
 
 ```
 <video poster="http://www.html5rocks.com/en/tutorials/video/basics/star.png" controls>
@@ -1812,44 +1812,44 @@ Here is an example of playing video in your extension:
 </video>
 ```
 
-One thing to note is that because HTML extensions are hosted in integrating application's windows, video cannot be played in full-screen mode.
+需要注意的是，因为HTML扩展是在集成应用程序窗口中托管的，所以视频不能以全屏模式播放。
 
 ### WebRTC
 
-[WebRTC](http://www.webrtc.org/) is targeting to serve stream audio, video capture, like online video conference. WebRTC is not enabled by default. To enable it, the schema below need to be added in manifest file. For details, refer to Customize CEF command parameters.
+[WebRTC](http://www.webrtc.org/) 的目标是提供流音频、视频捕捉，比如在线视频会议。默认情况下，WebRTC未启用。要启用它，需要将下面的模式添加到manifest文件中。具体操作请参见自定义CEF命令参数。
 
 ```
 <CEFCommandLine> <Parameter>--enable-media-stream</Parameter> </CEFCommandLine>
 ```
 
-For WebRTC related development, CEP runtime just keeps the same experiences as the usage in Chrome. Please refer to [samples](http://www.html5rocks.com/en/tutorials/getusermedia/intro/) for the implementation.
+对于WebRTC相关的开发，CEP运行时只是保持与在Chrome中使用相同的体验。有关实现，请参阅 [简单示例](http://www.html5rocks.com/en/tutorials/getusermedia/intro/) 
 
-### Scroll bar tips
+### 滚动条的建议
 
-On macOS, scroll bars of panel are hidden by OS (since Lion by design). It can be always shown by settings as below. 
+在macOS上，面板的滚动条被OS隐藏(因为Lion设计)。它总是可以通过下面的设置显示。
 
-1. Click the Apple menu at the top-left of the screen, then select System Preferences.
+1. 点击屏幕左上角的Apple菜单，然后选择System Preferences。
 
-2. Next, select the General preferences pane; it’s the very first one, up at the top.
+2. 接下来，选择General preferences窗格;这是最上面的第一个。
 
-3. Under the “Show scroll bars” heading, you’ll find three options: “Automatically based on input device,” “When scrolling,” and “Always.” Chose "Always."
+3. 在“显示滚动条”的标题下，你会发现三个选项:“基于输入设备的自动”、“滚动时”和“始终”。选择“总是”。
 
-### Invisible HTML Extensions
+### 看不见的HTML扩展
 
-An HTML extension can be invisible during its whole life cycle. This means
+一个HTML扩展在其整个生命周期中可以是不可见的。这意味着
 
-- It always runs in the background
-- It is never visible
+- 它总是在后台运行
+- 它永远不可见
 
-To make an HTML extension invisible
+使HTML扩展不可见
 
-- Set extension manifest version to "5.0" or higher.
-- Specify its window type as 'Custom' in the manifest file.
-- Set `<AutoVisible>` to false in the manifest file.
-- If you do not want the extension to appear in the Window->Extensions menu, do not add the `<Menu>` tag.
-- If you want the extension to start on specific types of events, specify those events using `<StartOn>` tag.
+- 将扩展清单版本设置为“5.0”或更高。
+- 在清单文件中将其窗口类型指定为“自定义”。
+- manifestzh中设置 `<AutoVisible>` 为false.
+- 如果你不希望扩展出现在Window->扩展菜单中，不要添加`< menu >`标签。
+- 如果你想要扩展开始特定类型的事件，用 `<StartOn>` 标签配置.
 
-Here is an example:
+这里是一个简单的示例:
 
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -1900,7 +1900,7 @@ Here is an example:
 </ExtensionManifest>
 ```
 
-One important thing to note is that not all host applications support Invisible HTML Extension. See table below for more information:
+需要注意的一件重要的事情是，并不是所有的主机应用程序都支持不可见HTML扩展。更多信息见下表:
 
 | Point Product       | Supports Invisible Extension | Misc.                                                    |
 | ------------------- | ---------------------------- | -------------------------------------------------------- |
@@ -1913,7 +1913,7 @@ One important thing to note is that not all host applications support Invisible 
 | InCopy              | Yes                          | However, as of 2019 you must include a width and height. |
 | Illustrator         | Yes                          |                                                          |
 
-### Customize CEF Command Line Parameters
+### 自定义CEF命令行参数
 
 Chromium/CEF command line parameters can be passed to CEPHtmlEngine, like --enable-media-stream. Available Chromium command line [parameters](http://peter.sh/experiments/chromium-command-line-switches/). 
 
