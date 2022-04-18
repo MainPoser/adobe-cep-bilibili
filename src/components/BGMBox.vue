@@ -107,9 +107,9 @@ export default {
 .box {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color);
+  border: solid 1px var(--el-border-color);
   display: inline-block;
-  width: 20%;
+  width: 18%;
   box-sizing: border-box;
   vertical-align: top;
 }
