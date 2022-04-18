@@ -2,7 +2,7 @@
  
 <ExtensionList>
  
-    <Extension Id="com.tianyao.extension.bilibili">
+    <Extension Id="com.fba.extension.bilibili">
  
         <HostList>
  

@@ -109,7 +109,7 @@ export default {
   text-align: center;
   border: solid 1px var(--el-border-color);
   display: inline-block;
-  width: 18%;
+  width: 17%;
   box-sizing: border-box;
   vertical-align: top;
 }
