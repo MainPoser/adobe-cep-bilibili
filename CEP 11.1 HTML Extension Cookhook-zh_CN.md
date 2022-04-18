@@ -1,33 +1,34 @@
 CEP 11 HTML 扩展说明书
 =============================
 
-Overview
+概述
 --------
 
-This cookbook is a guide to creating CEP 11.1 HTML/JavaScript Extensions for Creative Cloud applications.
-CSXS is the old name before CS6, and CEP (Common Extensibility Platform) is new name from CS6. When we talk about CEP or CSXS, they refer to the same project.
+这是一个创建Abobe Creative Cloud Applications的CEP 11.1 HTML/JavaScript扩展的指南.
+CSXS是CS6之前的旧名称，CEP (Common Extensibility Platform)是CS6的新名称。当我们谈到CEP或CSXS时，它们指的是同一个项目.
 
-### CEP Extensions
+### CEP 扩展
 
-CEP (formerly CSXS) Extensions extend the functionality of the Adobe point products in which they run. Extensions are loaded into applications through the PlugPlug Library architecture.
-Starting from CEP 4.0, HTML/CSS and JavaScript (ECMAScript 5) can be used to develop extensions.
+CEP(以前的CSXS)扩展扩展了运行它们的Adobe产品的功能。通过PlugPlug Library架构将扩展加载到应用程序中。
 
-### Extension Types
+从CEP 4.0开始，HTML/CSS和JavaScript (ECMAScript 5)可以用来开发扩展.
 
-These extension types are supported by CEP. You need to specify an extension's type in its manifest.xml.
+### 扩展类型
+
+CEP支持下面的扩展类型。您需要在扩展的manifest.xml中指定扩展的类型.
 
 - **Panel**
-  - The Panel type behaves like any other application panel. It can be docked, participates in workspaces, has fly-out menus, and is re-opened at start-up if open at shutdown.
+  - Panel类型的行为与任何其他应用程序面板一样。它可以停靠、参与工作区、弹出菜单（人话：比较灵活，主要用的是这种类型的）.
 - **ModalDialog**
-  - A Modal Dialog type opens a new extension window and forces the user to interact only with the extenison window before returning control to the host application. User can interact with host application only after closing extension window.
+  - 模态对话框类型打开一个新的扩展窗口，并强制用户在将控制权返回给宿主应用程序之前只与扩展窗口进行交互。用户只有在关闭扩展窗口后才能与主机应用程序进行交互（人话：扩展打开以后只能和扩展的窗口交互，不能返回宿主程序）.
 - **Modeless**
-  - A Modeless Dialog type opens a new extension window but doesn't force the user to interact with the extension window.
+  - 非模态对话框类型打开一个新的扩展窗口，但不强迫用户与扩展窗口交互（人话：没看懂和ModalDialog的区别）.
 - **Custom (Since CEP 5.0)**
-  - This type is for invisible extensions. An invisible extension remains hidden and never becomes visible during its whole life cycle. Read "Invisible HTML Extensions" for more details.
+  - 这种类型用于不可见的扩展。一个不可见的扩展在其整个生命周期中保持隐藏状态，永远不变为可见（人话：适合一些后台默默执行的工作，不需要和用户交互）.
 
-### Applications Integrated with CEP
+### 与CEP集成的应用
 
-These applications support CEP HTML extensions. (For older applications, [see this chart](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_9.x/Documentation/CEP%209.0%20HTML%20Extension%20Cookbook.md#applications-integrated-with-cep).)
+这些应用程序支持CEP HTML扩展。 (版本更老的应用, [看这里](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_9.x/Documentation/CEP%209.0%20HTML%20Extension%20Cookbook.md#applications-integrated-with-cep).)
 
 | Application   | Host ID   | CC 2019 Version | CC 2020 Version | FY 2020          | FY2021        |
 | ------------- | --------- | --------------- | --------------- | ---------------- | ------------- |
@@ -46,9 +47,9 @@ These applications support CEP HTML extensions. (For older applications, [see th
 
 ---
 
-### Chromium Embedded Framework (CEF)
+### 谷歌嵌入式框架 (CEF)
 
-CEP HTML engine is based on Chromium Embedded Framework version 3 (CEF3). You can find more information about CEF [here](http://code.google.com/p/chromiumembedded/). Here are the versions used in CEP:
+CEP HTML引擎是基于Chromium嵌入式框架版本3 (CEF3)的. 你可以在 [这里](http://code.google.com/p/chromiumembedded/)找到更多关于CEF的信息。以下是CEP中使用的版本:
 
 | Component            | CEP 9.0                    | CEP 10.0                  | CEP 11.1                    |
 | -------------------- | -------------------------- | ------------------------- | --------------------------- |
@@ -60,38 +61,37 @@ CEP HTML engine is based on Chromium Embedded Framework version 3 (CEF3). You ca
 
 ---
 
-### Browser Features supported by CEP
+### CEP支持的浏览器功能
 
 #### HTTP Cookie
 
-CEP supports two kinds of cookies:
+CEP 支持两种cookie:
 
-- Session Cookies - Temporary in-memory cookie which will expire and disappear when user closes extension
-- Persistent Cookies - No expiry date or validity interval, stored in user's file system
+- Session Cookies - 临时内存cookie，当用户关闭扩展时将会失效或消失
+- Persistent Cookies - 没有过期日期或有效期，存储在用户的文件系统
 
-Persistent Cookies location:
+Persistent Cookies 位置:
 
      - Windows: `C:\Users\<USERNAME>\AppData\Local\Temp\cep_cache\`
      - macOS: `/Users/<USERNAME>/Library/Caches/CSXS/cep_cache/`
 
-Each persistent cookie is a file. File name is HostID_HostVersion_ExtensionName, such as PHXS_15.0.0_com.adobe.extension1.
+每个 persistent cookie 都是一个文件. 文件名为“HostID_HostVersion_ExtensionName”，例如“PHXS_15.0.0_com.adobe.extension1”.
 
-Development and Debugging
+开发和调试
 -------------------------
 
-### Migration from CEP 10 to CEP 11
+### 从CEP 10迁移到CEP 11
 
-1. Update the Node Modules: CEP 11 works with NodeJS 15.9.0 and Node-WebKit 0.50.1 versions. If extensions were build on older version of NodeJS there can be cases where these extensions may not load in CEP 11 due to incompatible node modules. In such cases, the node modules need to be updated using NodeJS version 15.9.0 or higher.
+1. 更新 Node Modules: CEP 11 基于 NodeJS 15.9.0 和Node-WebKit 0.50.1 版本. 如果扩展是在旧版本的NodeJS上构建的，那么可能会因为不兼容的节点模块而导致这些扩展无法在CEP 11中加载。在这种情况下，Node Modules需要使用NodeJS 15.9.0或更高版本进行更新.
 
-2. Content-Security-Policy Changes: With CEP 11.1 that integrates CEF #88, content-security-policy checks have been enforced strictly. Extensions that embed third-party sites may not be able to do so anymore if the site that is being embedded has a content-security-policy directive that doesn't allow sites to frame them. Refer [Known issues](./Issues.md) for few such scenarios and possible temporary workarounds.
+2. Content-Security-Policy Changes:  CEP 11.1 集成了 CEF #88, content-security-policy checks 已经被严格执行. 如果被嵌入的站点有一个 content-security-policy指令，不允许站点对其进行框架化，那么嵌入第三方站点的扩展就不能再这样做了。 请参阅 [已知问题](./Issues.md) 了解一些此类场景和可能的临时工作区。.
 
-3. Cookies: With #CEF v88 version, we have seen that when no SameSite attribute is set in a cookie, it defaults to SameSite=Lax. This will cause the cookie to be blocked in cross-site contexts. If your application needs cookies to be used in a cross-site context, we suggest you set SameSite=None.If component is not sending `SameSite` attribute in the cookie it would default to `SameSite=Lax` for preventing to set the cookie in cross-site context. 
+3. Cookies:  #CEF v88 版本中, 我们已经看到，当cookie中没有设置SameSite属性时，默认为SameSite=Lax。这将导致cookie在跨站点上下文中被阻塞。如果您的应用程序需要在跨站点环境中使用cookie，我们建议您设置SameSite=None。如果组件没有在cookie中发送' SameSite '属性，它将默认为' SameSite=Lax '，以防止在跨站点环境中设置cookie. 
    
    - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie 
-   
    - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
      
-     Note: as per a [temporary workaround](https://www.chromium.org/administrators/policy-list-3/cookie-legacy-samesite-policies) provided by CEF, the following option can be added in manifest `--disable-features=SameSiteByDefaultCookies`. Example:
+     注意:根据CEF提供的一个 [临时方案](https://www.chromium.org/administrators/policy-list-3/cookie-legacy-samesite-policies) , 下面的选项可以添加在manifest '--disable-features=SameSiteByDefaultCookies '中。例子:
      ```
      <CEFCommandLine>
    + <Parameter>--disable-features=SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure,NetworkService</Parameter>
@@ -103,11 +103,11 @@ Development and Debugging
      </CEFCommandLine>
      ```
      
-     Note: `NetworkService` needs to be added to provide backward compatibility with CEP 10.
+     注意:需要添加' NetworkService '来提供与CEP 10的向后兼容性。
 
-4. CORS checks: With CEP 11, with security updates, we are seeing that a lot more requests are being blocked by CORS checks. The extension may encounter this if it is trying to access an endpoint that does not have the Access-Control-Allow-Origin header. Please ensure that the endpoints that are being accessed have Access-Control-Allow-Origin headers set appropriately.
+4. CORS 跨域检查:  CEP 11中, 有了安全更新，我们看到更多的请求被CORS检查阻止。如果扩展试图访问没有access - control - allow - origin报头的服务端或者接口，则可能会遇到这种情况。请确保被访问的端点有适当设置的Access-Control-Allow-Origin头.
 
-Also Refer [Known issues](./Issues.md) in CEP 11
+也可以参考CEP 11中的 [已知问题](./Issues.md)
 
 ### Migration from CEP 9 to CEP 10
 
@@ -237,20 +237,20 @@ require(__dirname + "/js/lib/jquery.js");
 CEP will have multiple contexts defined at the start. Following are the default contexts:
 
 1. **Browser Context**
-
+   
     This is the default JS context associated with CEP's browser engine. Apart from Browser objects, CEP's file system APIs are accessed in this context.
 
 2. **Native Context**
-
+   
      This is extended context through "cep" object to provide file system access via CSInterface.js.
 
 3. **Node Context** (When nodejs is enabled through --enable-nodejs command line switch)
-
+   
         1. Separate Context
         2. Mixed Context
 
 4. **Host app context**
-
+   
     This is the context which would be accessed through evalscript API.
 
 ------------------------------------------------------------------------------------------------------
@@ -323,36 +323,36 @@ Following representation provides visual context
 </html>
 ```
 
-### Development Machine Setup
+### 开发机器设置
 
-CEP HTML Extensions can be developed on both Windows and macOS platforms. The development machine needs to have the following applications in order to successfully develop CSXS extensions:
+CEP HTML Extensions 可以在Windows和macOS平台上开发。为了成功地开发CSXS扩展，开发机器需要有以下应用程序:
 
-- Adobe Creative Cloud applications supporting CEP HTML extensions.
-- HTML Extension Builder (Nice to have, but not mandatory).
-- Adobe ExtendScript Tool Kit (This is available as an optional install). 
-- Chrome browser for debug workflow.
+- 支持CEP HTML扩展的Adobe Creative Cloud Applications（人话：就是PR、PS、AE这些软件）.
+- HTML Extension Builder (人话：写代码的，那个方便用哪个，我用webstorm).
+- Adobe ExtendScript Tool Kit (人话：用来调试扩展插件的，好久没更新了，不建议用). 
+- 谷歌浏览器，用来调试插件的（人话：就类似浏览器的f12，能看到js、html等）.
 
 ### HTML Extension Builder
 
-HTML Extension Builder is a tool set built on top of Eclipse and can be used for developing and debugging HTML extensions. Please download the Extension Builder 3 from [here](http://labs.adobe.com/technologies/extensionbuilder3/).
+HTML Extension Builder是一个构建在Eclipse之上的工具集，可以用于开发和调试HTML扩展. 请从[这里](http://labs.adobe.com/technologies/extensionbuilder3/)下载 Extension Builder 3 .
 
-### Signing extensions
+### 签名扩展（听说要花钱，下个小节有不签名也能用的方法）
 
-- Before you sign the extensions, you need to get or create the certificate file. Configurator and Adobe Exchange Packer can create certificates. Developers can get all information [here](https://www.adobeexchange.com/resources/7) after logging in.
-- Three tools can be used to sign a HTML extension.
+- 在对扩展名进行签名之前，需要获取或创建证书文件. Configurator和Adobe Exchange Packer 可以创建证书. 开发人员登录后可以在[这里](https://www.adobeexchange.com/resources/7)获得所有信息  .
+- 有三种工具可以用来为HTML扩展签名.
 - [Extension Builder 3](http://labs.adobe.com/downloads/extensionbuilder3.html)
 - CC Extensions Signing Toolkit (also on above labs web site)
   - Example of using CC Extension signing toolkit: ccextensionswin64.exe -sign "d:\Adobe Layer Namer\Adobe Layer Namer\"*(input extension path)* d:\AdobeLayerNamer.zxp *(output zxp path)* d:\sign.p12 *(certificate path)* 1 *(certificate password)* Adobe Exchange Packer (please sign in so that you can see it.)
 - [Adobe Exchange Packer](http://www.adobeexchange.com/resources) (please sign in so that you can see it.)
 
-### Debugging Unsigned Extensions
+### 调试没有签名的扩展
 
-If you are in the midst of development and are not using HTML Extension Builder for debug workflows and want to bypass the need to sign your extensions, you can bypass the check for extension signatures by editing the CSXS preference properties file, located at:
+如果您正在开发过程中，没有使用HTML Extension Builder进行调试工作流程，并且希望绕过对扩展名进行签名的需要，那么您可以通过编辑位于CSXS首选项属性文件来绕过对扩展名签名的检查:
 
-- Win: regedit > HKEY_CURRENT_USER/Software/Adobe/CSXS.11, then add a new entry PlayerDebugMode of type "string" with the value of "1".
-- macOS: In the terminal, type: `defaults write com.adobe.CSXS.11 PlayerDebugMode 1` (The plist is also located at /Users/`<username>`/Library/Preferences/com.adobe.CSXS.11.plist)
+- Win: regedit > HKEY_CURRENT_USER/Software/Adobe/CSXS.11, 然后添加一个新的字符串项 PlayerDebugMode 将值设置为 "1".
+- macOS: 在终端中, 输入: `defaults write com.adobe.CSXS.11 PlayerDebugMode 1` (The plist is also located at /Users/`<username>`/Library/Preferences/com.adobe.CSXS.11.plist)
 
-These entries will enable debug extensions to be displayed in the host applications. Please note that, CSXS.11 is given with the assumption that, you are developing the extension for CEP 11. If you are developing extension for previous version of CEP, replace 11 with corresponding version number.
+这些配置将使调试扩展可以显示在主机应用程序中。请注意，CSXS.11是在假定您正在为CEP 11开发扩展的情况下给出的。如果您正在为以前的CEP版本开发扩展，请将11替换为相应的版本号.
 
 #### Special notes for macOS 10.9 and higher
 
@@ -363,16 +363,16 @@ Staring with macOS 10.9, Apple introduced a caching mechanism for plist files. Y
 - Restart your macOS, or log out the current user and re-log in.
 - [More Information](http://hints.macworld.com/article.php?story=20130908042828630)
 
-### Remote Debugging
+### 远程调试
 
-CEP supports remote debugging for HTML extensions from 5.0.
+CEP 支持HTML 5.0的远程调试.
 
-- Create a “.debug” file to the extension root directory such as `Test_Extension\.debug`. The .debug file contains remote debug ports. Developers must create this file and use valid debug ports because both remote debugging and dev tools are based on it.
-- ".debug" file name is special for both Windows and macOS platforms, it has to be created via command line. 
-  - On Windows, use "copy con .debug" and "Ctrl+Z" to create an empty file.
-  - On macOS, use "touch .debug" to create an empty file.
-- The value of Port should be between 1024 and 65535 (not include 65535), otherwise remote debugging and dev tools will not work.
-- One extension bundle may have multiple extensions. The .debug file can specify debug ports for each extension. Here is an example file:
+- 在扩展根目录下创建一个“.debug”文件，例如“Test_Extension\\.debug”。debug文件包含远程调试端口。开发人员必须创建这个文件并使用有效的调试端口，因为远程调试和开发工具都基于它.
+- ".debug"文件名对于Windows和macOS平台都是特殊的，它必须通过命令行创建. 
+  - 在Windows上，使用“copy con .debug”和“Ctrl+Z”创建一个空文件
+  - 在macOS上，使用"touch .debug"创建一个空文件
+- 端口的取值应在1024 ~ 65535之间(不包括65535)，否则无法使用远程调试和开发工具.
+- 一个扩展包可能有多个扩展。debug文件可以为每个扩展指定调试端口。下面是一个示例文件:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -428,125 +428,128 @@ CEP supports remote debugging for HTML extensions from 5.0.
 </ExtensionList>
 ```
 
-If you load an extension whose debug port is 8088,  you can load the debugger through http://localhost:8088/ on Chrome.
+如果加载调试端口为8088的扩展，可以通过Chrome浏览器的http://localhost:8088/加载调试器.
 
-### Where are the Log Files
+### 日志文件在哪里
 
-#### PlugPlug Logs
+#### PlugPlug 日志
 
-Log files with useful debugging information are created for each of the applications supporting CEP extensions. The platform-specific locations for the log files are as follows:
+为每个支持CEP扩展的应用程序创建带有有用调试信息的日志文件。日志文件的平台特定位置如下所示:
 
 - Win: `C:\Users\<USERNAME>\AppData\Local\Temp`
 - macOS: `/Users/<USERNAME>/Library/Logs/CSXS`
 
-These files are generated with the following naming conventions:
+这些文件是按照以下命名约定生成的:
 
-- CEP 4.0 - 6.0 releases: csxs`<versionNumber>`-`<HostID>`.log. For example, PlugPlug in Illustrator generates log file csxs8-ILST.log.
-- CEP 6.1 and later releases: CEP`<versionNumber>`-`<HostID>`.log. For example, PlugPlug in Illustrator generates log file CEP8-ILST.log.
+- CEP 4.0 - 6.0 版本: csxs`<versionNumber>`-`<HostID>`.log。例如, Illustrator软件中日志文件就是 csxs8-ILST.log.
 
-Logging levels can be modified as per the following levels:
+- CEP 6.1 或者更高版本: CEP`<versionNumber>`-`<HostID>`.log.。例如, Illustrator 软件中就是 CEP8-ILST.log.
 
-- 0 - Off (No logs are generated)
-- 1 - Error (the default logging value)
+日志级别可以按照以下级别进行修改:
+
+- 0 - Off (无日志产生)
+- 1 - Error (默认日志记录值)
 - 2 - Warn
 - 3 - Info
 - 4 - Debug
 - 5 - Trace
 - 6 - All
 
-The **LogLevel** key can be updated at the following location (The application should be restarted for the log level changes to take effect):
+**LogLevel**可以在以下位置更新(为了使日志级别的更改生效，应该重新启动应用程序):
 
 - Win: `regedit > HKEY_CURRENT_USER/Software/Adobe/CSXS.11`
 - macOS: `/Users/<USERNAME>/Library/Preferences/com.adobe.CSXS.11.plist`
 
-For example of macOS, in the terminal do:
+例如在macOS中，在终端中执行:
 
     defaults write com.adobe.CSXS.11 LogLevel 6
 
-Please note that, higher the log level will make the extension loading time slower.
+请注意，日志级别越高，加载扩展的时间越慢.
 
-#### CEPHtmlEngine Logs
+#### CEPHtmlEngine 日志
 
-In CEP 6.1 and later releases, CEPHtmlEngine generates logs. Each CEPHtmlEngine instance usually generate two log files, one for browser process, the other for renderer process.
-These files are generated with the following naming conventions:
+在CEP 6.1及以后的版本中，CEPHtmlEngine会产生日志。每个CEPHtmlEngine实例通常生成两个日志文件，一个用于浏览器进程，另一个用于呈现程序进程.
+这些文件是按照以下命名约定生成的:
 
 - Browser process: CEPHtmlEngine`<versionNumber>`-`<HostID>`-`<HostVersion>`-`<ExtensionID>`.log
 - Renderer process: CEPHtmlEngine`<versionNumber>`-`<HostID>`-`<HostVersion>`-`<ExtensionID>`-renderer.log
 
-For example:
+例如:
 
 - CEPHtmlEngine8-PHXS-18.1.1-com.adobe.DesignLibraries.angular.log
 - CEPHtmlEngine8-PHXS-18.1.1-com.adobe.DesignLibraries.angular-renderer.log
 
-They are also controlled by the PlugPlug log level.
+它们还由PlugPlug日志级别控制.
 
-#### CEF Log
+#### CEF 日志
 
-In CEP 4.0 - 6.0, the Chromium Embedded Framework (CEF) in CEPHtmlEngine also generates a log:
+在CEP 4.0 - 6.0中，CEPHtmlEngine中的CEF也会生成日志:
 
 - Win: `C:\Users\<USERNAME>\AppData\Local\Temp\cef_debug.log`
 - macOS: `/Users/<USERNAME>/Library/Logs/CSXS/cef_debug.log`
 
-In CEP 6.1 and later releases, this log is merged into CEPHtmlEngine log.
+在CEP 6.1和以后的版本中，该日志被合并到CEPHtmlEngine日志中.
 
-### Extension Folders
+### 扩展文件夹
 
-CEP supports 3 types of extension folders.
+CEP支持3种类型的扩展文件夹
 
-- Product extension folder. Here is a suggestion, but each point product can decide where this folder should be. Third party extension can't be installed at this location.
+- 指定应用的扩展文件夹。这是一个建议，但每个产品可以设置这个文件夹应该在哪里。无法在此位置安装第三方扩展.
+  
+  - ${PP}/CEP/extensions (PPs may use different folder.)
 
-     - ${PP}/CEP/extensions (PPs may use different folder.)
-
-- System extension folder
+- 系统扩展文件夹
+  
   - Win(x64): `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions`, and `C:\Program Files\Common Files\Adobe\CEP\extensions` (since CEP 6.1)
   - macOS: `/Library/Application Support/Adobe/CEP/extensions`
 
-- Per-user extension folder 
+- 每个用户扩展文件夹
+  
   - Win: `C:\Users\<USERNAME>\AppData\Roaming\Adobe\CEP/extensions`
   - macOS: `~/Library/Application Support/Adobe/CEP/extensions`
 
-How does CEP decide which extension to load?
+CEP如何决定加载哪个扩展?
 
-- CEP first searches the product extension folder, then the system extension folder, and finally per-user extension folder.
-- Extensions without an appropriate host application ID and version are filtered out.
-- If two extensions have same extension bundle ID, the one with higher version is loaded.
-- If two extensions have same extension bundle ID and same version, the one whose manifest file has latest modification date is loaded.
-- If two extensions have same extension bundle ID, same version and same manifest modification date, CEP loads the first one that is found.
+- CEP首先搜索产品扩展文件夹，然后是系统扩展文件夹，最后是每个用户扩展文件夹。
+- 没有适当的主机应用程序ID和版本的扩展将被过滤掉。
+- 如果两个扩展具有相同的扩展包ID，则加载版本更高的那个。
+- 如果两个扩展具有相同的扩展包ID和版本，则加载manifest文件具有最新修改日期的那个。
+- 如果两个扩展具有相同的扩展包ID、相同的版本和相同的清单修改日期，CEP将加载找到的第一个扩展包。
 
-Extension Installation:
+扩展安装:
 
-- Host application installers should install extensions to product extension folder.
-- Extensions installed through https://creative.adobe.com/addons should get install at system extension folder or per-user extension folder.
+- 主机应用程序安装程序应该将扩展名安装到产品扩展名文件夹。
+- 通过https://creative.adobe.com/addons安装的扩展应该安装在系统扩展文件夹或每个用户扩展文件夹。
 
-Note:
+注意:
 
-- Character '#' is not allowed in extension folder path on both Windows
-  and Mac OSX, since CEF treats '#' as a delimiter.
+- 字符“#”不允许出现在Windows上和Mac OSX的扩展文件夹路径中，因为CEF将“#”作为分隔符。
 
 ### CEP HTML Test Extensions
 
-CEP provides some sample extensions for extension developers. Get its source code from:
+CEP为扩展开发人员提供了一些示例扩展。获取它的源代码:
 https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_10.x/Samples
 
 ### Extension Manifest
 
-The manifest.xml file is required for every extension and provides the necessary information to configure a CEP extension. `ExtensionManifest` is the root element of the manifest.xml file. `Extensions`, `ExtensionList`, and `DispatchList` are the three child elements of the `ExtensionManifest` root element.
+xml文件是每个扩展所必需的，它提供了配置CEP扩展所需的信息。' ExtensionManifest '是manifest.xml文件的根元素。' Extensions '， ' ExtensionList '和' DispatchList '是' ExtensionManifest '根元素的三个子元素。
 
 #### Extension Manifest XSD
 
-All HTML extensions must use 5.0 or above version. Get XSD from the GitHub repo:
-https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_7.x (No elements change from CEP 7)
+所有HTML扩展必须使用5.0或以上版本。从GitHub中获取XSD:
 
-To check if the extension's manifest is in sync with the latest schema, perform the following steps:
+https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_7.x(从CEP 7没有改变元素)
 
-1. Download the latest schema (ExtensionManifest_`<version>`.xsd). Please note that, schema is not changed in CEP 8, so refer to https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_7.x/ExtensionManifest_v_7_0.xsd for CEP 8 and 9 as well.
+要检查扩展的manifest是否与最新的schema同步，请执行以下步骤:
+
+1. 下载最新的schema(ExtensionManifest_ ' <version> ' .xsd)。请注意，schema在CEP 8中没有改变, so refer to https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_7.x/ExtensionManifest_v_7_0.xsd for CEP 8 and 9 as well.
 2. Navigate [here](http://tools.decisionsoft.com/schemaValidate/)
-3. Upload the schema and your latest ExtensionManifest (from a real build to check the validity of the versions).
+3. 上传schema和您最新的ExtensionManifest(从真实的构建中检查版本的有效性).
 4. Hit validate
 
-#### Important Manifest Change for CEP 5.0 Extensions
+#### CEP 5.0 扩展中Manifest重要更改
 
-Make sure correct point product versions are used. Here is an example.
+确保使用正确的子产品版本。举个例子
 
 ```
 <HostList>
@@ -555,7 +558,7 @@ Make sure correct point product versions are used. Here is an example.
 </HostList>
 ```
 
-This will support Photoshop version 15.0 up to, and including, 15.9. If you use the following syntax then you are supporting releases up to 15.9 but not including 15.9
+这将支持Photoshop 15.0到包括15.9的版本。如果您使用以下语法，那么您支持的版本最多为15.9，但不包括15.9
 
 ```
 <HostList>
@@ -564,7 +567,7 @@ This will support Photoshop version 15.0 up to, and including, 15.9. If you use 
 </HostList>
 ```
 
-Make sure correct CEP version is used.
+确保使用正确的CEP版本。
 
 ```
 <RequiredRuntimeList>
@@ -572,9 +575,9 @@ Make sure correct CEP version is used.
 </RequiredRuntimeList>
 ```
 
-#### Important Manifest Change for CEP 7.0 Extensions
+#### CEP 7.0 扩展中Manifest重要更改
 
-CEP 7.0 manifest files now support the use of a `HostList` specific to an extension in the bundle. For example, the following qualifies as the "default" `HostList`:
+CEP 7.0清单文件现在支持使用特定于包中的扩展的“HostList”。例如，以下是“默认”的“HostList”:
 
 ```
 ...
@@ -600,7 +603,7 @@ CEP 7.0 manifest files now support the use of a `HostList` specific to an extens
 ...
 ```
 
-However, you can also specify a custom `HostList` on a per extension basis as in the following example:
+但是，你也可以在每个扩展基础上指定一个自定义的“HostList”，如下所示
 
 ```
 ...
@@ -619,13 +622,13 @@ However, you can also specify a custom `HostList` on a per extension basis as in
 </DispatchInfoList>
 ```
 
-`HostLists` specified under extension tags will override the default `HostList` specified under the execution environment tag. It is important to note that adding `HostList` nodes with no child nodes is akin to turning that particular extension off for all host applications; this behavior is intentional. Please refrain from specifying both `HostList` tags and `Host` attributes in `DispatchInfo` tags for each extension; choose one or the other. Specifying both will more than likely result in unexpected behavior. The `Host` attribute is only maintained for backward compatibility. New extensions should use `HostList` tags, not the Host attribute.
+在扩展标签下指定的`HostList`将覆盖在执行环境标签下指定的默认`HostList`。需要注意的是，添加没有子节点的`HostList`节点类似于关闭所有主机应用程序的特定扩展;这种行为是有意的。请避免在每个扩展的`DispatchInfo `标签中同时指定`HostList`标签和`Host `属性;选择一个或另一个。同时指定两者很可能会导致意外行为。` Host`属性只用于向后兼容。新的扩展应该使用`HostList`标签，而不是Host属性。
 
-#### Extension Size
+#### 扩展大小
 
-You can specify extension size, max size and min size in extension manifest. Size is mandatory; max size and min size are optional.
+您可以在扩展清单中指定扩展大小、最大大小和最小大小。大小是强制性的;最大大小和最小大小是可选的。
 
-A modal or modeless dialog is resizable if there are different max and min size, otherwise it is un-resizable. When you move mouse pointer over dialog border, CEP shows different cursor for resizable and un-resizable dialogs.
+如果最大和最小大小不同，模态或非模态对话框是可调整的，否则是不可调整的。当您将鼠标指针移动到对话框边界上时，CEP将为可调整大小和不可调整大小的对话框显示不同的光标。
 
 ```
 <Geometry>
@@ -644,9 +647,9 @@ A modal or modeless dialog is resizable if there are different max and min size,
 </Geometry>
 ```
 
-#### Customize Extension Menu
+#### 自定义扩展菜单
 
-This is only supported in InDesign and InCopy.
+这只在InDesign和InCopy中支持。
 
 You can customize the extension menu by editing `<menu/>` item in manifest. Here is an example. In this example, the Adobe Add-ons extension is displayed under Windows main menu, rather than extensions menu under Windows. You can customize the location of extension to somewhere else by changing the value of attribute Placement in `<menu/>` item.
 
@@ -671,9 +674,9 @@ You can customize the extension menu by editing `<menu/>` item in manifest. Here
 ...
 ```
 
-#### High DPI Panel Icons
+#### 高DPI面板图标
 
-In high DPI display mode, panel extensions may want to use high DPI icons. You set these icons in extension's manifest.
+在高DPI显示模式下，面板扩展可能希望使用高DPI图标。您可以在扩展的清单中设置这些图标。
 
 ```
 <Icons>
@@ -684,20 +687,20 @@ In high DPI display mode, panel extensions may want to use high DPI icons. You s
 </Icons>
 ```
 
-You pack both normal icon files (IconLight.png and IconDark.png) and high DPI icon files (IconLight@2X.png and IconDark@2X.png) in your extension.
+你可以在你的扩展包中同时包含普通图标文件(IconLight.png和IconDark.png)和高DPI图标文件(IconLight@2X.png和IconDark@2X.png)。
 
-Host applications will be able to find and use
+主机应用程序将能够查找和使用
 
-- IconLight.png and IconDark.png for normal display
-- IconLight@2X.png and IconDark@2X.png for 200% high DPI display
+- IconLight.png和IconDark.png用于正常显示
+- IconLight@2X.png和IconDark@2X.png的200%高DPI显示
 
-@2X.ext is the industry standard. Please see more details on https://developer.apple.com/library/ios/qa/qa1686/_index.html.
+是行业标准。请参阅更多细节https://developer.apple.com/library/ios/qa/qa1686/_index.html.
 
-Note: Photoshop supports _x2.ext format.
+注意:Photoshop支持_x2.ext 格式.
 
-#### Dialog Size based on Screen Size
+#### 对话框大小基于屏幕大小
 
-You can specify CEP dialog size as a percentage of screen size. Here is an example.
+您可以指定CEP对话框大小为屏幕大小的百分比。举个例子。
 
 ```
 <UI>
@@ -713,11 +716,11 @@ You can specify CEP dialog size as a percentage of screen size. Here is an examp
 </UI>
 ```
 
-### Shortcut Keys for HTML Extensions
+### HTML扩展的快捷键
 
 (Since 5.2)
 
-CEP 5.2 supports shortcut keys for HTML extensions. When focus is on HTML extensions, these shortcut keys are handled by extension. 
+CEP 5.2支持HTML扩展的快捷键。当关注HTML扩展时，这些快捷键由扩展来处理。
 
 | Windows Keys | macOS Keys  | Function   |
 | ------------ | ----------- | ---------- |
@@ -726,37 +729,37 @@ CEP 5.2 supports shortcut keys for HTML extensions. When focus is on HTML extens
 | Ctrl + V     | Command + V | Paste      |
 | Ctrl + X     | Command + X | Cut        |
 
-Other shortcut keys are handled by point products, such as pressing Ctrl + N to create a new document.
+其他快捷键由点产品处理，如按Ctrl + N创建新文档。
 
-CEP JavaScript Programming
+CEP JavaScript编程
 --------------------------
 
-### CEP JavaScript Libraries
+###CEP JavaScript库
 
-CEP JavaScript Libraries are counterparts of the Flex CSXS Library. They provide JavaScript APIs to access application and CEP information. 
+CEP JavaScript库是Flex CSXS库的对应版本。它们提供JavaScript api来访问应用程序和CEP信息。
 
 - CSInterface.js
 - Vulcan.js
 
-Get them from: https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_10.x
+从这里下载: https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_10.x
 
-To use them, please include these JavaScript files in your HTML extension.
+要使用它们，请在您的HTML扩展中包含这些JavaScript文件。
 
 #### API version
 
-The CEP JavaScript APIs keep changing in each new CEP release. The changes are guaranteed to be backward compatible. For newly added APIs, a version tag like "Since x.x.x" is added to its API comments indicating since which CEP version the APIs is available.
+CEP JavaScript api在每个CEP新版本中都在不断变化。这些更改保证是向后兼容的。对于新添加的API，会在其API注释中添加类似`Since x.x.x`的版本标记，表示该API从哪个CEP版本开始可用。
 
-You will need to check the version tag against the version of CEP integrated by the Adobe Product you are using to make sure the API you want to use is available. To do so, use `CSInterface.getCurrentApiVersion()` to retrieve the version of CEP integrated by the Adobe Product. Please note this API itself is available only since 4.2.0. If you get an error saying `getCurrentApiVersion` is undefined, then you are running in CEP 4.0 or 4.1. Otherwise, the value returned will tell you the version of CEP integrated by the Adobe product.
+您需要根据您正在使用的Adobe产品集成的CEP版本检查版本标记，以确保您想要使用的API可用。为此，使用`CSInterface.getCurrentApiVersion()`来检索由Adobe产品集成的CEP版本。请注意，这个API本身只在4.2.0之后可用。如果你得到一个错误，说`getCurrentApiVersion`是未定义的，那么你是运行在CEP 4.0或4.1。否则，返回的值将告诉您Adobe产品集成的CEP的版本。
 
-#### CEP Events
+#### CEP事件
 
-CEP supports sending and receiving events within an extension, among extensions in an application, and among extensions in different applications. Since all extensions are based on the common communication layer with the same event data format, they can communicate with each other through CEP events, and even they can communicate with native side as long as point products invoke `PlugPlugAddEventListener/PlugPlugDispatchEvent` accordingly.
+CEP支持在扩展内、应用程序中的扩展之间以及不同应用程序中的扩展之间发送和接收事件。由于所有的扩展都基于具有相同事件数据格式的公共通信层，它们可以通过CEP事件相互通信，甚至可以与本机端通信，只要产品相应调用`PlugPlugAddEventListener/PlugPlugDispatchEvent `。
 
-There are `dispatchEvent/addEventListener/removeEventListener` APIs available in JavaScript to dispatch and listen for events. Let's go through CEP event data format/structure, APIs to dispatch and listen event, and sample code snippet accordingly in JavaScript.
+JavaScript中有`dispatchEvent/addEventListener/removeEventListener `api来分派和监听事件。让我们来了解一下CEP事件数据格式/结构、用于分派和监听事件的api，以及相应的JavaScript示例代码片段。
 
 ##### CSEvent
 
-In terms of CSEvent, it just means CEP Event here. The data structure of CSEvent (CEP Event) is as below.
+CSEvent的意思是CEP事件。CSEvent (CEP Event)的数据结构如下。
 
 ```
 /**
@@ -779,15 +782,15 @@ function CSEvent(type, scope, appId, extensionId)
 };
 ```
 
-You could create a `CSEvent` object and dispatch it by using `CSInterface.dispatchEvent`. Also you could access its property in your callback of `CSInterface.addEventListener`. Refer to the section `addEventListener/dispatchEvent` below for more details.
+你可以创建一个 `CSEvent` object 然后通过 `CSInterface.dispatchEvent` 分发这个事件. 你也可以在 `CSInterface.addEventListener` 的回调函数中访问它的属性. 请参阅下面的 `addEventListener/dispatchEvent` 部分了解更多细节。
 
-##### Listen for and Dispatch CSEvent
+##### 监听和分发CSEvent
 
-`dispatchEvent/addEventListener/removeEventListener` APIs are available in JavaScript world to dispatch and listen for CSEvent.
+在JavaScript上下文中可以使用`dispatchEvent/addEventListener/removeEventListener` api来分派和监听CSEvent。
 
 ###### addEventListener
 
-Here is the definition for addEventListener. Refer to CSInterface.js for more information:
+下面是addEventListener的定义。更多信息请参考CSInterface.js:
 
 ```
  /**
@@ -803,9 +806,9 @@ Here is the definition for addEventListener. Refer to CSInterface.js for more in
 CSInterface.prototype.addEventListener = function(type, listener, obj)
 ```
 
-One thing needs to be mentioned here is both named and anonymous callback functions are supported in CSInterface.addEventListener.
+这里需要提到的一件事是，CSInterface.addEventListener支持命名和匿名回调函数。
 
-* An example of how to use named callback function in `CSInterface.addEventListener`.
+* 在`CSInterface.addEventListener`使用命名回调函数的示例.
 
 ```
 function callback(event)
@@ -817,8 +820,8 @@ var csInterface = new CSInterface();
 csInterface.addEventListener(“com.adobe.cep.test”, callback); //invoke the function
 ```
 
-- An example of how to use anonymous callback function in
-  `CSInterface.addEventListener`.
+- 一个如何在`CSInterface.addEventListener`使用匿名回调函数的例子
+  
 
 ```
 var csInterface = new CSInterface();
@@ -829,10 +832,11 @@ csInterface.addEventListener(“com.adobe.cep.test”, function (event)
 ); // Anonymous function is the second parameter
 ```
 
-The event.data can be an object (i.e. you could use an object as event.data). 
+event.data可以是一个对象(例如，你可以使用一个对象作为event.data)。
 
-Before CEP 6.1, we regarded every attribute in event.data object as a regular string, but from CEP 6.1, we revised the behavior that keep the type of each attribute in event.data as it was. If the value is a valid JSON string, CEP will parse it natively and convert it to an object.
-Here is an example on how to use it.
+在CEP 6.1之前，我们考虑了事件中的每一个属性。数据对象作为常规字符串，但从CEP 6.1开始，我们修改了在事件中保留每个属性类型的行为。数据就是数据。如果值是一个有效的JSON字符串，CEP将原生解析它并将其转换为一个对象。
+
+这里有一个如何使用它的例子。
 
 ```
 var csInterface = new CSInterface();
@@ -844,9 +848,9 @@ csInterface.addEventListener(“com.adobe.cep.test”, function (event)
 ); // Anonymous function is the second parameter
 ```
 
-###### dispatchEvent
+###### 分发事件
 
-Here is the definition for `CSInterface.dispatchEvent`. Refer to `CSInterface.js` for more details.
+这里有一个 `CSInterface.dispatchEvent` 定义.查阅 `CSInterface.js` 了解更多细节。
 
 ```javascript
 /**
@@ -858,9 +862,9 @@ Here is the definition for `CSInterface.dispatchEvent`. Refer to `CSInterface.js
 CSInterface.prototype.dispatchEvent = function(event)
 ```
 
-Here are three samples to demonstrate how to dispatch an event in JavaScript.
+下面是三个示例，演示如何在JavaScript中分派事件。
 
-- An example of how to dispatch event in JavaScript.
+- 一个如何在JavaScript中分派事件的示例。
   
   ```
   var csInterface = new CSInterface();
@@ -868,7 +872,8 @@ Here are three samples to demonstrate how to dispatch an event in JavaScript.
   event.data = "This is a test!";
   cSInterface.dispatchEvent(event);
   ```
-- Another example of creating event object and setting property, then dispatch it. 
+
+- 另一个创建事件对象和设置属性，然后分派它的例子。
   
   ```
   var csInterface = new CSInterface();
@@ -878,7 +883,8 @@ Here are three samples to demonstrate how to dispatch an event in JavaScript.
   event.data = "This is a test!";
   cSInterface.dispatchEvent(event);
   ```
-- An example of dispatching an event whose data is an object.
+
+- 分发事件数据为对象的事件的示例。
   
   ```
   var event = new CSEvent("com.adobe.cep.test", "APPLICATION");
@@ -889,11 +895,13 @@ Here are three samples to demonstrate how to dispatch an event in JavaScript.
   cSInterface.dispatchEvent(event);
   ```
   
-  ##### Communication between Native Point Product and CEP extensions
+  ##### Native Point Product和CEP扩展之间的通信
   
-  CEP event based communication between native point product and CEP extensions is simple. You can use `PlugPlugAddEventListener/PlugPlugDispatchEvent` to communicate with CEP extensions.
-  Please refer the following steps:
-  First, define a callback function in CEP extension:
+  在本地点产品和CEP扩展之间基于CEP事件的通信很简单。你可以使用`PlugPlugAddEventListener/PlugPlugDispatchEvent`来与CEP扩展通信。
+  
+  请参考以下步骤:
+  
+  首先，在CEP扩展中定义一个回调函数:
   
   ```
   function callback(event)
@@ -902,24 +910,24 @@ Here are three samples to demonstrate how to dispatch an event in JavaScript.
   }
   ```
 
-Then call CSInterface.addEventListener with event type you want to listen and the callback function: 
+然后调用CSInterface。addEventListener带有你想要监听的事件类型和回调函数:
 
 ```
 var csInterface = new CSInterface();
 csInterface.addEventListener(“com.adobe.cep.test”, callback);
 ```
 
-##### Standard Events in Point Products
+##### 产品中的标准事件
 
-Following table lists the standard events supported by point products.
+下表列出了每个产品支持的标准事件。
 
-| Event Type              | Event Scope | Description                                                                                                  | Event Parameter                                                                                | PS              | ID              | AI              | AN           | PR                                                    | PL                                                    | AU              |
-| ----------------------- | ----------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- | --------------- | --------------- | --------------- | ------------ | ----------------------------------------------------- | ----------------------------------------------------- | --------------- |
-| documentAfterActivate   | APPLICATION | Event fired when a document has been activated(after new/open document; after document has retrieved focus). | URL to the active document. If the doc was not save,  the NAME will be set instead of the URL. | ![No][cross]    | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![Yes][correct] |
-| documentAfterDeactivate | APPLICATION | Event fired when the active document has been de-activated.(after document loses focus)                      | URL to the active document. If the doc was not save,  the name will be set instead of the URL. | ![Yes][correct] | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![Yes][correct] |
-| applicationBeforeQuit   | APPLICATION | Event fired when the application got the signal to start to terminate.                                       | none                                                                                           | ![No][cross]    | ![Issue][issue] | ![Issue][issue] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![No][cross]    |
-| applicationActivate     | APPLICATION | Event fired when the Application got an "activation" event from the OS.                                      | none                                                                                           | ![Yes][correct] | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![Yes][correct] on macOS; <br>![No][cross] on Windows | ![Yes][correct] on macOS; <br>![No][cross] on Windows | ![Yes][correct] |
-| documentAfterSave       | APPLICATION | Event fired after the document has been saved                                                                | URL to the saved document.                                                                     | ![Yes][correct] | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![Yes][correct] |
+| Event Type              | Event Scope | Description                        | Event Parameter                     | PS              | ID              | AI              | AN           | PR                                                    | PL                                                    | AU              |
+| ----------------------- | ----------- | ---------------------------------- | ----------------------------------- | --------------- | --------------- | --------------- | ------------ | ----------------------------------------------------- | ----------------------------------------------------- | --------------- |
+| documentAfterActivate   | APPLICATION | 当文档被激活时触发的事件(在新建/打开文档之后;文档检索焦点之后)。 | 指向活动文档的URL。如果没有保存文档，则将设置NAME而不是URL。 | ![No][cross]    | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![Yes][correct] |
+| documentAfterDeactivate | APPLICATION | 事件在停用活动文档时触发。(文档失去焦点后)             | 指向活动文档的URL。如果没有保存文档，则将设置名称而不是URL。   | ![Yes][correct] | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![Yes][correct] |
+| applicationBeforeQuit   | APPLICATION | 事件在应用程序获得开始终止的信号时触发。               | none                                | ![No][cross]    | ![Issue][issue] | ![Issue][issue] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![No][cross]    |
+| applicationActivate     | APPLICATION | 当应用程序从操作系统获得一个“激活”事件时触发。           | none                                | ![Yes][correct] | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![Yes][correct] on macOS; <br>![No][cross] on Windows | ![Yes][correct] on macOS; <br>![No][cross] on Windows | ![Yes][correct] |
+| documentAfterSave       | APPLICATION | 事件在保存文档之后触发                        | 保存的文档的URL。                          | ![Yes][correct] | ![Yes][correct] | ![Yes][correct] | ![No][cross] | ![No][cross]                                          | ![No][cross]                                          | ![Yes][correct] |
 
 (![Yes][correct] = supported, ![No][cross]  = not supported)
 
@@ -927,9 +935,9 @@ Following table lists the standard events supported by point products.
 [correct]: https://github.com/Adobe-CEP/CEP-Resources/raw/master/CEP_9.x/Documentation/images/correct.png "Yes"
 [issue]: https://github.com/Adobe-CEP/CEP-Resources/raw/master/CEP_9.x/Documentation/images/Issue.png "Issue"
 
-Note: CEP is unloaded from the point products ID and AI right after the event `applicationBeforeQuit` is emitted from the point products, therefore CEP may have no chance to get this event handled in HTML extensions.
+注意:CEP在点产品发出`applicationBeforeQuit `事件后立即从产品ID和AI中卸载，因此CEP可能没有机会在HTML扩展中处理这个事件。
 
-##### Specific Events in Products
+##### 产品特定事件
 
 ###### Photoshop
 
@@ -962,9 +970,9 @@ csInterface.dispatchEvent(event);
 csInterface.addEventListener("com.adobe.PhotoshopJSONCallback" + gExtensionID, PhotoshopCallbackUnique);
 ```
 
-##### Invoke point product's scripts from html extension
+##### 从html扩展调用产品的脚本
 
-First, define a callback function in CEP extension:
+首先，在CEP扩展中定义一个回调函数:
 
 ```
 function evalScriptCallback(result)
@@ -973,22 +981,22 @@ function evalScriptCallback(result)
 }
 ```
 
-Then call `CSInterface.evalScript` with the script you want to call and the callback function:
+然后调用 `CSInterface.evalScript` 传入你想调用的函数和回调函数:
 
 ```
 var script = "app.documents.add";  //Demo script
 CSInterface.evalScript(script, evalScriptCallback);
 ```
 
-Please be aware that the script in evalScript and the jsx file which is configured in `<ScriptPath>` in the extension's manifest are executed in host application's ExtendScript engine, which runs in host application's main thread. On the other hand, CEP event is also dispatched from host application's main thread. If the interaction between the script and CEP event is needed, please split the script into small parts and call them separately so that CEP event has a chance to be scheduled.
+请注意，在evalScript中执行的脚本和在扩展清单中`<ScriptPath>`配置的jsx文件是在主机应用程序的ExtendScript引擎中执行的，该引擎在主机应用程序的主线程中运行。另一方面，CEP事件也从主机应用程序的主线程中分派。如果需要脚本和CEP事件之间的交互，请将脚本拆分为小的部分，并分别调用它们，以便CEP事件有机会被调度。
 
 #### Vulcan messages
 
-Starting with CEP 5.0, global CEP Events whose scope attribute is set to "GLOBAL" are no longer supported. Please use the APIs in Vulcan.js instead.
+从CEP 5.0开始，将不再支持范围属性设置为“global”的全局CEP事件。请改用Vulcan.js中的api。
 
 ##### Vulcan message
 
-The data structure of Vulcan message in JavaScript is as below.
+JavaScript中Vulcan消息的数据结构如下。
 
 ```
 /**
@@ -1023,9 +1031,9 @@ VulcanMessage.dataTemplate = "<data>{0}</data>";
 VulcanMessage.payloadTemplate = "<payload>{0}</payload>";
 ```
 
-##### Listen for and Dispatch Vulcan message
+##### 监听和分发 Vulcan message
 
-`addMessageListener`, `removeMessageListener`, `dispatchMessage` and `getPayload` APIs are available to dispatch and listen for Vulcan messages. The API definitions are as below. Refer to Vulcan.js for more information.
+`addMessageListener`, `removeMessageListener`, `dispatchMessage` and `getPayload` api来调度和监听Vulcan消息。API定义如下所示。更多信息请参考Vulcan.js。
 
 ```
 /**
@@ -1066,7 +1074,7 @@ Vulcan.prototype.dispatchMessage = function(vulcanMessage)
 Vulcan.prototype.getPayload = function(vulcanMessage)
 ```
 
-Here is the example to demonstrate how to use the APIs in JavaScript.
+下面是演示如何在JavaScript中使用api的示例。
 
 ```
 var testVulcanMessage = new VulcanMessage(VulcanMessage.TYPE_PREFIX + "test");
@@ -1082,7 +1090,7 @@ VulcanInterface.dispatchMessage(testVulcanMessage);
 VulcanInterface.removeMessageListener(testVulcanMessage.type, callback);
 ```
 
-`getEndPoints` and `getSelfEndPoint` APIs are available to support point-to-point Vulcan message. The API definitions are as below. Refer to Vulcan.js for more information.
+`getEndPoints` 和 `getSelfEndPoint` APIs 支持 点对点的 Vulcan message. 如下是定义.
 
 ```
 /**
@@ -1108,12 +1116,12 @@ Vulcan.prototype.getEndPoints = function()
 Vulcan.prototype.getSelfEndPoint = function()
 ```
 
-The steps to send point-to-point Vulcan message are as follows:
+点对点发送Vulcan报文的步骤如下:
 
-- Get all available endpoints.
-- Select the destination endpoint and get appId and appVersion from it.
-- Create Vulcan message with the destination `appId` and `appVersion`.
-- Dispatch Vulcan message.
+- 获取所有可用端点。
+- 选择目标端点并从中获取`appId`和`appVersion`。
+- 创建目标为`appId`和`appVersion`的Vulcan消息。
+- 分发 Vulcan message.
 
 ```
 var endPointList = VulcanInterface.getEndPoints();
@@ -1125,21 +1133,20 @@ message.setPayload("blablabla...");
 VulcanInterface.dispatchMessage(message);
 ```
 
-#### Access Application DOM from Html Extension
+#### 从Html扩展访问应用程序DOM
 
-There are two separate JavaScript engines here. 
+这里有两个独立的JavaScript引擎。
 
-- JavaScript engine of host application - Application DOM/Extend script
-  DOM
-- JavaScript engine of CEP HTML runtime - HTML DOM
+- 主机应用程序的JavaScript引擎-应用程序DOM/Extend脚本DOM
+- CEP HTML运行时的JavaScript引擎- HTML DOM
 
-Application DOM is not available in CEP extension's engine and CEP DOM is not available in host application's engine.
+应用程序DOM在CEP扩展的引擎中不可用，CEP DOM在宿主应用程序的引擎中不可用。
 
-To access Application DOM from CEP extensions, CEP JavaScript library provides an API, `CSInterface.evalScript`, to execute extend script to access the host application's DOM. Here is a brief diagram to indicate how to access Application DOM through this API.
+要从CEP扩展访问Application DOM, CEP JavaScript库提供了一个API, `CSInterface.evalScript`, 执行扩展脚本来访问主机应用程序的DOM。下面是一个简单的图，说明了如何通过这个API访问Application DOM。
 
 ![enter image description here](https://github.com/Adobe-CEP/CEP-Resources/raw/master/CEP_9.x/Documentation/images/dom_comm.jpg)
 
-Here is the sample JavaScript code snippet in HTML extension.
+下面是HTML扩展中的示例JavaScript代码片段。
 
 ```
 var csInterface = new CSInterface();
@@ -1148,9 +1155,9 @@ csInterface.evalScript('app.documents.add();', function(result){
 });
 ```
 
-#### Access HTML DOM from extend script
+#### 从扩展脚本访问HTML DOM
 
-There is no way to access HTML extension's JavaScript DOM directly from Application's ExtendScript. If you need to access it, CEP event based communication can be used as a substitution. 
+没有办法直接从应用程序的ExtendScript访问HTML扩展的JavaScript DOM。如果需要访问它，可以使用基于CEP事件的通信作为替代。
 
 CEP creates a library which uses External Object mechanism of ExtendScript to send CSXS events. The external object provides an ExtendScript class CSXSEvent for creating and dispatching application-level CSXS events. On HTML extension side, event listeners can be registered via the `addEventListener` API in `CSInterface.js` to listen to the events.
 
