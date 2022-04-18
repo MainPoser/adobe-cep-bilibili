@@ -19,7 +19,7 @@
         </el-aside>
       </div>
       <div style="flex: 1; text-align: center">
-        <el-row style="float:left; margin-left: 45vw;width: 100%;">
+        <el-row style="margin-left: 39vw;width: 100%;">
           <el-input
               type="text"
               prefix-icon="el-icon-search"
