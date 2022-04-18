@@ -1159,20 +1159,20 @@ csInterface.evalScript('app.documents.add();', function(result){
 
 没有办法直接从应用程序的ExtendScript访问HTML扩展的JavaScript DOM。如果需要访问它，可以使用基于CEP事件的通信作为替代。
 
-CEP creates a library which uses External Object mechanism of ExtendScript to send CSXS events. The external object provides an ExtendScript class CSXSEvent for creating and dispatching application-level CSXS events. On HTML extension side, event listeners can be registered via the `addEventListener` API in `CSInterface.js` to listen to the events.
+CEP创建一个库，使用ExtendScript的外部对象机制来发送CSXS事件。外部对象提供了一个ExtendScript类CSXSEvent，用于创建和调度应用程序级CSXS事件。在HTML扩展端，事件监听器可以通过`CSInterface.js`中的`addEventListener` API注册来监听事件。
 
-Some CC applications (Photoshop, Illustrator, Premiere Pro) integrated PlugPlugExternalObject library and started to support this functionality in CC 2014 release. Audition supports this functionality since CC 2015.1 release.
+一些CC应用程序(Photoshop, Illustrator, Premiere Pro)集成了PlugPlugExternalObject库，并开始在CC 2014版本中支持这一功能。自CC 2015.1版本以来，Audition支持这个功能。
 
 ##### Sample Code
 
-ExtendScript developers need to create external object instance first.
+ExtendScript开发人员需要首先创建外部对象实例。
 
 ```
 var externalObjectName = "PlugPlugExternalObject"; 
 var mylib = new ExternalObject( "lib:" + externalObjectName );
 ```
 
-And then create the CSXSEvent instance.
+然后创建CSXSEvent实例。
 
 ```
 var eventObj = new CSXSEvent(); 
@@ -1180,13 +1180,13 @@ eventObj.type="documentCreated";
 eventObj.data="blahblah"; 
 ```
 
-At last use this instance to dispatch event:
+最后使用这个实例分派事件:
 
 ```
 eventObj.dispatch();
 ```
 
-Below is the sample code of ExtendScript.
+下面是ExtendScript的示例代码
 
 ```
 ...
@@ -1198,11 +1198,11 @@ var extendScript = 'var externalObjectName = "PlugPlugExternalObject"; var mylib
 cs.evalScript(extendScript);
 ```
 
-#### Fly-out menu
+#### 弹出菜单
 
-For fly-out menu on the native panel of HTML extension, it has been supported. 
+对于HTML扩展的本地面板上的弹出菜单，它已经被支持。
 
-Two new interfaces are added to CSInterface. 
+CSInterface增加了两个新接口。
 
 ```
 CSInterface.prototype.setPanelFlyoutMenu = function(menu){
@@ -1219,7 +1219,7 @@ CSInterface.prototype.updatePanelMenuItem = function(menuItemLabel, enabled, che
 };
 ```
 
-The "menu" parameter for `setPanelFlyoutMenu` is a XML string. Below is an example:
+`setPanelFlyoutMenu`的"menu"参数是一个XML字符串。下面是一个例子:
 
 ```
 <Menu>
@@ -1235,20 +1235,20 @@ The "menu" parameter for `setPanelFlyoutMenu` is a XML string. Below is an examp
 </Menu>
 ```
 
-If user wants to be notified when clicking a menu item, user needs to register `com.adobe.csxs.events.flyoutMenuClicked` event by calling `AddEventListener`. When a menu item is clicked, the event callback function will be called. The `data` attribute of event is an object which contains `menuId` and `menuName` attributes.
+如果用户希望在单击菜单项时收到通知，则需要在AddEventListener函数中注册`com.adobe.csxs.events.flyoutMenuClicked`。当单击菜单项时，将调用事件回调函数。event的`data`属性是一个包含`menuId`和`menuName`属性的对象。
 
-To get notified when fly-out menu is opened and closed, register event listener for below event types respectively:
+为了在弹出菜单打开和关闭时获得通知，分别为以下事件类型注册事件监听器:
 
 ```
 "com.adobe.csxs.events.flyoutMenuOpened"
 "com.adobe.csxs.events.flyoutMenuClosed"
 ```
 
-#### Customize Context Menu
+#### 自定义上下文菜单
 
-##### Set and Update Context Menu
+##### 设置和更新上下文菜单
 
-There are three APIs in `CSInterface` for developers to set and update the customized context menu.
+在`CSInterface`中有三个api供开发者设置和更新定制的上下文菜单。
 
 ```
 CSInterface.prototype.setContextMenu = function(menu, callback){
@@ -1265,17 +1265,17 @@ CSInterface.prototype.updateContextMenuItem = function(menuItemID, enabled, chec
 };
 ```
 
-The "menu" parameter for "setContextMenu" is a XML string.
+`setContextMenu`的"menu"参数是一个XML字符串。
 
-- Id - Menu item ID. It should be plain text.
-- Icon - Menu item icon path. It is a path relative to the extension root path. For optimal display results please supply a 16 x 16px PNG icon as larger dimensions will increase the size of the menu item.
-- Label - Menu item label. It supports localized languages.
-- Enabled - Whether the item is enabled or disabled. Default value is true.
-- Checkable - Whether the item can be checked/unchecked. Default value is false.
-- Checked - Whether the item is checked or unchecked. Default value is false.
-- The items with icons and checkable items cannot coexist on the same menu level. The former take precedences over the latter.
+- Id -菜单项Id。它应该是纯文本。
+- Icon -菜单项图标路径。它是一个相对于扩展根路径的路径。为了获得最佳的显示效果，请提供一个16 x 16px的PNG图标，因为更大的尺寸会增加菜单项的大小。
+- Label - 菜单项的标签。它支持本地化语言。
+- Enabled - 该项是启用还是禁用。默认值为true。
+- Checkable - 这个项目是否可以选中/取消选中。缺省值为false。
+- Checked - 项目是选中的还是未选中的。缺省值为false。
+- 图标项和可检查项不能在同一菜单层上共存。前者优先于后者。
 
-Here is an example.
+简单案例.
 
 ```
 <Menu>
@@ -1291,11 +1291,11 @@ Here is an example.
 </Menu>
 ```
 
-The "callback" parameter is the callback function which is called when user clicks a menu item. The only parameter is the ID of clicked menu item.
+callback参数是用户点击菜单项时调用的回调函数。惟一的参数是单击的菜单项的ID。
 
-If you prefer to using a JSON string to set context menu, you can achieve it by calling `setContextMenuByJSON`. 
+如果你更喜欢使用JSON字符串来设置上下文菜单，你可以通过调用`setContextMenuByJSON`来实现。
 
-The "menu" parameter for `setContextMenuByJSON` is a JSON string.
+`setContextMenuByJSON`的"menu"参数是一个JSON字符串。
 
 - id - Menu item ID. It should be plain text.
 - icon - Menu item icon path. It is a path relative to the extension root path. For optimal display results please supply a 16 x 16px PNG icon as larger dimensions will increase the size of the menu item.
@@ -1305,7 +1305,7 @@ The "menu" parameter for `setContextMenuByJSON` is a JSON string.
 - checked - Whether the item is checked or unchecked. Default value is false.
 - The items with icons and checkable items cannot coexist on the same menu level. The former take precedences over the latter.
 
-Here is an JSON example
+下面是一个JSON示例
 
 ```
 { 
@@ -1358,7 +1358,7 @@ Here is an JSON example
    }
 ```
 
-If developers do not set context menu, CEP shows default items (Back, Forward, View Source, etc.). This is compatible with previous releases. If developers set context menu which has no any default id, CEP removes all default items and show customized items only. If one of the following default ids is set, the default menu item against that id will be shown. 
+如果开发人员没有设置上下文菜单，CEP会显示默认项(后退，前进，查看源，等等)。这与以前的版本兼容。如果开发人员设置的上下文菜单没有任何默认id, CEP删除所有默认项，只显示定制项。如果设置了以下默认id之一，则将显示该id对应的默认菜单项。 
 
 | id            |
 | ------------- |
@@ -1367,98 +1367,96 @@ If developers do not set context menu, CEP shows default items (Back, Forward, V
 | "view source" |
 | "forward"     |
 
-Notes:
+注意:
 
-1. They are case-insensitive.
-2. The quotation marks is not a part of an id. 
-3. The default callback associated to each id will be used and cannot be customised.
+1. 他们是不区分大小写的。
+2. 引号不是id的一部分。
+3. 将使用与每个id关联的默认回调，但不能自定义。
 
-##### Disable Context Menu
+##### 禁用上下文菜单
 
-To disable the context menu, you can call `setContextMenu` by null.
+要禁用上下文菜单，可以调用`setContextMenu`为空。
 
-Another way is to add `oncontextmenu="return false;"` to the HTML tag. For example, 
+另一种方法是添加`oncontextmenu="return false;"`到HTML标签。例如,
 
 ```
 <body oncontextmenu="return false;">
 ```
 
-#### Get Display Status of HTML Extension Window
+#### 获取HTML扩展窗口的显示状态
 
-##### Two ways to get HTML extension window
+##### 获得HTML扩展窗口的两种方法
 
-- Register "com.adobe.csxs.events.panelWindowStatusChanged" CSXS event
-- Call isWindowVisible JavaScript API.
+- 注册 "com.adobe.csxs.events.panelWindowStatusChanged" CSXS 事件
+- 调用 isWindowVisible JavaScript API.
 
-##### Resister "com.adobe.csxs.events.panelWindowStatusChanged" CSXS event
+##### 注册"com.adobe.csxs.events.panelWindowStatusChanged" CSXS 事件
 
-- Observe `com.adobe.csxs.events.panelWindowStatusChanged` CSXS event, this is for PANEL extensions only. If user hides the panel window by clicking "X" or collapsing window, this event is going to be sent to observer with the "true" or "false" string in data attribute, while the event is not going to be sent if the extension is closed.
-  That is to say, currently, only panel extensions which are running on Ai and persistent can receive this event, when the extension is hiding, event with "false" data is sent while the extension is shown, event with "true" is sent.
+- 注意 `com.adobe.csxs.events.panelWindowStatusChanged` CSXS 事件, 这只适用于PANEL扩展.如果用户通过点击“X”或折叠窗口来隐藏面板窗口，则该事件将通过数据属性中的“true”或“false”字符串发送给观察者，而如果扩展被关闭，则不发送该事件。
+  也就是说，目前只有在Ai和persistent上运行的面板扩展才能接收到这个事件，当扩展隐藏时，发送数据为“false”的事件，而扩展显示时，发送数据为“true”的事件。
 
-##### Call isWindowVisible API
+##### 执行 isWindowVisible API
 
-- Call `isWindowVisible` JS interface. Both dialog and panel extension enable to access this API, but it always returns true for modal and modeless dialog extensions while it always returns false for invisible extensions.
+- 调用`isWindowVisible ` JS接口。对话框和面板扩展都可以访问这个API，但是对于模态和非模态对话框扩展，它总是返回true，而对于不可见的扩展，它总是返回false。
 
-#### Getting and Changing Extension Content Size
+#### 获取和更改扩展内容大小
 
-##### Getting Extension Content Size
+##### 获取扩展内容大小
 
-Getting extension content size can be done using `window.innerWidth` and `window.innerHeight`. However, if you are accessing these properties from inside an IFrame, you are actually accessing the properties of the IFrame's window object, not the ones for the HTML document. To access the top-most one, you will need to do `parent.window.innerWidth` and `parent.window.innerWidth`.
+获取扩展内容大小可以使用`window.innerWidth` 和 `window.innerHeight`.但是，如果您从IFrame内部访问这些属性，实际上您访问的是IFrame窗口对象的属性，而不是HTML文档的属性。要访问最上面的一个，你需要做 `parent.window.innerWidth` and `parent.window.innerWidth`。
 
-##### Changing Extension Content Size
+##### 更改扩展内容大小
 
-Changing modal and modeless extension content size is supported in all Adobe applications that supports CEP. However, changing panel HTML extension size is not supported in Premiere Pro, Prelude, After Effects and Audition.
+所有支持CEP的Adobe应用程序都支持更改模态和非模态扩展内容大小。然而，改变面板HTML扩展大小不支持在Premiere Pro, Prelude, After Effects和Audition执行。
 
 ```
 CSInterface.prototype.resizeContent = function(width, height)
 ```
 
-The width and height parameters are expected to be unsigned integers. The function does nothing when parameters of other types are passed.
+宽度和高度参数应该是无符号整数。当传递其他类型的参数时，函数不执行任何操作。
 
-Please note that extension min/max size constraints as specified in the manifest file apply and take precedence. If the specified size is out of the min/max size range, the min or max bounds will be used. When a panel is docked with other panels, there are chances that it won't resize as expected even when the specified size satisfies the min and max constraints. The restriction is imposed by host applications, not by CEP.
+请注意，清单文件中指定的扩展的最小/最大大小限制适用并优先。如果指定的大小超出了最小/最大大小范围，则将使用最小或最大界限。当一个面板与其他面板对接时，即使指定的大小满足最小和最大限制，它也有可能无法按预期调整大小。该限制是由主机应用程序施加的，而不是由CEP施加的。
 
-#### Register invalid certificate error callback
+#### 注册无效的证书错误回调
 
 (Since 6.1)
-Register the invalid certificate error callback for an extension. This callback will be triggered when the extension try to access the web site that contains the invalid certificate on main frame. But if the extension does not call this function and try to access the web site containing the invalid certificate, a default error page will be shown:
+为扩展注册无效的证书错误回调。当扩展尝试访问包含主框架上无效证书的网站时，将触发此回调。但如果扩展不调用此函数，并尝试访问包含无效证书的网站，则会显示一个默认的错误页面:
 
 ```
 CSInterface.prototype.registerInvalidCertificateCallback = function(callback)
 ```
 
-#### Register an interest in specific key events
+#### 在特定的关键事件中注册一个兴趣点
 
 (Since 6.1)
-Register an interest in some key events to prevent them from being sent to the host application:
+在一些关键事件中注册一个兴趣点，以防止它们被发送到主机应用程序:
 
 ```
 CSInterface.prototype.registerKeyEventsInterest = function(keyEventsInterest)
 ```
 
-This function works with modeless extensions and panel extensions. Generally all the key events will be sent to the host application for these two extensions if the current focused element is not text input or dropdown.
+此函数适用于modeless扩展和 panel扩展。通常，如果当前聚焦的元素不是文本输入或下拉框，那么这两个扩展的所有关键事件都将被发送到主机应用程序。
 
-If you want to intercept some key events and you want them to be handled in the extension, please call this function in advance to prevent them being sent to the host application.
+如果您想拦截一些关键事件，并希望它们在扩展中被处理，请提前调用此函数，以防止它们被发送到主机应用程序。
 
-- keyEventsInterest:  A JSON string describing those key events you are
-  interested in. A null object or an empty string will lead to removing
-  the interest
+- keyEventsInterest:描述你感兴趣的关键事件的JSON字符串。空对象或空字符串代表删除兴趣点
 
-This JSON string should be an array, each object has following keys:
+这个JSON字符串应该是一个数组，每个对象有以下键:
 
-- keyCode:   [Required] represents an OS system dependent virtual key code identifying the unmodified value of the pressed key.
-- ctrlKey:      [optional]   a Boolean that indicates if the control key was pressed (true) or not (false) when the event occurred.
-- altKey:       [optional]   a Boolean that indicates if the alt key was pressed (true) or not (false) when the event occurred.
-- shiftKey:    [optional]   a Boolean that indicates if the shift key was pressed (true) or not (false) when the event occurred.
-- metaKey:   [optional]   (macOS Only) a Boolean that indicates if the Meta key was pressed (true) or not (false) when the event occurred. On Macintosh keyboards, this is the command key. To detect Windows key on Windows, please use keyCode instead.
+- keyCode:   [Required] 表示与操作系统相关的虚拟键代码，标识按下的键未修改的值。
+- ctrlKey:      [optional]   一个布尔值，指示事件发ctrl是否被按下(true)。
+- altKey:       [optional]   一个布尔值，指示事件发生时alt键是否按下(true)。
+- shiftKey:    [optional]   一个布尔值，指示事件发生时是否按下了shift键(true)。
+- metaKey:   [optional]  (macOS Only)一个布尔值，表示事件发生时元键是否被按下(true)或(false)。在Macintosh键盘上，这是命令键。要在Windows上检测Windows键，请使用keyCode代替。
 
-To learn all key codes:
+学习所有关键代码:
 
 - [Windows](https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731%28v=vs.85%29.aspx)
 - macOS 
   - `/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/Headers/Events.h`
   - Install [Key Codes](https://itunes.apple.com/us/app/key-codes/id414568915?mt=12) from the Mac App Store.
 
-An example JSON string:
+JSON字符串示例:
 
 ```
  [{
@@ -1470,10 +1468,10 @@ An example JSON string:
  }]
 ```
 
-#### Set and Get the title of the extension windows
+#### 设置和获取扩展窗口的标题
 
 (Since 6.1)
-CEP 6.1 introduces two APIs to set and get the title of extension windows. Those functions work with modal and modeless extensions in all Adobe products, and panel extensions in Photoshop, InDesign, InCopy, Illustrator, Animate (Flash Pro) and Audition:
+CEP 6.1引入了两个api来设置和获取扩展窗口的标题。这些功能与所有Adobe产品中的modal 和modeless扩展，以及Photoshop、InDesign、InCopy、Illustrator、Animate (Flash Pro)和Audition中的面板扩展一起工作:
 
 ```
 CSInterface.prototype.setWindowTitle = function(title){
@@ -1487,11 +1485,11 @@ CSInterface.prototype.getWindowTitle = function(){
 
 ### HI-DPI display
 
-CEP JavaScript library provides APIs for detecting the availability of HI-DPI display on the macOS platform.
+CEP JavaScript库提供api，用于检测HI-DPI显示在macOS平台上的可用性。
 
-- `CSInterface.getScaleFactor()` Use this function to retrieve the scale factor of the display on which the calling extension window is located.
+- `CSInterface.getScaleFactor()` 使用此函数检索调用扩展窗口所在的显示的比例因子。
 - `var scaleFactor = CSLibrary.getScaleFactor();`
-- `CSInterface.setScaleFactorChangedHandler()` Use this function to add a event handler that will be called when calling extension window is moved between HI-DPI and non-HI-DPI displays.
+- `CSInterface.setScaleFactorChangedHandler()` 使用此函数可以添加一个事件处理程序，当调用扩展窗口在HI-DPI和非HI-DPI显示器之间移动时将调用该事件处理程序。
 
 ```
 window.scaleFactorHandler = function(){
@@ -1506,25 +1504,25 @@ document.getElementById("image").src = imgSrc;
 CSLibrary.setScaleFactorChangedHandler(window.scaleFactorHandler);
 ```
 
-CEP 5.2 has already supported HiDPI on Windows.
+CEP 5.2已经在Windows上支持HiDPI。
 
-### Other JavaScript APIs
+### 其他 JavaScript APIs
 
-The JavaScript engine in CEP HTML engine had been extended to provide some APIs, including:
+CEP HTML引擎中的JavaScript引擎已经被扩展，提供了一些api，包括:
 
-- local file access
-- native process
-- others
+- 本地文件操作
+- 本机进程
+- 其他
 
-These APIs are in JavaScript DOM and can be used as other built-in JavaScript APIs. You do **NOT** need to include any JavaScript files.
+这些api在JavaScript DOM中，可以作为其他内置JavaScript api使用。你不需要包含任何JavaScript文件。
 
-API reference is as below.
+API参考如下所示。
 
-`CEPEngine_extensions.js` is actually a CEF extension that is built in CEPHtmlEngine to expand the DOM of CEPHtmlEngine, like create/delete folder, read/write file, create/quit process, and so on. You can invoke these built-in APIs directly in your HTML extension without any JavaScript file reference.
+`CEPEngine_extensions.js`实际上是一个CEF扩展，内置在cephtmlenine中，用于扩展cephtmlenine的DOM，如创建/删除文件夹、读/写文件、创建/退出进程等。您可以在HTML扩展中直接调用这些内置api，而无需任何JavaScript文件引用。
 
-For example, you want to
+例如，你想要
 
-- create a folder.
+- 创建一个文件夹.
 
 ```
 var path = "/tmp/test";
@@ -1536,7 +1534,7 @@ if (0 == result.err){
 } 
 ```
 
-- write a file.
+- 写文件.
 
 ```
 var data = "This is a test.";
@@ -1549,7 +1547,7 @@ if (0 == result.err){
 }
 ```
 
-- Write file with base64 encoding mode. To use this mode, you need to convert the input string to a base64-encoded string before calling `writeFile()`. The following is an example.
+- 用base64编码方式写文件。要使用这种模式，需要在调用`writeFile()`之前将输入字符串转换为base64编码的字符串。示例如下。
 
 ```
 var data = "This is a test.";
@@ -1564,7 +1562,7 @@ if (0 == result.err) {
 }
 ```
 
-- read a file.
+- 读取文件.
 
 ```
 var path = "/tmp/test";
@@ -1577,7 +1575,7 @@ if(result.err === 0){
 }
 ```
 
-- Read file with base64 encoding mode in which the read data after `readFile` called is converted to a base-encoded string. You need to decode this string to any format you want. The following is an example
+- 以base64编码模式读取文件，其中在调用' readFile '后读取的数据被转换为基编码字符串。您需要将这个字符串解码为您想要的任何格式。示例如下
 
 ```
 var path = "/tmp/test";
@@ -1591,7 +1589,7 @@ if(result.err === 0){
 }
 ```
 
-- Create a process and check if it's running.
+- 创建一个进程并检查它是否正在运行。
 
 ```
 var result = window.cep.process.createProcess("usr/X11/bin/xterm");
@@ -1604,34 +1602,32 @@ if(result.err === 0){
 }
 ```
 
-You could use other APIs like delete folder, rename folder, set file permission, delete file, show file open dialog, quit process, etc.
+您可以使用其他api，如删除文件夹，重命名文件夹，设置文件权限，删除文件，显示文件打开对话框，退出进程等。
 
-We have the following samples that demonstrate use of some of these APIs:
+我们有以下示例来演示这些api的使用:
 
 - https://github.com/Adobe-CEP/Samples/tree/master/Flickr
 - https://github.com/Adobe-CEP/Samples/tree/master/Collage
 - https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_10.x/Samples
 
-### Localization
+### 本地化
 
-In order to support localization, both the extension and the host application must provide locale information. There are two distinct types of locale information.
+为了支持本地化，扩展和宿主应用程序都必须提供地区信息。有两种不同类型的区域设置信息。
 
-- The **License Locale** (returned as the applicationLocale by the AMT
-  library)
-- The **Effective/Language/UI** Locale (which is controlled by the user in
-  the OS settings).
+- **许可区域**(由AMT库作为applicationLocale返回)
+- **有效/语言/UI**区域设置(由用户在操作系统设置中控制)。
 
-The extension must provide the list of supported locales for both the License Locale and the Language Locale via the `HostEnvironment`. This is particularly important in cases where the extension has features for a specific locale. `PlugPlug` library expects the host application to provide the locale information as part of the environmental data.
+扩展必须通过`HostEnvironment`提供许可证区域设置和语言区域设置支持的区域设置列表。在扩展具有特定语言环境特性的情况下，这一点尤为重要。`PlugPlug`库期望宿主应用程序将地区信息作为环境数据的一部分提供。
 
-JavaScript API `HostEnvironment` has the `appLocale` property in place.
+JavaScript API `HostEnvironment `有` appLocale `属性。
 
-#### License Locale and locales supported by extension
+#### 许可证区域设置和扩展支持的区域设置
 
-CEP checks the **License Locale** of host application against supported locales declared in extensions locale list to determine if the extension is loadable for the host application.
+CEP根据扩展区域列表中声明的支持区域来检查主机应用程序的**License Locale**设置，以确定主机应用程序是否可以加载该扩展。
 
-#### Locale folder structure
+#### Locale文件夹结构
 
-Each property file should be placed in its corresponding locale folder. For example, the en_US property file should be `<YourExtension>/locale/en_US/messages.properties`. Users can define a default property file (`<YourExtension>/locale/messages.properties`), which will be used when the corresponding locale file is not defined.
+每个属性文件都应该放在相应的locale文件夹中。例如，en_US属性文件应该是`<YourExtension>/locale/en_US/messages.properties`. 用户可以定义一个默认属性文件(`<YourExtension>/locale/messages.properties`), 当没有定义相应的区域设置文件时使用。
 
 ```
 YourExtension/
@@ -1644,7 +1640,7 @@ YourExtension/
                   |- messages.properties
 ```
 
-A locale file contains multiple lines of `<key>=<value>`. There should be a new line below the last property key/value.
+区域设置文件包含多个行 `<key>=<value>`.在最后一个属性键/值下面应该有一个新行。
 
 ```
 key1=value1
@@ -1653,18 +1649,18 @@ key3.value=value3
 key4.innerHTML=value4
 ```
 
-CEP provides a JS interface named `initResourceBundle` to initialize the locale resources. This should be called during the loading of the extension. CEP initializes the resource bundle for the extension with property values for the current application and UI locale. Then users can access the resource bundle (object) to get the localized strings.
+CEP提供了一个名为`initResourceBundle`的JS接口来初始化语言环境资源。这应该在加载扩展期间调用。CEP使用当前应用程序和UI区域设置的属性值初始化扩展的资源包。然后用户可以访问资源包(对象)以获得本地化的字符串。
 
 ```
 var csInterface = new CSInterface();
 csInterface.initResourceBundle();
 ```
 
-#### Sharing localization resources across multiple locales
+#### 跨多个地区共享本地化资源
 
-CEP 6.0 provided a mechanism to allow multiple locales to share the same localization resources (`messages.properties`).
+CEP 6.0提供了一种机制，允许多个地区共享相同的本地化资源 (`messages.properties`).
 
-For example, you want `es_MX` to use the `messages.properties` for `es_ES`. To do so, supply a file named `fallback.properties` in the `es_MX` folder as illustrated below.
+例如, 你想 `es_MX`使用`es_ES`.的 `messages.properties` 。为此，提供一个名为 `fallback.properties`在 `es_MX` 文件夹如下图所示。
 
 ```
 YourExtension/
@@ -1677,20 +1673,16 @@ YourExtension/
                   |- fallback.properties
 ```
 
-In the `fallback.properties` file, you specify which locale's localized resources you want es_MX to use, in below format
+在 `fallback.properties` 文件, 你指定你想要es_MX使用哪个地区的本地化资源，格式如下
 
 ```
 fallback=es_ES
 ```
 
-Side Notes:
+边注:
 
-- The `fallback.properties` file takes precedence when both
-  `messages.properties` and `fallback.properties` exist at the same
-  time.
-- If `fallback.properties` is malformed, or it specifies a non-existent
-  fallback locale, the messages.properties file in the same directory
-  will be used.
+-  当`messages.properties` and `fallback.properties`都存在时，`fallback.properties`会被优先使用
+- 如果 `fallback.properties` 不可用, 或者指定了一个不存在的fallback, 同一个目录下的 messages.properties 会被使用
 
 #### Localized menu
 
