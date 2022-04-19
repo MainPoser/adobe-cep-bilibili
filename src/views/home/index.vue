@@ -1,19 +1,19 @@
 <template>
-  <el-container style="height: 100%">
-    <el-aside>
+  <el-container>
+    <el-aside style="width: 15%" >
       列表
     </el-aside>
-    <el-main>
+    <el-main style="width: 80%">
       <div class="card">
         <img
             src="@/assets/profile-picture.jpg"
             alt="找不到照片"
             style="width: 80px; border-radius: 50px; border: 1px solid #eee;"
         />
-        <h3>Wilson</h3>
+        <h3 style="color: white">Wilson</h3>
       </div>
       <div class="tags">
-        <div class="title" style="text-align: center">支持平台</div>
+        <div class="title" style="text-align: center;color: white">支持平台</div>
         <router-link
             v-for="item in labelList"
             class="item"
@@ -25,9 +25,9 @@
         <el-tag class="item" type="info" @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">必剪</el-tag>
       </div>
       <div class="card">
-        <h3>本插件资源均来自必剪</h3>
+        <h3 style="color: white">本插件资源均来自必剪</h3>
         <el-row>
-          <h3 @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">点此访问</h3>
+          <h3 style="color: white" @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">点此访问</h3>
         </el-row>
         <el-row>
           <img src="@/assets/bcut.jpg" alt="找不到照片"/>
