@@ -29,9 +29,6 @@
         <el-row>
           <h3 style="color: white" @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">点此访问</h3>
         </el-row>
-        <el-row>
-          <img src="@/assets/bcut.jpg" alt="找不到照片"/>
-        </el-row>
       </div>
     </el-main>
   </el-container>

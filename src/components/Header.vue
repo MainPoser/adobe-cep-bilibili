@@ -1,7 +1,8 @@
 <template>
   <el-row>
     <div style="width: 15%;text-align: center">
-      <img src="../assets/logo.png" alt="找不到照片" style="width:50px"/>
+      <img @click="openInDefaultBrowser('https://github.com/MainPoser/adobe-cep-bilibili')" src="../assets/logo.png" alt="找不到照片" style="width:50px;margin-right: 15px"/>
+      <img @click="openInDefaultBrowser('http://bcut.drawyoo.com/')" src="../assets/bcut.png" alt="找不到照片" style="width:50px;margin-left: 15px"/>
     </div>
     <el-menu
         background-color="#000000"
@@ -43,6 +44,8 @@
 
 <script>
 
+import adobe_cep from "@/assets/adobe-cep";
+
 export default {
   name: 'HeaderComponents',
   data() {
@@ -53,6 +56,9 @@ export default {
   methods: {
     handleSelect: (key, keyPath) => {
       console.log(key, keyPath);
+    },
+    openInDefaultBrowser(url) {
+      adobe_cep.openURLInDefaultBrowser(url)
     }
   }
 }
