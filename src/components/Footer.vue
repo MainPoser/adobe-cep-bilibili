@@ -1,6 +1,6 @@
 <template>
-  <div class="footer">
-    <div>Adobe Extendtion ©2022 Created by TianYao</div>
+  <div style="text-align: center">
+    Adobe Extendtion ©2022 Created by TianYao
   </div>
 </template>
 <script>
@@ -10,9 +10,5 @@ export default {
 };
 </script>
 <style scoped>
-.footer {
-  text-align: center;
-  padding: 20px;
-  font-weight: bold;
-}
+
 </style>

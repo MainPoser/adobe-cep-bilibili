@@ -1,41 +1,39 @@
 <template>
-  <div class="materials">
-    <el-container>
-      <div>
-        <el-aside width="180px">
-          <el-menu
-              background-color="#000000"
-              text-color="#ffffff"
-              :default-active="activeMenu"
-              class="el-menu-vertical-demo"
-              mode="vertical"
-              @select="handleSelectMenu"
-          >
-            <template v-for="(menu) in leftMenuList">
-              <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-              <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-            </template>
-          </el-menu>
-        </el-aside>
-      </div>
-      <div style="flex: 1; text-align: center">
-        <el-row style="margin-left: 39vw;width: 100%;">
-          <el-input
-              type="text"
-              prefix-icon="el-icon-search"
-              v-model="kw_content"
-              placeholder="请输入视频或者音频名称，回车检索"
-              style="width: 270px; cursor: pointer"
-              @keyup.enter="searchmaterials"
-          ></el-input>
-          <el-button @click="searchmaterials">搜索</el-button>
-        </el-row>
+  <el-container>
+    <el-aside width="15%">
+      <el-menu
+          background-color="#000000"
+          text-color="#ffffff"
+          :default-active="activeMenu"
+          class="el-menu-vertical-demo"
+          mode="vertical"
+          @select="handleSelectMenu"
+      >
+        <template v-for="(menu) in leftMenuList">
+          <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+          <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+        </template>
+      </el-menu>
+    </el-aside>
+    <el-main>
+      <el-row style="margin-bottom: 20px;margin-left: 30px">
+        <el-input
+            type="text"
+            prefix-icon="el-icon-search"
+            v-model="kw_content"
+            placeholder="请输入视频或者音频名称，回车检索"
+            style="width: 270px; cursor: pointer"
+            @keyup.enter="searchmaterials"
+        ></el-input>
+        <el-button @click="searchmaterials">搜索</el-button>
+      </el-row>
+      <div style="margin-left: 30px;">
         <template :key="item.id" v-for="item in materials">
           <MateriaBox :material="item"></MateriaBox>
         </template>
       </div>
-    </el-container>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>

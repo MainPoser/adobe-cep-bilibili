@@ -1,7 +1,12 @@
 <template>
-  <div class="articles">
-    <h1>This is an articles page{{ title }}{{ msg }}</h1>
-  </div>
+  <el-container>
+    <el-aside>
+      左侧菜单
+    </el-aside>
+    <el-main>
+      主要显示区
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -14,7 +19,7 @@ export default {
       title: '',
     }
   },
-  methods:{
+  methods: {
     // 接收参数的方法
     getParams() {
       this.title = this.$route.query.tag_name;
@@ -25,7 +30,7 @@ export default {
   },
   // 如果不用watch进行监听，则会出现参数只获取一次的情况
   watch: {
-    '$route'(){
+    '$route'() {
       this.getParams();
     }
   }

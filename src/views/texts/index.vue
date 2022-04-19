@@ -1,35 +1,35 @@
 <template>
-  <div class="materials">
-    <el-container>
-      <div>
-        <el-aside width="180px">
-          <el-menu
-              background-color="#000000"
-              text-color="#ffffff"
-              :default-active="activeMenu"
-              class="el-menu-vertical-demo"
-              mode="vertical"
-              @select="handleSelectMenu"
-          >
-            <el-sub-menu index="template">
-              <template v-slot:title>模板</template>
-              <template v-for="(menu) in leftMenuList">
-                <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-                <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-              </template>
-            </el-sub-menu>
-            <el-menu-item :index="104 + ''">花字</el-menu-item>
-            <el-menu-item index="identificationCaption">识别字幕</el-menu-item>
-          </el-menu>
-        </el-aside>
-      </div>
-      <div style="flex: 1; text-align: center">
+
+  <el-container>
+
+    <el-aside width="15%">
+      <el-menu
+          background-color="#000000"
+          text-color="#ffffff"
+          :default-active="activeMenu"
+          class="el-menu-vertical-demo"
+          mode="vertical"
+          @select="handleSelectMenu"
+      >
+        <el-sub-menu index="template">
+          <template v-slot:title>模板</template>
+          <template v-for="(menu) in leftMenuList">
+            <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+            <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+          </template>
+        </el-sub-menu>
+        <el-menu-item :index="104 + ''">花字</el-menu-item>
+        <el-menu-item index="identificationCaption">识别字幕</el-menu-item>
+      </el-menu>
+    </el-aside>
+    <el-main>
+      <div style="margin-left: 30px;">
         <template v-for="item in materials" :key="item.id">
           <MateriaBox :material="item"></MateriaBox>
         </template>
       </div>
-    </el-container>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>

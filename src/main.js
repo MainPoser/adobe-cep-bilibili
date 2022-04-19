@@ -7,8 +7,7 @@ import 'element-plus/dist/index.css'
 import axios from 'axios'
 import adobe_cep from './assets/adobe-cep'
 
-// C:\Users\%USERNAME%\AppData\Local\Temp\cef_debug.log
-// C:\Users\%USERNAME%\AppData\Local\Temp
+
 let app = createApp(App).use(store).use(ElementPlus).use(router)
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

@@ -1,42 +1,40 @@
 <template>
-  <div class="materials">
-    <el-container>
-      <div>
-        <el-aside width="180px">
-          <el-menu
-              background-color="#000000"
-              text-color="#ffffff"
-              :default-active="activeMenu"
-              class="el-menu-vertical-demo"
-              mode="vertical"
-              @select="soundEffectsSelectMenu"
-          >
-            <el-sub-menu index="soundEffects">
-              <template v-slot:title>音效</template>
-              <template v-for="(menu) in soundEffectsMenuList">
-                <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-                <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-              </template>
-            </el-sub-menu>
-          </el-menu>
-          <el-menu
-              background-color="#000000"
-              text-color="#ffffff"
-              class="el-menu-vertical-demo"
-              mode="vertical"
-              @select="musicLibrarySelectMenu"
-          >
-            <el-sub-menu index="musicLibrary">
-              <template v-slot:title>音乐库</template>
-              <template v-for="(menu) in musicLibraryMenuList">
-                <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-                <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-              </template>
-            </el-sub-menu>
-          </el-menu>
-        </el-aside>
-      </div>
-      <div v-if="musicLibraryOpen" style="flex: 1; text-align: center">
+  <el-container>
+    <el-aside width="15%">
+      <el-menu
+          background-color="#000000"
+          text-color="#ffffff"
+          :default-active="activeMenu"
+          class="el-menu-vertical-demo"
+          mode="vertical"
+          @select="soundEffectsSelectMenu"
+      >
+        <el-sub-menu index="soundEffects">
+          <template v-slot:title>音效</template>
+          <template v-for="(menu) in soundEffectsMenuList">
+            <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+            <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+          </template>
+        </el-sub-menu>
+      </el-menu>
+      <el-menu
+          background-color="#000000"
+          text-color="#ffffff"
+          class="el-menu-vertical-demo"
+          mode="vertical"
+          @select="musicLibrarySelectMenu"
+      >
+        <el-sub-menu index="musicLibrary">
+          <template v-slot:title>音乐库</template>
+          <template v-for="(menu) in musicLibraryMenuList">
+            <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+            <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+          </template>
+        </el-sub-menu>
+      </el-menu>
+    </el-aside>
+    <el-main>
+      <div v-if="musicLibraryOpen" style="margin-left: 30px;">
         <template v-for="item in musicLibraryMaterials" :key="item.id">
           <BGMBox :bgm="item"></BGMBox>
         </template>
@@ -58,13 +56,14 @@
           </div>
         </el-row>
       </div>
-      <div v-else style="flex: 1; text-align: center">
+      <div v-else style="margin-left: 30px;">
         <template v-for="item in soundEffectsMaterials" :key="item.id">
           <MateriaBox :material="item"></MateriaBox>
         </template>
       </div>
-    </el-container>
-  </div>
+    </el-main>
+  </el-container>
+
 </template>
 
 <script>

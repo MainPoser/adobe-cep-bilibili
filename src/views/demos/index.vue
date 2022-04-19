@@ -1,31 +1,27 @@
 <template>
-  <div class="stickers">
-    <el-container>
-      <div>
-        <el-aside width="180px">
-          <el-menu
-              background-color="#000000"
-              text-color="#ffffff"
-              :default-active="defaultActiveIndex"
-              class="el-menu-demo"
-              mode="vertical"
-              @select="handleSelectMenu"
-          >
-            <el-menu-item :key="item.index" v-for="(item) in menuData" :index="item.key">{{
-                item.name
-              }}
-            </el-menu-item>
-          </el-menu>
-        </el-aside>
+  <el-container>
+    <el-aside width="15%">
+      <el-menu
+          background-color="#000000"
+          text-color="#ffffff"
+          :default-active="defaultActiveIndex"
+          class="el-menu-demo"
+          mode="vertical"
+          @select="handleSelectMenu"
+      >
+        <el-menu-item :key="item.index" v-for="(item) in menuData" :index="item.key">{{
+            item.name
+          }}
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
+    <el-main>
+      <div v-for="item in demoList" :key="item._id" class="box">
+        <span class="name">{{ item.description }}</span>
+        <el-image @click="execDemo(item)" style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
       </div>
-      <div class="demo-image" style="flex: 1; text-align: center">
-        <div v-for="item in demoList" :key="item._id" class="box">
-          <span class="name">{{ item.description }}</span>
-          <el-image @click="execDemo(item)" style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
-        </div>
-      </div>
-    </el-container>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -79,7 +75,7 @@ export default {
 </script>
 
 <style scoped>
-.demo-image .box {
+.box {
   padding: 30px 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
@@ -89,11 +85,11 @@ export default {
   vertical-align: top;
 }
 
-.demo-image .box:last-child {
+.box:last-child {
   border-right: none;
 }
 
-.demo-image .name {
+.name {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
