@@ -89,6 +89,7 @@ Persistent Cookies 位置:
 3. Cookies:  #CEF v88 版本中, 我们已经看到，当cookie中没有设置SameSite属性时，默认为SameSite=Lax。这将导致cookie在跨站点上下文中被阻塞。如果您的应用程序需要在跨站点环境中使用cookie，我们建议您设置SameSite=None。如果组件没有在cookie中发送' SameSite '属性，它将默认为' SameSite=Lax '，以防止在跨站点环境中设置cookie. 
    
    - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie 
+   
    - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
      
      注意:根据CEF提供的一个 [临时方案](https://www.chromium.org/administrators/policy-list-3/cookie-legacy-samesite-policies) , 下面的选项可以添加在manifest '--disable-features=SameSiteByDefaultCookies '中。例子:
@@ -821,7 +822,6 @@ csInterface.addEventListener(“com.adobe.cep.test”, callback); //invoke the f
 ```
 
 - 一个如何在`CSInterface.addEventListener`使用匿名回调函数的例子
-  
 
 ```
 var csInterface = new CSInterface();
@@ -1681,7 +1681,7 @@ fallback=es_ES
 
 边注:
 
--  当`messages.properties` and `fallback.properties`都存在时，`fallback.properties`会被优先使用
+- 当`messages.properties` and `fallback.properties`都存在时，`fallback.properties`会被优先使用
 - 如果 `fallback.properties` 不可用, 或者指定了一个不存在的fallback, 同一个目录下的 messages.properties 会被使用
 
 #### 本地化的菜单
@@ -1915,26 +1915,26 @@ CEP 5.0及更高版本支持播放以下格式编码的视频和音频。
 
 ### 自定义CEF命令行参数
 
-Chromium/CEF command line parameters can be passed to CEPHtmlEngine, like --enable-media-stream. Available Chromium command line [parameters](http://peter.sh/experiments/chromium-command-line-switches/). 
+Chromium/CEF 命令行参数适用于 CEPHtmlEngine, 就像 --enable-media-stream. 可用的Chromium命令行 [参数](http://peter.sh/experiments/chromium-command-line-switches/). 
 
-CEP filters out some parameters due to various reasons:
+由于各种原因，CEP会过滤掉一些参数:
 
-| Parameters                  | What is it filtered out?                                                                                                                                        |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --remote-debugging-port     | This could overwrite the one in .debug file. Filter out to avoid conflict.                                                                                      |
-| --ignore-certificate-errors | This ignores SSL certificate errors. It is a security concern to ignore invalid server certificate, which allows extensions to load files from malicious sites. |
+| 参数                          | 它过滤出了什么?                                      |
+| --------------------------- | --------------------------------------------- |
+| --remote-debugging-port     | 这可能会覆盖.debug文件中的一个。过滤以避免冲突。                   |
+| --ignore-certificate-errors | 这将忽略SSL证书错误。忽略无效的服务器证书是一个安全问题，它允许扩展从恶意站点加载文件。 |
 
-All other parameters are passed to underlying CEF. It is up to CEF to decide whether a parameter is supported and what is the behavior. 
+所有其他参数都传递给底层的CEF。由CEF决定是否支持某个参数以及该参数的行为。
 
-#### How to use CEF command line parameters
+#### 如何使用CEF命令行参数
 
-- Add `<CEFCommandLine><Parameter>--param1<Parameter/> ...
-  </CEFCommandLine>` in manifest.
-- For `key=value` parameter, add
+- 在manifest配置文件中添加 `<CEFCommandLine><Parameter>--param1<Parameter/> ...
+  </CEFCommandLine>` .
+- 如果是 `key=value` 格式的参数, 在manifest配置文件中添加
   `<CEFCommandLine><Parameter>--param1=value1<Parameter/> ...
-  </CEFCommandLine>` in manifest.
+  </CEFCommandLine>` .
 
-Here is an example:
+下面是一个例子:
 
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -1970,30 +1970,30 @@ Here is an example:
 </ExtensionManifest>
 ```
 
-#### Commonly used CEF command parameters
+#### 常用的CEF命令参数
 
-| Parameters                            | Notes                                                                                                                                                                  |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --enable-media-stream                 | Enable media (WebRTC audio/video) streaming.                                                                                                                           |
-| --enable-speech-input                 | Enable speech input (x-webkit-speech).                                                                                                                                 |
-| --persist-session-cookies             | Persist session cookies.                                                                                                                                               |
-| --disable-image-loading               | Disable loading of images from the network. A cached image will still be rendered if requested.                                                                        |
-| --disable-javascript-open-windows     | Disable opening of windows via JavaScript.                                                                                                                             |
-| --disable-javascript-close-windows    | Disable closing of windows via JavaScript.                                                                                                                             |
-| --disable-javascript-access-clipboard | Disable clipboard access via JavaScript.                                                                                                                               |
-| --enable-caret-browsing               | Enable caret browsing.                                                                                                                                                 |
-| --proxy-auto-detect                   | This tells Chrome to try and automatically detect your proxy configuration. <br>See more info at http://www.chromium.org/developers/design-documents/network-settings. |
-| --user-agent                          | A string used to override the default user agent with a custom one.                                                                                                    |
-| --disable-application-cache           | Disable the ApplicationCache.                                                                                                                                          |
-| --enable-nodejs                       | Enable Node.js APIs in extensions. Supported since CEP 6.1.                                                                                                            |
-| --disable-pinch                       | Disable compositor-accelerated touch-screen pinch gestures.                                                                                                            |
-| --mixed-context                       | Enable the "mixed context" mode. Supported since CEP 7.0.                                                                                                              |
+| 参数                                    | 注意                                                                                                      |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| --enable-media-stream                 | 启用媒体(WebRTC音频/视频)流媒体。                                                                                   |
+| --enable-speech-input                 | 开启语音输入功能(x-webkit-speech)。                                                                              |
+| --persist-session-cookies             | 保存会话cookie。                                                                                             |
+| --disable-image-loading               | 禁止从网络加载图像。如果请求，缓存的图像仍然会被呈现。                                                                             |
+| --disable-javascript-open-windows     | 禁止通过JavaScript打开窗口。                                                                                     |
+| --disable-javascript-close-windows    | 通过JavaScript禁用关闭窗口。                                                                                     |
+| --disable-javascript-access-clipboard | 通过JavaScript禁用剪贴板访问。                                                                                    |
+| --enable-caret-browsing               | 使插入符号浏览。                                                                                                |
+| --proxy-auto-detect                   | 这告诉Chrome尝试并自动检测你的代理配置。<br/>查看更多信息http://www.chromium.org/developers/design-documents/network-settings. |
+| --user-agent                          | 用于用自定义代理覆盖默认用户代理的字符串。                                                                                   |
+| --disable-application-cache           | ApplicationCache禁用。                                                                                     |
+| --enable-nodejs                       | 在扩展中启用Node.js api。自CEP 6.1起支持。                                                                          |
+| --disable-pinch                       | 禁用合成加速触摸屏按压手势。                                                                                          |
+| --mixed-context                       | 启用 "mixed context" 模式. 从 CEP 7.0开始支持.                                                                   |
 
-### HTML Extension Persistent
+### HTML扩展持久
 
-The purpose of persistent is to force not reload HTML extension when it is closed or hidden. Photoshop has provided persistent since the version 14.2. Please note that, this feature is product specific and may not be available in few host applications.
+持久化的目的是强制HTML扩展在关闭或隐藏时不重新加载。ps图象处理软件从14.2版开始就提供了持久性。请注意，此功能是特定于产品的，可能在少数主机应用程序中不可用。
 
-InDesign and InCopy support perisitent feature from version 13.1. Following are the specific event names to be used:
+InDesign和InCopy支持13.1版的持久特性。以下是要使用的具体事件名称:
 Indesign:
 com.adobe.InDesignPersistent
 com.adobe.InDesignUnPersistent
@@ -2001,12 +2001,12 @@ Incopy:
 com.adobe.InCopyPersistent
 com.adobe.InCopyUnPersistent
 
-To make an HTML extension persistent in Photoshop
+在Photoshop中持久化HTML扩展
 
-- Upgrade Photoshop version to 14.2 or later
-- Dispatch the event `com.adobe.PhotoshopPersistent` from HTML extension to Photoshop to request persistent
+- 升级Photoshop到14.2或更高版本
+- 从HTML extension分发 `com.adobe.PhotoshopPersistent` 事件到 Photoshop 来让Photoshop来持久化
 
-Sample code:
+示例代码:
 
 ```
 var Persistent = function(inOn){
@@ -2028,26 +2028,26 @@ Persistent(true); //persistent to prevent extension from unloading
 Persistent(false); //unpersistent
 ```
 
-### Open URL link in default browser
+### 在默认浏览器中打开URL链接
 
-In HTML extension, URL link could be opened in the default browser by calling `window.cep.util.openURLInDefaultBrowser(‘http://example.com')`:
+在HTML扩展中，URL链接可以通过调用在默认浏览器中打开 `window.cep.util.openURLInDefaultBrowser(‘http://example.com')`:
 
 ```
 <li><button onclick="window.cep.util.openURLInDefaultBrowser('http://www.adobe.com')">Open browser</button></li>
 ```
 
-### Interaction between extension and point product during extension unload
+### 扩展卸载过程中扩展和应用之间的相互作用
 
-When an extension is about to be unloaded, the communication channel between extension and point product has been torn down, so there's no easy way for point product to get the extension-related information such as the extension's status.
+当一个扩展即将被卸载时，扩展和应用之间的通信通道已经被拆除，因此应用无法轻松获取扩展相关的信息，例如扩展的状态。
 
-To fulfill this functionality, the cooperation between extension and point product is needed.
+为了实现这一功能，需要扩展和应用之间的协作。
 
-From extension's side, a JavaScript function `registerExtensionUnloadCallback` is provided to register its callback function. The definition can be found at https://github.com/Adobe-CEP/CEP-Resources/blob/CEP8/CEP_9.x/CEPEngine_extensions.js. There're some limitations as below:
+在扩展方面，提供了一个JavaScript函数`registerExtensionUnloadCallback`来注册它的回调函数。有关定义信息看这里 https://github.com/Adobe-CEP/CEP-Resources/blob/CEP8/CEP_9.x/CEPEngine_extensions.js. 其局限性如下:
 
-- If registerExtensionUnloadCallback is called more than once, the last callback function that's successfully registered will be used.
-- The callback function must be context-independent and it is executed in the mainframe's context.
+- 如果registerExtensionUnloadCallback被多次调用，将使用最后一个成功注册的回调函数。
+- 回调函数必须是上下文独立的，并且在mainframe's 的上下文中执行。
 
-Example
+例子
 
 ```
 window.cep.util.registerExtensionUnloadCallback(function(){
@@ -2055,46 +2055,46 @@ window.cep.fs.writeFile("D:\\1.txt", "Hello");
 });
 ```
 
-From point product's side, `csxs::event::EVENT_TYPE_CSXS_EXTENSION_UNLOADED ("com.adobe.csxs.events.ExtensionUnloaded")` is dispatched. When point product receives the event, it can read the file written by extension to get the extension-related information.
+从应用产品的角度来看，csxs::event::EVENT_TYPE_CSXS_EXTENSION_UNLOADED ("com.adobe.csxs.events.ExtensionUnloaded")` 已经分发。当应用接收到事件时，它可以读取扩展所写的文件，以获得扩展相关的信息。
 
-Since the execution in the extension and the point product is in parallel, the point product needs to take care of the order.
+因为在扩展中的执行和应用是并行的，应用需要考虑顺序。
 
-The above method does not work due to the multi-process architecture in CEF 3.
+由于CEF 3中的多进程架构，上述方法不能工作。
 
-### Using Node.js APIs (CEP 6.0 and prior releases)
+### 使用Node.js api (CEP 6.0及之前版本)
 
-#### Node.js Support
+#### node . js支持
 
-One of the most prominent feature in CEP 5.0 and higher versions are allowing Node.js APIs to be used in HTML extensions. Most of the built-in APIs in Node.js version 0.8.22 are available to HTML extensions, with the below exceptions:
+CEP 5.0及更高版本中最突出的特性之一是允许在HTML扩展中使用Node.js api。Node.js 0.8.22版本中的大多数内置api都可用于HTML扩展，但有以下例外:
 
-- Cluster APIs are not supported.
-- Console APIs are not supported on Windows.
+- 不支持集群api。
+- Windows不支持控制台api。
 
-Other things to note:
+其他需要注意的事情:
 
-- CEP injects following symbols into the root HTML DOM:
-  - **global, GLOBAL, root** - same with the window object
-  - **Buffer** - node's Buffer class
-  - **process** - node's process class
-  - **require** - the magic function that bring you node API
-  - **module** - in node the main script is a special module, this is for the compatibility
-- Conflicts with Web-Based Require Function
-  - If your app uses libraries like `RequireJS` that inserts a require function into DOM, you should consider renaming CEP's require function to something else before migrating.
+- CEP将以下符号注入到HTML的根DOM中:
+  - **global, GLOBAL, root** - 与窗口对象相同
+  - **Buffer** - 节点的缓冲区类
+  - **process** - 节点的过程类
+  - **require** -为您带来节点API的神奇函数
+  - **module** - 在节点中，主脚本是一个特殊的模块，这是为了兼容性
+- 与基于web的Require功能的冲突
+  - 如果你的应用程序使用像`RequireJS`这样的库将一个require函数插入到DOM中，你应该考虑在迁移之前将CEP的require函数重命名为其他的函数。
 
 ```
 <script type="text/javascript">windows.nodeRequire=window.require && window.require=undefined</script>
 <script type="text/javascript" src="your/require/js/file.js"></script>
 ```
 
-- Conflicts with Web-Based module Function
-  - If your app uses `JQuery` that is trying to register itself as `nodejs` plugin, then you will have to add the script below inside script tag to define window.module as undefined.
+- 与web模块功能冲突
+  - 如果你的应用使用`JQuery`，试图注册为`nodejs`插件，那么你必须在脚本标签中添加下面的脚本来定义窗口。模块的定义。
 
 ```
 <script type="text/javascript">window.module = undefined</script> 
 ```
 
-- Disable Node.js APIs in iframe
-  - Because of security consideration, CEP provides an option to disable Node.js APIs in iframe. To do so, add a `nodejs-disabled="true"` attribute to iframe tag. For example:
+- 在iframe中禁用Node.js api
+  - 出于安全考虑，CEP提供了在iframe中禁用Node.js api的选项。为此，向iframe标签添加一个`nodejs-disabled="true"`属性。例如:
 
 ```
 <iframe id="xxx" class="xxxxx" nodejs-disabled="true">
@@ -2113,53 +2113,52 @@ requirejs.config({
 });
 ```
 
-#### Node.js Modules
+#### node . js模块
 
-##### JavaScript Modules
+##### JavaScript 模块
 
-All third-party node JavaScript modules are supported. The root search path of third-party modules is the directory which contains your HTML file. For example, when you do require in `file:///your_extension/index.html`, CEP will lookup modules under `file:///your_extension/node_modules`, this rule is exactly the same with upstream node.
+支持所有第三方节点JavaScript模块。第三方模块的根搜索路径是包含HTML文件的目录。例如，当你需要` file:///your_extension/index.html `时，CEP将查找` file:///your_extension/node_modules `下的模块，该规则与upstream node完全相同。
 
-##### Native Modules
+##### 本地模块
 
-Node.js native modules are not directly supported since CEP is using a different V8 version from the official node.
+node. js的原生模块不被直接支持，因为CEP使用的是与官方节点不同的V8版本。
 
-#### Samples
+#### 例子
 
-##### Use Environment Variables
+##### 使用环境变量
 
     process.env.ENV_VARIABLE // ENV_VARIABLE is the name of the variable you want to access.
 
-##### Use Node.js to download files
+##### 使用Node.js下载文件
 
 - http://www.hacksparrow.com/using-node-js-to-download-files.html
 
-### Using Node.js APIs (CEP 6.1)
+### 使用Node.js api (CEP 6.1)
 
-#### Node.js Support
+#### node . js支持
 
-CEP 6.1 upgraded its HTML engine to CEF 2272 (based on Chromium 41.0.2272.104) with IO.js version 1.2.0 integrated.
+CEP 6.1将其HTML引擎升级到CEF 2272(基于Chromium 41.0.2272.104)，集成了IO.js版本1.2.0。
 
-Other things to note:
+其他需要注意的事情:
 
-- Node.js APIs are **disabled by default**
-  - Due to security consideration, node.js APIs are disabled by default (prior to CEP 6.1, they were enabled by default) both on the extension level and iFrame level.
+- Node.js api在默认情况下是**禁用的**
+  - 出于安全考虑，node.js api在扩展级别和iFrame级别上都是默认禁用的(在CEP 6.1之前，它们是默认启用的)。
 
-To enable Node.js APIs: 
+启用Node.js api:
 
-- Set `ExtensionManifest` version and `RequiredRuntime` version 5.0 or higher.
-- Specify `--enable-nodejs` in extension manifest. See section Customize CEF Command Line Parameters for details.
-- To use `Node.js` APIs in IFrames, add property `enable-nodejs` to it and to all its ancestor iFrames. If any of its ancestors don't have this property specified, `Node.js` APIs won't work
+- 设置`ExtensionManifest`版本和`RequiredRuntime`版本5.0或更高。
+- 在扩展清单中指定'--enable-nodejs '。详细信息请参见自定义CEF命令行参数。
+- 要在IFrames使用 `Node.js` , 添加 `enable-nodejs` 到标签以及所有的上层iFrames。 如果任何一个上层iFrames没有添加, `Node.js` APIs 不会工作
 
 ```
 <iframe id="xxx" class="xxxxx" enable-nodejs>
 ```
 
-- The old `nodejs-disabled` CEF command line parameter and iFrame property are no longer supported and ignored by the new HTML engine.
-- Node context and Browser context
-  - The way `io.js` was integrated into CEF introduced two types of JavaScript contexts, one for browser, the other for `io.js`. Global objects created in HTML pages are in browser context, while `required` js files run in `io.js` context. These two contexts don't have direct access to each other's data. To share data, pass reference to objects between the two contexts:
-    - Accessing objects in `io.js` context from browser context - For example,
-      in browser context, `var backbone = require('backbone');` executes the backbone module's code and then pass the result object to browser context.
-    - Accessing objects in browser context from `io.js` context - Browser context's `window` global object is injected to `io.js` context, providing a way to access objects in browser context from `io.js` context. For example, if you want to access a global object named `localeStrings` defined in browser context from your `io.js` module, use `window.localStrings` in your `io.js` module.
+- 旧的`nodejs-disabled` CEF命令行参数和iFrame属性不再受支持，并被新的HTML引擎忽略。
+- Node 上下文和 Browser 上下文
+  - 将`io.js` 集成到CEF的方式引入了两种JavaScript上下文，一种用于浏览器，另一种用于`io.js `。在HTML页面中创建的全局对象在浏览器上下文中，而` required `js文件运行在`io.js `上下文中。这两个上下文不能直接访问彼此的数据。为了共享数据，在两个上下文中传递对对象的引用:
+    - 从浏览器访问 `io.js` context上下文 - 例如,在浏览器中, `var backbone = require('backbone');`执行io.js模块的代码，然后将结果对象传递给浏览器上下文。
+    - 从` io.js ` context中访问浏览器上下文中的对象-浏览器上下文中的' window '全局对象被注入到` io.js ` context中，提供了一种从` io.js ` context中访问浏览器上下文中的对象的方法。例如,如果你想从你的`io.js`模块中访问一个定义在浏览器上下文中的名为`localeStrings`的全局对象,在你的`io.js` module使用`window.localStrings` 。
 
 ### Using Node.js APIs (since CEP 7.0)
 
@@ -2184,7 +2183,7 @@ In addition to existing `Node.js` support in CEP 9, CEP 10 provide a new `disabl
     </iframe>
 ```
 
-### Limitation of cep.process.stdout/stderr
+### 限制cep.process.stdout / stderr
 
 There is a known limitation of `cep.process.stdout/stderr` which is targeting to capture one time of `stdout/stderr` output.
 
@@ -2257,17 +2256,18 @@ Since CEP 5, Node.js is integrated into CEP runtime and users could invoke the s
 
 Sample extension is at https://github.com/Adobe-CEP/Samples/tree/master/ExchangeExample.
 
-Other JavaScript Information
+其他JavaScript信息
 --------------------------
 
-### Load Multiple JSX files
+### 加载多个JSX文件
 
-JSX files normally define some functions and objects which are intended to be executed in host application's ExtendScript environment.
+SX文件通常定义一些函数和对象，这些函数和对象将在主机应用程序的ExtendScript环境中执行。
 
-There are two approaches for HTML extension to trigger JSX files to be loaded in host application's ExtendScript.
+HTML扩展有两种方法来触发将JSX文件加载到主机应用程序的ExtendScript中。
 
-- Define `<ScriptPath>` node in `manifest.xml`, and the value of the
-  node is the relative path for the JSX file. For example:
+- 在`manifest.xml`中定义`<ScriptPath>`，以及
+  
+  node是JSX文件的相对路径。例如:
 
 ```
 Extension Id="com.adobe.CEPHTMLTEST.Panel1">
@@ -2285,7 +2285,7 @@ Extension Id="com.adobe.CEPHTMLTEST.Panel1">
 </Extension>
 ```
 
-- HTML extension uses CEP JavaScript API `evalScript` with the script    `$.evalFile(jsxFile)` to trigger JSX files to get loaded in host application's ExtendScript. Developers may need more script code to determine the path of `jsxFile` before the `evalScript` call. For example, they may refer to `$.fileName` to find out the path and the value of `$.fileName` should be the currently executed `JSX` file path. Here is an example:
+- HTML扩展使用 CEP JavaScript API `evalScript` 执行  `$.evalFile(jsxFile)` 来触发JSX文件加载到主机应用程序的ExtendScript中。需要更多的脚本代码来确定调用evalScript之前的`jsxFile`的路径。例如, 它们可能指的是 `$.fileName` 来查找路径，并且  `$.fileName` 的值应该是 `JSX` 文件路径. 就像下面的示例
 
 ```
 var extensionPath = $.fileName.split('/').slice(0, -1).join('/') + '/';  // The value of $.fileName should be ExtensionRootPath/jsx/example.jsx as mentioned above, while the value of extensionPath should be "ExtensionRootPath/jsx/"
@@ -2294,7 +2294,7 @@ $.evalFile(extensionPath + 'example2.jsx');
 $.evalFile(extensionPath + 'example3.jsx');
 ```
 
-But if the `$.fileName` is referred in the FIRST LOADED JSX file, the value is not correct. That is to say, if the snippet above runs in `example.jsx` which is referred in the `manifest.xml`, the error will arise. So, PLEASE AVOID using `$.fileName` in the FIRST LOADED JSX file, maybe this is a limitation in ExtendScript. The workaround is to refer it in the second loaded and afterward JSX files. For example:
+但是如果 `$.fileName` 是在 FIRST LOADED JSX 文件引入的, 并且值是错误的。也就是说如果上面片段的代码运行在`manifest.xml` 文件中配置的`example.jsx` 中, 将会出现错误. 因此，请避免在第一个加载的JSX文件中使用 `$.fileName` , 也许这是ExtendScript中的一个限制。解决方法是在第二个加载的以及之后的JSX文件中引用它。例如:
 
 ```
 // After finishing loading the jsx file refered in the manifest.xml, please use evalScript of CSInterface to load other jsx files.
@@ -2307,42 +2307,42 @@ CSInterface.evalScript('$.evalFile(anotherJSXFile)', callback);
 $.evalFile(hardCodeJSXFile);
 ```
 
-Note: Since the script in this section is intended to be executed in host application's ExtendScript, `$` in this section is different from jquery global variable `$`.
+注意:由于本节中的脚本将在主机应用程序的ExtendScript中执行，因此本节中的 `$` 不同于jquery全局变量 `$`.
 
 Please use "namespace" if the developers want to define new variable/function/object in Global Space or `$` object. If the same name defined in multiple JSX files, the definition in the last loaded JSX file will take effect, and the definition in the previous loaded JSX files will be overridden. For example, `$.ext` is defined in a.jsx, b.jsx and c.jsx, and in a.jsx `$.ext` is a function, in b.jsx `$.ext` is an object and in c.jsx `$.ext` is a string, and the load sequence is a.jsx->b.jsx->c.jsx, after loading, `$.ext` is a string, rather than an object or a function. And this behavior will be across multiple extension running in the same point product, for example, if a.jsx, b.jsx and c.jsx belong to extension a,b,c separately, and extension loading order is extension a-> extension b-> extension c, `$.ext` will be still a string, rather than a function or an object. 
 
-### Drag and Drop
+### 拖拽
 
-#### Use Drag and Drop
+#### 使用拖放
 
-CEP 5.2 support HTML 5 Drag and Drop. There are four types.
+CEP 5.2支持HTML 5拖放。有四种类型。
 
-1. Drag and drop inside HTML extension.
+1. 在HTML扩展内拖放。
 
-2. Drag and drop between two HTML extensions
+2. 在两个HTML扩展之间拖放
 
-3. Drag and drop between HTML extension and its host application.
+3. 在HTML扩展和它的主机应用程序之间拖放。
 
-4. Drag and drop between HTML extension and operating system (e.g. Desktop or Browser).
+4. 在HTML扩展和操作系统(例如桌面或浏览器)之间拖放。
 
-To learn about HTML 5 Drag and Drop and how to use it by JavaScript, please refer to http://www.w3.org/TR/html5/editing.html#dnd.
+要了解HTML 5拖放和如何使用JavaScript， 请参考 http://www.w3.org/TR/html5/editing.html#dnd.
 
-Here are some demos.
+这里有一些演示。
 
 - http://www.w3schools.com/html/html5_draganddrop.asp
 - http://html5demos.com/
 
-#### Disable Drag and Drop
+#### 禁用拖放功能
 
-Extension developers can disable the default behavior of DnD by JavaScript.
+扩展开发人员可以通过JavaScript禁用DnD的默认行为。
 
-Method 1
+方法1
 
 ```
 <body ondragover="return false" ondrop="return false">
 ```
 
-Method 2 (using jQuery)
+方法2(使用jQuery)
 
 ```
 $(document.body).on('dragover drop', function(e) {
@@ -2350,14 +2350,14 @@ $(document.body).on('dragover drop', function(e) {
 });
 ```
 
-Please read HTML 5 standard for more details.
+请阅读HTML 5标准了解更多细节。
 http://www.w3.org/TR/html5/editing.html#event-dragenter
 
-### External JavaScript Libraries
+### 外部JavaScript库
 
-CEP HTML Engine does not restrict using any extension JavaScript libraries. As long as a library can be used in CEF Client or Chrome browser, it should be usable in CEP HTML Engine.
+CEP HTML引擎不限制使用任何扩展JavaScript库。只要一个库可以在CEF客户端或Chrome浏览器中使用，它应该可以在CEP HTML引擎中使用。
 
-Here are some JavaScript which had been used successfully
+以下是一些成功使用的JavaScript
 
 - JQuery - http://jquery.com/
   - Please refer to Node.js section about resolving symbol conflicts.
@@ -2369,16 +2369,15 @@ Here are some JavaScript which had been used successfully
 
 ### NPAPI plug-ins
 
-The support for NPAPI plug-ins had been dropped since CEP 4.2. Although it is still supported by CEP 4.0 and 4.1, but as all the products are moving to CEP 4.2, we suggest developers not use it. 
+对NPAPI插件的支持从CEP 4.2开始就被删除了。虽然CEP 4.0和4.1仍然支持它，但由于所有产品都在向CEP 4.2转移，我们建议开发人员不要使用它。
 
-Don't embed Java Applet in your extension as they all depend on NPAPI plug-in.
+不要在你的扩展中嵌入Java Applet，因为它们都依赖于NPAPI插件。
 
-### Increase/Decrease font size in HTML Panel
+### 增加/减少HTML面板的字体大小
 
-There are couples of JavaScript ways to increase or decrease font size in HTML panel either by plain JavaScript or JQuery. The following is the two pieces of sample snippet to achieve this. One is in plain JavaScript and the other uses JQuery library.
+有几种JavaScript方法可以通过纯JavaScript或JQuery来增加或减少HTML面板中的字体大小。下面是实现此目的的两个示例代码片段。一个是纯JavaScript，另一个使用JQuery库。
 
-- Plain JavaScript - Use `document.body.style.fontSize` to change font
-  size in page.
+- Plain JavaScript - 用 `document.body.style.fontSize` 改变当前页面的字体大小
 
 ```
 <script type="text/javascript" language="javascript">
@@ -2403,7 +2402,7 @@ There are couples of JavaScript ways to increase or decrease font size in HTML p
 </script>
 ```
 
-- JQuery - Use `$('html').css('font-size', size)` to change font size in page.
+- JQuery - 使用 `$('html').css('font-size', size)` 改变页面字体大小
 
 ```
 <script type="text/javascript" language="javascript">
@@ -2433,11 +2432,11 @@ There are couples of JavaScript ways to increase or decrease font size in HTML p
 </script>
 ```
 
-The ways above are the common used solution for JavaScript developers to increase or decrease fonts.
+上述方法是JavaScript开发人员常用的增加或减少字体的解决方案。
 
-### JavaScript Tips
+### JavaScript的技巧
 
-#### Check Internet Connection
+#### 检查网络连接
 
 ```
 if (navigator.onLine === true)
@@ -2450,9 +2449,9 @@ else
 }
 ```
 
-#### Set Mouse Cursor
+#### 设置鼠标光标
 
-Please refer to http://jsfiddle.net/BfLAh/1390/
+请参考 http://jsfiddle.net/BfLAh/1390/
 
 ```
 $(document).mousemove(function(e){
@@ -2462,7 +2461,7 @@ $(document).mousemove(function(e){
 
 #### iframe
 
-Due to the [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options) header a number of HTTPS websites are unavailable to host in an iframe. An alternative to displaying HTTPS content is to use the `window.location.href` e.g.
+由于e [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options) 请求头 许多 HTTPS 网站在 iframe中不可用。 另一种显示HTTPS内容的方法是使用`window.location`
 
 **iFrame alternative for HTTPS content** 
 
@@ -2477,22 +2476,22 @@ function onLoaded() {
 }
 ```
 
-#### Tooltip
+#### 工具提示
 
-CEP 5.2 supports HTML title attribute to show the tooltip on Windows. However, it's not supported on macOS due to off-screen rendering. The alternative is use JavaScript instead, please refer to http://www.a2zwebhelp.com/bootstrap-tooltips for good examples.
+CEP 5.2支持HTML标题属性在Windows上显示工具提示。然而，由于屏幕外渲染，它在macOS上不受支持。另一种方法是使用JavaScript，请参阅http://www.a2zwebhelp.com/bootstrap-tooltips以获得好的示例。
 
 CEPHtmlEngine
 ------------------------
 
-### Multi-process Architecture
+### 多进程架构
 
 CEP and the underlying Chromium have multi-process architecture. Each CEP extension runs in a separate CEP HTML Engine, which might have three processes - one main/browser process, one renderer process, and one GPU process. On Max OSX, the main process is named `CEPHtmlEngine`, and the other two process are named `CEPHtmlEngine Helper`. On Windows, all the three processes are named `CEPHtmlEngine.exe`. As long as the extensions are well implemented, having multiple processes should not be a performance problem.
 
 You can find what extension a CEP HTML Engine process belongs to by checking its command line parameters. On Mac OSX, please use `ps -ef | grep CEPHtmlEngine` in a terminal to check the command line. On Windows, please refer to http://superuser.com/questions/415360/how-do-i-find-out-command-line-arguments-of-a-running-program to check the command line. The browser process does not have `--type` in the command line, while the renderer process and the GPU process have `--type=renderer` and `--type=gpu-process` in the command line.
 
-### Ports opened in CEPHtmlEngine
+### 在CEPHtmlEngine中打开的端口
 
-If you use [TCPView](https://technet.microsoft.com/en-us/sysinternals/tcpview.aspx) to monitor `CEPHtmlEngine` process, you may see some ports are opened in localhost. Most of the ports are opened internally in Chromium code for `websocket`, which is initiated by HTML extension instead of `CEPHtmlEngine` itself. You can use [RawCap](http://www.netresec.com/?page=RawCap) to capture the data in *.pcap file and open it in [Wireshark](https://www.wireshark.org/) to examine the details.
+如果您使用 [TCPView](https://technet.microsoft.com/en-us/sysinternals/tcpview.aspx) 来监视 `CEPHtmlEngine` 进程, 您可能会看到在localhost中打开了一些端口。 大多数的端口都是在Chromium内部为 `websocket`打开的, 它是由HTML扩展而不是 `CEPHtmlEngine` 本身发起的。 您可以使用 [RawCap](http://www.netresec.com/?page=RawCap) 来捕获保存为*.pcap的数据，打开 [Wireshark](https://www.wireshark.org/) 查看详细信息
 
 ### CEF/Chromium Issues
 
