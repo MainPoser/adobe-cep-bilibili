@@ -3,7 +3,7 @@
     <span class="name">{{ bgm.name }}</span>
     <el-button :disabled="isDisabled" @click="downloadResource(bgm)">点击下载</el-button>
     <el-progress v-if="show" :percentage="percentage"></el-progress>
-    <audio controls="controls" style="width: 100px; height: 100px" :src="this.playUrl">
+    <audio controls="controls" style="width: 100px; height: 60px" :src="this.playUrl">
       Your browser does not support the audio element.
     </audio>
     <el-image fit="fill" style="width: 100px; height: 100px" :src="bgm.cover"/>
@@ -105,7 +105,7 @@ export default {
 
 <style scoped>
 .box {
-  padding: 30px 0;
+  padding: 10px 0;
   text-align: center;
   border: solid 1px var(--el-border-color);
   display: inline-block;

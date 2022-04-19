@@ -4,7 +4,7 @@
     <el-button :disabled="isDisabled" @click="downloadResource(material)">点击下载</el-button>
     <el-progress v-if="show" :percentage="percentage"></el-progress>
     <!--  如果素材的类型是音频type===20-->
-    <audio v-if="material.type===20" controls="controls" style="width: 100px; height: 100px"
+    <audio v-if="material.type===20" controls="controls" style="width: 100px; height: 60px"
            :src="material.download_url">
       Your browser does not support the audio element.
     </audio>
@@ -91,7 +91,7 @@ export default {
 
 <style scoped>
 .box {
-  padding: 30px 0;
+  padding: 10px 0;
   text-align: center;
   border: solid 1px var(--el-border-color);
   display: inline-block;
