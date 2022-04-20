@@ -1,7 +1,10 @@
 <template>
   <div class="box">
     <span class="name">{{ bgm.name }}</span>
-    <el-button :disabled="isDisabled" @click="downloadResource(bgm)">点击下载</el-button>
+    <el-row style="padding-left: 15px;">
+      <el-button :disabled="isDisabled" @click="downloadResource(bgm)" style="width: 40%">点击下载</el-button>
+      <el-button @click="downloadResource(bgm)" style="width: 40%">点击播放</el-button>
+    </el-row>
     <el-progress v-if="show" :percentage="percentage"></el-progress>
     <audio controls="controls" style="width: 100px; height: 60px" :src="this.playUrl">
       Your browser does not support the audio element.
