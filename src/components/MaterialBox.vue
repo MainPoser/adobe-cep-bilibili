@@ -32,6 +32,7 @@ export default {
     playMusic() {
       this.music.play_url = this.material.download_url
       this.music.image_url = this.material.cover
+      this.music.name = this.material.name
       this.$emit('getMusicInfo', this.music)
     },
     downloadResource() {

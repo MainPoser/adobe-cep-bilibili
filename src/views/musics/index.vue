@@ -39,26 +39,25 @@
       <div v-if="musicLibraryOpen" style="margin-left: 30px;">
         <el-scrollbar height="32vw">
           <template v-for="item in musicLibraryMaterials" :key="item.id">
-            <BGMBox @getBGMInfo="playMusic" :bgm="item"></BGMBox>
+            <BGMBox @getMusicInfo="playMusic" :bgm="item"></BGMBox>
           </template>
-          <el-row>
-            <div class="demo-pagination-block">
-              <div class="demonstration">分页信息</div>
-              <el-pagination
-                  v-model:currentPage="musicLibraryCurrentPage"
-                  :page-size="musicLibraryPageSize"
-                  :page-sizes="[10, 20, 30, 40]"
-                  :small="true"
-                  :default-page-size="10"
-                  :background="true"
-                  layout="total,sizes,prev,pager,next"
-                  :total="musicLibraryTotal"
-                  @size-change="musicLibrarySizeChange"
-                  @current-change="musicLibraryCurrentChange"
-              />
-            </div>
-          </el-row>
         </el-scrollbar>
+        <el-row>
+          <div class="demo-pagination-block">
+            <el-pagination
+                :currentPage="musicLibraryCurrentPage"
+                :page-size="musicLibraryPageSize"
+                :page-sizes="[10, 20, 30, 40]"
+                :small="true"
+                :default-page-size="10"
+                :background="true"
+                layout="total,sizes,prev,pager,next"
+                :total="musicLibraryTotal"
+                @size-change="musicLibrarySizeChange"
+                @current-change="musicLibraryCurrentChange"
+            />
+          </div>
+        </el-row>
       </div>
       <div v-else style="margin-left: 30px;">
         <el-scrollbar height="35vw">
@@ -67,7 +66,8 @@
           </template>
         </el-scrollbar>
       </div>
-      <audio ref="audio" controls="controls" style="width: 100%; height: 60px">
+      <p style="margin-left: 30px;">正在播放：{{ music.name }}</p>
+      <audio ref="audio" :src="music.play_url" controls="controls" style="width: 85%; height: 30px;margin-left: 30px;">
         Your browser does not support the audio element.
       </audio>
     </el-main>
@@ -92,14 +92,16 @@ export default {
   },
   data() {
     return {
+      music: {},
+      musicLibrarySelectMenuKey: '',
       musicLibraryCurrentPage: 1,
-      musicLibraryPageSize: 20,
-      topMenuType: '40',
+      musicLibraryPageSize: 10,
       musicLibraryTotal: 0,
-      activeMenu: '',
       musicLibraryOpen: false,
       musicLibraryMenuList: [],
       musicLibraryMaterials: [],
+      topMenuType: '40',
+      activeMenu: '',
       soundEffectsMenuList: [],
       soundEffectsMaterials: []
     }
@@ -123,20 +125,22 @@ export default {
     // 播放音乐
     playMusic(music) {
       console.log(music)
-      // 绑定音乐地址
-      this.$refs.audio.src = music.play_url
+      // 设置当前播放音乐名称
+      this.music = music
       // 重置播放时间
       this.$refs.audio.currentTime = 0
       // 播放音乐
       this.$refs.audio.play()
     },
     // 音乐库每页长度改变
-    musicLibrarySizeChange() {
-      this.musicLibrarySelectMenu()
+    musicLibrarySizeChange(val) {
+      this.musicLibraryPageSize = val
+      this.musicLibrarySelectMenu(this.musicLibrarySelectMenuKey)
     },
     // 音乐库当前页更新
-    musicLibraryCurrentChange() {
-      this.musicLibrarySelectMenu()
+    musicLibraryCurrentChange(val) {
+      this.musicLibraryCurrentPage = val
+      this.musicLibrarySelectMenu(this.musicLibrarySelectMenuKey)
     },
     // 接收参数的方法
     getParams() {
@@ -158,16 +162,17 @@ export default {
       })
     },
     musicLibrarySelectMenu(key) {
+      this.musicLibrarySelectMenuKey = key
       this.musicLibraryOpen = true
       this.musicLibraryMaterials = []
-      console.log("点击了音乐库菜单" + key)
+      console.log("点击了音乐库菜单" + this.musicLibrarySelectMenuKey)
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_BGM_LIST,
         method: constant.AXIOS.HTTP.METHOD.GET,
         params: {
           pn: this.musicLibraryCurrentPage,//第几页
           ps: this.musicLibraryPageSize,//每页多少个
-          tid: key
+          tid: this.musicLibrarySelectMenuKey
         }
       }).then(res => {
         this.musicLibraryMaterials = res.data.list
