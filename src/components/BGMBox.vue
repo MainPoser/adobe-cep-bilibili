@@ -3,12 +3,9 @@
     <span class="name">{{ bgm.name }}</span>
     <el-row style="padding-left: 15px;">
       <el-button :disabled="isDisabled" @click="downloadResource(bgm)" style="width: 40%">点击下载</el-button>
-      <el-button @click="downloadResource(bgm)" style="width: 40%">点击播放</el-button>
+      <el-button @click="playMusic(bgm)" style="width: 40%">点击播放</el-button>
     </el-row>
     <el-progress v-if="show" :percentage="percentage"></el-progress>
-    <audio controls="controls" style="width: 100px; height: 60px" :src="this.playUrl">
-      Your browser does not support the audio element.
-    </audio>
     <el-image fit="fill" style="width: 100px; height: 100px" :src="bgm.cover"/>
   </div>
 </template>
@@ -34,6 +31,11 @@ export default {
     this.getPlayUrl()
   },
   methods: {
+    // 播放音乐，把音乐信息传递给父组件
+    playMusic(bgm) {
+      bgm.play_url = this.playUrl
+      this.$emit('getBGMInfo', bgm)
+    },
     getPlayUrl() {
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_BGM_PLAY_URL,

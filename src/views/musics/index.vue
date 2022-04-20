@@ -36,7 +36,7 @@
     <el-main>
       <div v-if="musicLibraryOpen" style="margin-left: 30px;">
         <template v-for="item in musicLibraryMaterials" :key="item.id">
-          <BGMBox :bgm="item"></BGMBox>
+          <BGMBox @getBGMInfo="playMusic" :bgm="item"></BGMBox>
         </template>
         <el-row>
           <div class="demo-pagination-block">
@@ -61,6 +61,9 @@
           <MateriaBox :material="item"></MateriaBox>
         </template>
       </div>
+      <audio ref="audio" controls="controls" style="width: 100%; height: 60px">
+        Your browser does not support the audio element.
+      </audio>
     </el-main>
   </el-container>
 
@@ -111,6 +114,16 @@ export default {
     }
   },
   methods: {
+    // 播放音乐
+    playMusic(music) {
+      console.log(music)
+      // 绑定音乐地址
+      this.$refs.audio.src = music.play_url
+      // 重置播放时间
+      this.$refs.audio.currentTime = 0
+      // 播放音乐
+      this.$refs.audio.play()
+    },
     // 音乐库每页长度改变
     musicLibrarySizeChange() {
       this.musicLibrarySelectMenu()
