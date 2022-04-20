@@ -2,7 +2,7 @@
   <div class="box">
     <span class="name">{{ bgm.name }}</span>
     <el-row style="padding-left: 15px;">
-      <el-button :disabled="isDisabled" @click="downloadResource(bgm)" style="width: 40%">点击下载</el-button>
+      <el-button :disabled="isDisabled" @click="downloadResource" style="width: 40%">点击下载</el-button>
       <el-button @click="playMusic(bgm)" style="width: 40%">点击播放</el-button>
     </el-row>
     <el-progress v-if="show" :percentage="percentage"></el-progress>
@@ -20,6 +20,7 @@ export default {
   props: ['bgm'],
   data() {
     return {
+      music: {},
       percentage: 0,
       isDisabled: false,
       show: false,
@@ -33,8 +34,9 @@ export default {
   methods: {
     // 播放音乐，把音乐信息传递给父组件
     playMusic(bgm) {
-      bgm.play_url = this.playUrl
-      this.$emit('getBGMInfo', bgm)
+      this.music.paly_url = this.playUrl
+      this.music.image_url = bgm.cover
+      this.$emit('getMusicInfo', this.music)
     },
     getPlayUrl() {
       this.$axios({
@@ -49,11 +51,11 @@ export default {
         console.log(err)
       })
     },
-    downloadResource(bgm) {
+    downloadResource() {
       // 用户打开保存文件目录选择框
       // 默认保存为素材名称+.+文件类型
       let suffix = 'm4a'
-      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID), [suffix], bgm.name + "." + suffix, "*." + suffix)
+      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID), [suffix], this.bgm.name + "." + suffix, "*." + suffix)
       let filePath = ''
       if (0 === showSaveDialogResult.err) {
         if (showSaveDialogResult.data.length === 0) {

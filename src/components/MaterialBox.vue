@@ -1,13 +1,11 @@
 <template>
   <div class="box">
     <span class="name">{{ material.name }}</span>
-    <el-button :disabled="isDisabled" @click="downloadResource(material)">点击下载</el-button>
+    <el-row style="padding-left: 15px;">
+      <el-button :disabled="isDisabled" @click="downloadResource" style="width: 40%">点击下载</el-button>
+      <el-button v-if="material.type===20" @click="playMusic" style="width: 40%">点击播放</el-button>
+    </el-row>
     <el-progress v-if="show" :percentage="percentage"></el-progress>
-    <!--  如果素材的类型是音频type===20-->
-    <audio v-if="material.type===20" controls="controls" style="width: 100px; height: 60px"
-           :src="material.download_url">
-      Your browser does not support the audio element.
-    </audio>
     <!--  除了音频之外的素材-->
     <el-image v-else fit="fill" style="width: 100px; height: 100px" :src="material.cover"/>
   </div>
@@ -23,18 +21,25 @@ export default {
   props: ['material'],
   data() {
     return {
+      music: {},
       percentage: 0,
       isDisabled: false,
       show: false
     }
   },
   methods: {
-    downloadResource(material) {
+    // 播放音乐，把音乐信息传递给父组件
+    playMusic() {
+      this.music.play_url = this.material.download_url
+      this.music.image_url = this.material.cover
+      this.$emit('getMusicInfo', this.music)
+    },
+    downloadResource() {
       // 用户打开保存文件目录选择框
-      let fileName = http_util.getFileNameByUrl(material.download_url);
+      let fileName = http_util.getFileNameByUrl(this.material.download_url);
       let suffix = fileName.split('.')[1];
       // 默认保存为素材名称+.+文件类型
-      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID), [suffix], material.name + "." + suffix, "*." + suffix)
+      let showSaveDialogResult = adobe_cep.showSaveDialogEx("选择保存位置", adobe_cep.pathJoin(adobe_cep.USER_DIR, adobe_cep.EXTENDTION_ID), [suffix], this.material.name + "." + suffix, "*." + suffix)
       let filePath = ''
       if (0 === showSaveDialogResult.err) {
         if (showSaveDialogResult.data.length === 0) {
@@ -55,7 +60,7 @@ export default {
       //展示下载框
       this.show = true
       this.$axios({
-        url: material.download_url,
+        url: this.material.download_url,
         method: constant.AXIOS.HTTP.METHOD.GET,
         responseType: constant.AXIOS.HTTP.RESPONSE_TYPE.ARRAY_BUFFER, //必须这么写，标注响应的是二进制流
         onDownloadProgress: (progressEvent) => {

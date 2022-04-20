@@ -63,7 +63,7 @@
       <div v-else style="margin-left: 30px;">
         <el-scrollbar height="35vw">
           <template v-for="item in soundEffectsMaterials" :key="item.id">
-            <MateriaBox :material="item"></MateriaBox>
+            <MateriaBox @getMusicInfo="playMusic" :material="item"></MateriaBox>
           </template>
         </el-scrollbar>
       </div>
