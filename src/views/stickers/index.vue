@@ -1,25 +1,29 @@
 <template>
   <el-container>
     <el-aside width="15%">
-      <el-menu
-          background-color="#000000"
-          text-color="#ffffff"
-          :default-active="activeMenu"
-          class="el-menu-vertical-demo"
-          mode="vertical"
-          @select="handleSelectMenu"
-      >
-        <template v-for="(menu) in leftMenuList">
-          <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-          <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-        </template>
-      </el-menu>
+      <el-scrollbar height="40vw">
+        <el-menu
+            background-color="#000000"
+            text-color="#ffffff"
+            :default-active="activeMenu"
+            class="el-menu-vertical-demo"
+            mode="vertical"
+            @select="handleSelectMenu"
+        >
+          <template v-for="(menu) in leftMenuList">
+            <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+            <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+          </template>
+        </el-menu>
+      </el-scrollbar>
     </el-aside>
     <el-main>
       <div style="margin-left: 30px;">
-        <template v-for="item in materials" :key="item.id">
-          <MateriaBox :material="item"></MateriaBox>
-        </template>
+        <el-scrollbar height="35vw">
+          <template v-for="item in materials" :key="item.id">
+            <MateriaBox :material="item"></MateriaBox>
+          </template>
+        </el-scrollbar>
       </div>
     </el-main>
   </el-container>

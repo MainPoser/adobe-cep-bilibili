@@ -1,24 +1,28 @@
 <template>
   <el-container>
     <el-aside width="15%">
-      <el-menu
-          background-color="#000000"
-          text-color="#ffffff"
-          :default-active="defaultActiveIndex"
-          class="el-menu-demo"
-          mode="vertical"
-          @select="handleSelectMenu"
-      >
-        <el-menu-item :key="item.index" v-for="(item) in menuData" :index="item.key">{{
-            item.name
-          }}
-        </el-menu-item>
-      </el-menu>
+      <el-scrollbar height="40vw">
+        <el-menu
+            background-color="#000000"
+            text-color="#ffffff"
+            :default-active="defaultActiveIndex"
+            class="el-menu-demo"
+            mode="vertical"
+            @select="handleSelectMenu"
+        >
+          <el-menu-item :key="item.index" v-for="(item) in menuData" :index="item.key">{{
+              item.name
+            }}
+          </el-menu-item>
+        </el-menu>
+      </el-scrollbar>
     </el-aside>
     <el-main>
       <div v-for="item in demoList" :key="item._id" class="box">
-        <span class="name">{{ item.description }}</span>
-        <el-image @click="execDemo(item)" style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
+        <el-scrollbar height="35vw">
+          <span class="name">{{ item.description }}</span>
+          <el-image @click="execDemo(item)" style="width: 100px; height: 100px" :src="item.url" fit="fit"/>
+        </el-scrollbar>
       </div>
     </el-main>
   </el-container>

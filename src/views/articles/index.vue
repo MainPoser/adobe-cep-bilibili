@@ -1,10 +1,14 @@
 <template>
   <el-container>
     <el-aside>
-      左侧菜单
+      <el-scrollbar height="40vw">
+        左侧菜单
+      </el-scrollbar>
     </el-aside>
     <el-main>
-      主要显示区
+      <el-scrollbar height="35vw">
+        主要显示区
+      </el-scrollbar>
     </el-main>
   </el-container>
 </template>

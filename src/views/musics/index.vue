@@ -1,65 +1,71 @@
 <template>
   <el-container>
     <el-aside width="15%">
-      <el-menu
-          background-color="#000000"
-          text-color="#ffffff"
-          :default-active="activeMenu"
-          class="el-menu-vertical-demo"
-          mode="vertical"
-          @select="soundEffectsSelectMenu"
-      >
-        <el-sub-menu index="soundEffects">
-          <template v-slot:title>音效</template>
-          <template v-for="(menu) in soundEffectsMenuList">
-            <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-            <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-          </template>
-        </el-sub-menu>
-      </el-menu>
-      <el-menu
-          background-color="#000000"
-          text-color="#ffffff"
-          class="el-menu-vertical-demo"
-          mode="vertical"
-          @select="musicLibrarySelectMenu"
-      >
-        <el-sub-menu index="musicLibrary">
-          <template v-slot:title>音乐库</template>
-          <template v-for="(menu) in musicLibraryMenuList">
-            <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
-            <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
-          </template>
-        </el-sub-menu>
-      </el-menu>
+      <el-scrollbar height="40vw">
+        <el-menu
+            background-color="#000000"
+            text-color="#ffffff"
+            :default-active="activeMenu"
+            class="el-menu-vertical-demo"
+            mode="vertical"
+            @select="soundEffectsSelectMenu"
+        >
+          <el-sub-menu index="soundEffects">
+            <template v-slot:title>音效</template>
+            <template v-for="(menu) in soundEffectsMenuList">
+              <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+              <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+            </template>
+          </el-sub-menu>
+        </el-menu>
+        <el-menu
+            background-color="#000000"
+            text-color="#ffffff"
+            class="el-menu-vertical-demo"
+            mode="vertical"
+            @select="musicLibrarySelectMenu"
+        >
+          <el-sub-menu index="musicLibrary">
+            <template v-slot:title>音乐库</template>
+            <template v-for="(menu) in musicLibraryMenuList">
+              <sub-menu v-if="menu.children && menu.children.length" :key="menu.id" :item="menu"></sub-menu>
+              <el-menu-item v-else :index="menu.id + ''" :key="menu.id">{{ menu.name }}</el-menu-item>
+            </template>
+          </el-sub-menu>
+        </el-menu>
+      </el-scrollbar>
     </el-aside>
     <el-main>
       <div v-if="musicLibraryOpen" style="margin-left: 30px;">
-        <template v-for="item in musicLibraryMaterials" :key="item.id">
-          <BGMBox @getBGMInfo="playMusic" :bgm="item"></BGMBox>
-        </template>
-        <el-row>
-          <div class="demo-pagination-block">
-            <div class="demonstration">分页信息</div>
-            <el-pagination
-                v-model:currentPage="musicLibraryCurrentPage"
-                :page-size="musicLibraryPageSize"
-                :page-sizes="[10, 20, 30, 40]"
-                :small="true"
-                :default-page-size="10"
-                :background="true"
-                layout="total,sizes,prev,pager,next"
-                :total="musicLibraryTotal"
-                @size-change="musicLibrarySizeChange"
-                @current-change="musicLibraryCurrentChange"
-            />
-          </div>
-        </el-row>
+        <el-scrollbar height="32vw">
+          <template v-for="item in musicLibraryMaterials" :key="item.id">
+            <BGMBox @getBGMInfo="playMusic" :bgm="item"></BGMBox>
+          </template>
+          <el-row>
+            <div class="demo-pagination-block">
+              <div class="demonstration">分页信息</div>
+              <el-pagination
+                  v-model:currentPage="musicLibraryCurrentPage"
+                  :page-size="musicLibraryPageSize"
+                  :page-sizes="[10, 20, 30, 40]"
+                  :small="true"
+                  :default-page-size="10"
+                  :background="true"
+                  layout="total,sizes,prev,pager,next"
+                  :total="musicLibraryTotal"
+                  @size-change="musicLibrarySizeChange"
+                  @current-change="musicLibraryCurrentChange"
+              />
+            </div>
+          </el-row>
+        </el-scrollbar>
       </div>
       <div v-else style="margin-left: 30px;">
-        <template v-for="item in soundEffectsMaterials" :key="item.id">
-          <MateriaBox :material="item"></MateriaBox>
-        </template>
+        <el-scrollbar height="35vw">
+          <template v-for="item in soundEffectsMaterials" :key="item.id">
+            <MateriaBox :material="item"></MateriaBox>
+          </template>
+        </el-scrollbar>
       </div>
       <audio ref="audio" controls="controls" style="width: 100%; height: 60px">
         Your browser does not support the audio element.
