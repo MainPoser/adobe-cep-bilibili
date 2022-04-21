@@ -66,8 +66,9 @@
           </template>
         </el-scrollbar>
       </div>
-      <p style="margin-left: 30px;">正在播放：{{ music.name }}</p>
-      <audio ref="audio" :src="music.play_url" controls="controls" style="width: 85%; height: 30px;margin-left: 30px;">
+      <p style="margin-left: 30px;color: white">正在播放：{{ music.name }}</p>
+      <audio ref="audio" controls autoplay loop :src="music.play_url"
+             style="width: 85%; height: 30px;margin-left: 30px;">
         Your browser does not support the audio element.
       </audio>
     </el-main>
@@ -125,12 +126,11 @@ export default {
     // 播放音乐
     playMusic(music) {
       console.log(music)
-      // 设置当前播放音乐名称
-      this.music = music
       // 重置播放时间
       this.$refs.audio.currentTime = 0
-      // 播放音乐
-      this.$refs.audio.play()
+      // 设置当前播放音乐
+      this.music = music
+
     },
     // 音乐库每页长度改变
     musicLibrarySizeChange(val) {
