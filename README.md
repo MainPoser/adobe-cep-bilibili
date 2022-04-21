@@ -71,7 +71,7 @@
 
    6. 保存退出
 
-   7. 打开注册表编辑器，打开计算机\HKEY_CURRENT_USER\SOFTWARE\Adobe\CSXS.11,检查有没有LogLevel和PlayerDebugMode这两个（多半没有），没有的话右键,新建，字符串值数值都设为1，保存退出。
+   7. 打开注册表编辑器，打开计算机\HKEY_CURRENT_USER\SOFTWARE\Adobe\CSXS.11（这里的.11取决于你的PR版本，不同的版本对应的数字不一样，参照步骤5的表格）,不存在就创建。检查有没有LogLevel和PlayerDebugMode这两个（多半没有），没有的话右键,新建，字符串值数值都设为1，保存退出。
 
    8. 此时打开Promiere Pro 2022就可以在窗口，扩展看到bilibili插件了。
 
