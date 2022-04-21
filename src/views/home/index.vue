@@ -2,7 +2,6 @@
   <el-container>
     <el-aside style="width: 15%">
       <el-scrollbar height="40vw">
-        列表
       </el-scrollbar>
     </el-aside>
     <el-main style="width: 80%">
@@ -14,25 +13,10 @@
               style="width: 80px; border-radius: 50px; border: 1px solid #eee;"
           />
           <h3 style="color: white">Wilson</h3>
+          <h3 style="color: white" @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">本插件资源均来自必剪,点击访问</h3>
         </div>
-        <div class="tags">
-          <div class="title" style="text-align: center;color: white">支持平台</div>
-          <router-link
-              v-for="item in labelList"
-              class="item"
-              :key="item._id"
-              :to="{name:'articles',query:{tag_name:item.name}}"
-          >
-            <span :key="item._id">{{ item.name }}</span>
-          </router-link>
-          <el-tag class="item" type="info" @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">必剪</el-tag>
-        </div>
-        <div class="card">
-          <h3 style="color: white">本插件资源均来自必剪</h3>
-          <el-row>
-            <h3 style="color: white" @click="openInDefaultBrowser('http://bcut.drawyoo.com/')">点此访问</h3>
-          </el-row>
-        </div>
+        <img alt="请求图片失败" src="https://gitee.com/ty13363959807/static_resource/raw/master/Adobe-CEP.jpg"
+             style="width: 100%;height: 100%"/>
       </el-scrollbar>
     </el-main>
   </el-container>
@@ -43,18 +27,6 @@ import adobe_cep from '@/assets/adobe-cep'
 
 export default {
   name: 'HomeView',
-  data() {
-    return {
-      labelList: [{
-        _id: '1',
-        name: '文章1'
-      }, {
-        _id: '2',
-        name: '文章2'
-      }
-      ]
-    }
-  },
   methods: {
     openInDefaultBrowser(url) {
       adobe_cep.openURLInDefaultBrowser(url)
