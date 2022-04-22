@@ -35,6 +35,7 @@ html, body, #app {
   padding: 0;
   height: 100%;
   background-image: url(https://gitee.com/ty13363959807/static_resource/raw/master/Adobe-CEP.jpg);
+  background-size: 100% 100%;
 }
 
 </style>
