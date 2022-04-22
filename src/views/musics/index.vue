@@ -151,6 +151,7 @@ export default {
         }
       }).then(res => {
         this.musicLibraryMaterials = res.data.bgm
+        this.musicLibraryTotal = res.data.pager.total
       }).catch(err => {
         console.log(err)
       })
