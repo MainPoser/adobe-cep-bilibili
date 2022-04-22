@@ -137,6 +137,9 @@ export default {
   methods: {
     //检索接口
     searchmaterials() {
+      // 重置音乐库当前页码
+      this.musicLibraryCurrentPage = 1
+      // 重置音乐库列表
       this.musicLibraryMaterials = []
       this.$axios({
         url: constant.API.BILIBILI.MATERIAL_BGM_SEARCH,
