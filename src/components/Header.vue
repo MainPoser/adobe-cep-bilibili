@@ -1,9 +1,5 @@
 <template>
-  <el-row>
-    <div style="width: 15%;text-align: center">
-      <img @click="openInDefaultBrowser('https://github.com/MainPoser/adobe-cep-bilibili')" src="../assets/logo.png" alt="找不到照片" style="width:50px;margin-right: 15px"/>
-      <img @click="openInDefaultBrowser('http://bcut.drawyoo.com/')" src="../assets/bcut.png" alt="找不到照片" style="width:50px;margin-left: 15px"/>
-    </div>
+  <el-row style="width: 100%">
     <el-menu
         background-color="#000000"
         text-color="#ffffff"
@@ -11,7 +7,7 @@
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
-        style="width: 80%"
+        style="width: 100%"
     >
       <el-menu-item index="1">
         <router-link to="/" class="a">首页</router-link>
