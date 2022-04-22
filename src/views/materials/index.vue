@@ -23,7 +23,7 @@
             type="text"
             prefix-icon="el-icon-search"
             v-model="kw_content"
-            placeholder="请输入视频或者音频名称，回车检索"
+            placeholder="请输入视频或素材名称，回车检索"
             style="width: 270px; cursor: pointer"
             @keyup.enter="searchmaterials"
         ></el-input>

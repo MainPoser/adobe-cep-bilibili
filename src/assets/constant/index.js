@@ -32,6 +32,7 @@ let API = {
         MATERIAL_SEARCH: 'http://member.bilibili.com/x/material/bcut/video/search',
         MATERIAL_BGM_PRE: 'http://member.bilibili.com/x/material/bgm/bcut/pre',
         MATERIAL_BGM_LIST: 'http://member.bilibili.com/x/material/bgm/bcut/list',
+        MATERIAL_BGM_SEARCH: 'http://member.bilibili.com/x/material/bgm/bcut/search',
         MATERIAL_BGM_PLAY_URL: 'http://member.bilibili.com/x/material/bgm/play',
     }
 }

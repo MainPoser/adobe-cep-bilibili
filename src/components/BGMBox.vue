@@ -122,10 +122,6 @@ export default {
   vertical-align: top;
 }
 
-.box:last-child {
-  border-right: none;
-}
-
 .name {
   display: block;
   color: var(--el-text-color-secondary);

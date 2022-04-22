@@ -37,7 +37,18 @@
     </el-aside>
     <el-main>
       <div v-if="musicLibraryOpen" style="margin-left: 30px;">
-        <el-scrollbar height="32vw">
+        <el-row style="margin-bottom: 20px;margin-left: 30px">
+          <el-input
+              type="text"
+              prefix-icon="el-icon-search"
+              v-model="music_kw_content"
+              placeholder="请输入音频名称，回车检索"
+              style="width: 270px; cursor: pointer"
+              @keyup.enter="searchmaterials"
+          ></el-input>
+          <el-button @click="searchmaterials">搜索</el-button>
+        </el-row>
+        <el-scrollbar height="28vw">
           <template v-for="item in musicLibraryMaterials" :key="item.id">
             <BGMBox @getMusicInfo="playMusic" :bgm="item"></BGMBox>
           </template>
@@ -93,6 +104,7 @@ export default {
   },
   data() {
     return {
+      music_kw_content: '',
       music: {},
       musicLibrarySelectMenuKey: '',
       musicLibraryCurrentPage: 1,
@@ -123,6 +135,23 @@ export default {
     }
   },
   methods: {
+    //检索接口
+    searchmaterials() {
+      this.musicLibraryMaterials = []
+      this.$axios({
+        url: constant.API.BILIBILI.MATERIAL_BGM_SEARCH,
+        method: constant.AXIOS.HTTP.METHOD.GET,
+        params: {
+          kw: this.music_kw_content,
+          pn: this.musicLibraryCurrentPage,
+          ps: this.musicLibraryPageSize
+        }
+      }).then(res => {
+        this.musicLibraryMaterials = res.data.bgm
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     // 播放音乐
     playMusic(music) {
       console.log(music)
@@ -240,8 +269,5 @@ export default {
 </script>
 
 <style scoped>
-.demo-pagination-block .demonstration {
-  margin-bottom: 16px;
-  margin-top: 10px;
-}
+
 </style>
